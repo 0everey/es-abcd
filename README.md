@@ -1,102 +1,79 @@
 # es-abcd
 
-独立的 **ABCD/ABCC 工程编排核心**：目标 → 发散 → 评分门禁 → 回执。  
-不是游戏引擎，不是 Unity 插件，不依赖原生 ESFramework。
+帮你和 AI 一起做**靠谱的工程决策**：先把目标说清楚，再比几种做法，再留下可核对的结果。  
+它**不是**游戏引擎，也**不用**先装一整套原来的 ES 框架。
 
-**仓库：** https://github.com/0everey/es-abcd  
-**许可：** MIT
-
----
-
-## 核心用法（推荐）
-
-1. 本机准备一次：`git clone https://github.com/0everey/es-abcd.git`
-2. 对 AI 说：
-
-```text
-把 es-abcd 安装到 <你的项目根>，并给出迁移适配清单。
-```
-
-3. 打开项目里的清单并勾完：
-
-`ES/Automation/ABCD/out/adapt-checklist-*.md`
-
-4. 日常两行：
-
-```powershell
-. .\ES\Automation\ABCD\Use-ESABCD.ps1
-Invoke-ESABCDQuick -Requirement "你的目标"
-```
-
-AI 剧本：[docs/ai-install-playbook.md](docs/ai-install-playbook.md)
+开源地址：https://github.com/0everey/es-abcd  
 
 ---
 
-## 自己一键
+## 你怎么用（全程说人话就行）
 
-```powershell
-# 在项目根，或指定 -TargetRoot
-powershell -File <es-abcd>\get.ps1 -TargetRoot .
-```
+### 第一次
 
-远程：
+1. 把本仓库下载或克隆到电脑上（只要一次）。  
+2. 打开你正在做的那个项目。  
+3. 对 AI 说：
 
-```powershell
-iex (irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1)
-```
+> 我电脑上有 es-abcd。请把它装进我现在这个项目，装完告诉我还要改什么、要注意什么。
 
-`get.ps1` 会：安装叠加 → Smoke → `Use-ESABCD.ps1` → 适配清单。
+也可以说得更具体：
 
----
+> 把 es-abcd 装到「某某文件夹里的项目」，并列出迁移和适配清单。
 
-## 装完有什么
+### 之后每次
 
-```text
-你的项目/
-  ES/Automation/ABCD/          # 核心 + Use-ESABCD.ps1
-  ES/Automation/ABCD/out/      # oneclick / smoke / adapt-checklist
-  ES/Automation/Contracts/
-  .agents/skills/es-ai-abc-core/
-```
+直接对 AI 说话，例如：
+
+- 帮我用 ABCD 想一想，这个架构怎么冻住、别再乱改层。  
+- 这个方案有没有站不住的地方？按工程方式拆开比一比。  
+- 刷新一下适配清单，看看还剩哪些没做。  
+- 我们上次装过 es-abcd，再确认一下还能不能正常用。
+
+**你不必记命令、路径、模块名。** 那些交给 AI；你只负责用自己的话提目标、做选择、看结论。
 
 ---
 
-## 身份与边界
+## AI 装好之后，你会看到什么
 
-| | 说明 |
-|--|------|
-| **是** | 可移植编排核；默认 `portable` 治理；六项能力完整 |
-| **不是** | ESFramework 运行时、Unity 验收、自动改完业务代码 |
-| **与 ES** | ES 可选消费本包；Core **不要求** 本机有 ES 仓 |
-| **ABCD 词义** | 仅 `ABCD.Dynamic`，禁止第二含义（见 docs/concepts） |
+AI 装完后，应用**白话**告诉你，并让你能点开看：
 
-未跑 Unity/PlayMode 时回执为 `runtime-not-run`（缺运行时证据，不是静态失败）。
+1. **装好了没有**（成或败，一句话）  
+2. **还要你拍板或补做的清单**（迁移 / 适配项：哪些已好、哪些待做、哪些要你看一眼）  
+3. **以后怎么继续聊**（继续用自然语言提需求即可）
 
----
+清单一般在项目里的适配说明文件中（AI 会把具体位置告诉你）。  
+你按清单用自己的话让 AI 继续处理即可，例如：
 
-## 验收（可选）
-
-```powershell
-powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1   # 无 ES 宿主自主
-powershell -File .\scripts\Invoke-ESABCDSmoke.ps1           # 装后冒烟
-```
+> 清单里「还要挂上 Agent 技能」那条，你直接帮我做掉。  
+> 「是否和旧 ES 双份核心冲突」那条，你先查清楚再告诉我怎么选。
 
 ---
 
-## 概念（极简）
+## 和原来的 ES 框架是什么关系
 
-- **A** 智能体 · **B** 机制 · **C** 协作者  
-- **ABCD.Dynamic** 动态编排 · **ABCC.Core** 适配核 · **ABCP.Part** 业务部件（你的仓）  
-- 能力：`bounded-tool-action` / `failure-recovery` / `branch-evaluation` / `state-transition-guard` / `environment-trust-gate` / `audit-evidence-chain`
+- **es-abcd**：可以单独用的「决策与编排」工具包。  
+- **原来的 ES 大项目**：如果有，可以选用；**没有也能用**。  
+- 不要把两套核心叠着各改各的；有旧项目时，让 AI 按清单帮你理顺。
 
 ---
 
-## 文档
+## 请你记住的几句边界（也很人话）
 
-| 文档 | 用途 |
-|------|------|
-| [ai-install-playbook.md](docs/ai-install-playbook.md) | AI 一句话安装 |
-| [independence.md](docs/independence.md) | 与 ES 独立 |
-| [one-click.md](docs/one-click.md) | 一键设计 |
-| [integration.md](docs/integration.md) | 接入细节 |
-| [concepts.md](docs/concepts.md) | 概念与单义锁 |
+- 装上、冒烟通过，只说明「这套决策工具能转起来」。  
+- **不等于**游戏已经在真机/编辑器里玩通、也不等于可以发版。  
+- 若还没跑过真实游戏/编辑器验证，AI 应明说「运行时还没验」，不能夸成已经验收通过。  
+- 业务代码怎么改，仍由你用自然语言一项项让 AI 做；清单是地图，不是替你做完所有事。
+
+---
+
+## 给 AI 看的说明（你可忽略）
+
+若你是 Agent：请按 [docs/ai-install-playbook.md](docs/ai-install-playbook.md) 执行安装与清单，用**用户能听懂的话**汇报；不要默认甩命令行给用户背。  
+更多细节：[独立性](docs/independence.md) · [概念](docs/concepts.md) · [一键设计](docs/one-click.md)
+
+---
+
+## 许可
+
+MIT
