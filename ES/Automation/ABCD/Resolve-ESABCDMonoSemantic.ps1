@@ -5,6 +5,9 @@ param(
     [string]$ProjectRoot = ''
 )
 
+# Portable resolver: reads only mode-registry monoSemanticLock under ProjectRoot.
+# No AIWarnings/AGENTS/Unity. Host-specific gates stay in each repo's mono *test*.
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)

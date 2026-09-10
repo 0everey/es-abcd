@@ -151,11 +151,23 @@ if (-not (Test-Path -LiteralPath $conceptsPath -PathType Leaf)) {
     }
 }
 
+# Machine naming pointers: prefer stable docs/naming-abcd.md (README is user-facing and may stay plain-language).
+$namingDoc = Join-Path $root 'docs\naming-abcd.md'
+$namingBlob = ''
+if (Test-Path -LiteralPath $namingDoc -PathType Leaf) {
+    $namingBlob = Get-Content -LiteralPath $namingDoc -Raw -Encoding UTF8
+}
 if (Test-Path -LiteralPath $readmePath -PathType Leaf) {
-    $rm = Get-Content -LiteralPath $readmePath -Raw -Encoding UTF8
-    if ($rm -notmatch 'monoSemanticLock|Resolve-ESABCDMonoSemantic|semanticCardinality') {
-        [void]$errors.Add('readme-missing-mono-semantic-pointer')
-    }
+    $namingBlob += "`n" + (Get-Content -LiteralPath $readmePath -Raw -Encoding UTF8)
+}
+if (Test-Path -LiteralPath $conceptsPath -PathType Leaf) {
+    $namingBlob += "`n" + (Get-Content -LiteralPath $conceptsPath -Raw -Encoding UTF8)
+}
+if ($namingBlob -notmatch 'monoSemanticLock|Resolve-ESABCDMonoSemantic|semanticCardinality') {
+    [void]$errors.Add('docs-missing-mono-semantic-pointer')
+}
+if ($namingBlob -notmatch 'abcdModeFunctionLevelMapping|Resolve-ESABCDGenerationMode|creative-divergence') {
+    [void]$errors.Add('docs-missing-generation-mode-mapping-pointer')
 }
 
 $resolveProofs = [System.Collections.Generic.List[object]]::new()

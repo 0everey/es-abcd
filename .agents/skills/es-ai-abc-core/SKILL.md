@@ -20,25 +20,25 @@ below are the authority for ABCC contracts.
 ## Formal modes
 
 **Mono-semantic lock (`semanticCardinality=1`):** bare token `ABCD` has
-**exactly one** legal meaning — `possibleModeIds=["ABCD.Dynamic"]` only.
+**exactly one** architecture identity — `possibleModeIds=["ABCD.Dynamic"]`.
 Machine lock: `ES/Automation/Contracts/es-ai-abc-mode.registry.json` →
-`namingAuthority.monoSemanticLock` (`secondMeaningPolicy=blocked`,
-`interpretationPolicy=hard-fail-second-meaning`). Hard resolver:
-`ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1` (host must resolve before
-expand). **Engineering four-letter** (`A架构/B行为/C成本/D证据`,
-`engineering ABCD`) is permanently `neverValidAsCorrectSemantic`:
-`isCorrectSemantic=false`, `mayPresentAsCorrectSemantic=false`,
-`mayClaimAccepted=false`, `mayUseTokenABCD=false` — rename only to
-engineering-method / five-stage / four-layer-validation / StaticReview;
-pollution → claim-cap. Portable P0:
-`es.abcd.p0.abcd-identity-mono-semantic.v1`. Static check:
-`ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1`.
+`namingAuthority.monoSemanticLock`. Resolver:
+`Resolve-ESABCDMonoSemantic.ps1`. **Engineering four-letter** is permanently
+`neverValidAsCorrectSemantic` (not a generation mode). Portable P0:
+`es.abcd.p0.abcd-identity-mono-semantic.v1`.
 
-- **ABCD (Dynamic)** is the original independent, broad, adaptive system.
-- **ABCC (Core)** is an independent A↔B semantic adapter that exposes all six
-  ABCD kernel capabilities through stable contracts.
-- **ABCP (Part)** is a bounded domain part that references ABCC by IDs and
-  contracts; it does not copy the Core text.
+**ABCD 模式 / 功能 / 级 = generation modes only**
+(`creative-divergence` | `engineering` | `stable`). Never map those words to
+Dynamic/Core/Part. Contract:
+`es-ai-abc-generation-mode-v1.json` → `abcdModeFunctionLevelMapping`.
+Resolver: `Resolve-ESABCDGenerationMode.ps1`. Test:
+`Test-ESABCDModeFunctionLevelMapping.ps1`.
+
+**Architecture stack identities (not ABCD 模式):**
+
+- **ABCD (Dynamic)** — broad adaptive orchestration stack (bare-token identity).
+- **ABCC (Core)** — A↔B semantic adapter + six kernel capabilities.
+- **ABCP (Part)** — bounded domain part on Core; no Core text copy.
 
 ABCC+ABCP is a focused profile, not a hidden mutation of ABCD. A Part may
 fallback to ABCD only through an explicit fallback contract.

@@ -1,97 +1,107 @@
 {
-  "schemaVersion": 1,
-  "packageId": "es-abcd-portable.v1",
-  "displayName": "ES ABCD 可移植核心",
-  "businessFree": true,
-  "description": "独立于原生 ESFramework 的 ABCD/ABCC 工程编排核心。默认 portable 治理，六项能力完整；ESFramework 仅为可选宿主。",
-  "independence": {
-    "requiresESFramework": false,
-    "requiresUnity": false,
-    "defaultGovernanceMode": "portable",
-    "hostGovernanceOptional": true,
-    "capabilityParityRequired": true
-  },
-  "requiredDirectories": [
-    "ES/Automation/ABCD",
-    "ES/Automation/Contracts",
-    "ES/Automation/TaskContextRuntime",
-    "ES/Automation/AI",
-    "ES/Automation/Workers/PowerShell",
-    ".agents/skills/es-ai-abc-core",
-    ".agents/skills/es-agent-mechanism-replication",
-    "scripts",
-    "docs",
-    "package"
-  ],
-  "anchorFiles": [
-    "README.md",
-    "LICENSE",
-    "docs/independence.md",
-    "docs/naming-abcd.md",
-    "ES/Automation/ABCD/ESABCInnovationRun.psm1",
-    "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
-    "ES/Automation/ABCD/ESABCDHome.psm1",
-    "ES/Automation/ABCD/ESABCDPortableAuthority.psm1",
-    "ES/Automation/ABCD/portable/es-abcd-portable-governance-v1.json",
-    "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
-    "ES/Automation/ABCD/ESABCDDivergence.psm1",
-    "ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1",
-    "ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1",
-    "ES/Automation/ABCD/Resolve-ESABCDGenerationMode.ps1",
-    "ES/Automation/ABCD/Test-ESABCDModeFunctionLevelMapping.ps1",
-    "ES/Automation/Contracts/es-ai-abc-core-v1.json",
-    "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
-    "ES/Automation/Contracts/es-ai-abc-scoring-v1.json",
-    "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json",
-    "ES/Automation/Contracts/es-ai-abc-mode.registry.json",
-    "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
-    ".agents/skills/es-ai-abc-core/SKILL.md",
-    "get.ps1",
-    "get.ps1",
-    "scripts/Install-ESABCD.ps1",
-    "scripts/Get-ESABCDProjectProfile.ps1",
-    "scripts/OneClick-Install.ps1",
-    "scripts/Invoke-ESABCDSmoke.ps1",
-    "scripts/Invoke-ESABCDAutonomySuite.ps1",
-    "scripts/New-ESABCDAdaptChecklist.ps1",
-    "docs/one-click.md",
-    "docs/ai-install-playbook.md"
-  ],
-  "excludedDomains": [
-    "gameplay",
-    "Unity scenes",
-    "project AIKnowledge",
-    "project AIWarnings corpus",
-    "credentials",
-    "provider secrets",
-    "weapon domain parts",
-    "ESFramework-as-hard-dependency"
-  ],
-  "integration": {
-    "layout": "overlay-into-project-root",
-    "installScript": "scripts/Install-ESABCD.ps1",
-    "smokeScript": "scripts/Invoke-ESABCDSmoke.ps1",
-    "autonomyScript": "scripts/Invoke-ESABCDAutonomySuite.ps1",
-    "requires": {
-      "powershell": "5.1+",
-      "optional": ["pwsh 7+"],
-      "notRequired": ["ESFramework", "Unity", "AIWarnings corpus"]
-    }
-  },
-  "verification": {
-    "hashAlgorithm": "SHA256",
-    "missingIsFailure": true,
-    "runtimeClaimsRequireFreshReceipt": true,
-    "autonomySuiteRequiredForIndependenceClaim": true
-  },
-  "nonClaims": [
-    "Unity",
-    "PlayMode",
-    "Profiler",
-    "Player",
-    "IL2CPP",
-    "Release",
-    "model-provider-success",
-    "ESFramework-host-required"
-  ]
+    "schemaVersion":  1,
+    "packageId":  "es-abcd-portable.v1",
+    "displayName":  "ES ABCD 可移植核心",
+    "businessFree":  true,
+    "description":  "独立于原生 ESFramework 的 ABCD/ABCC 工程编排核心。默认 portable 治理，六项能力完整；ESFramework 仅为可选宿主。",
+    "independence":  {
+                         "requiresESFramework":  false,
+                         "requiresUnity":  false,
+                         "defaultGovernanceMode":  "portable",
+                         "hostGovernanceOptional":  true,
+                         "capabilityParityRequired":  true
+                     },
+    "requiredDirectories":  [
+                                "ES/Automation/ABCD",
+                                "ES/Automation/Contracts",
+                                "ES/Automation/TaskContextRuntime",
+                                "ES/Automation/AI",
+                                "ES/Automation/Workers/PowerShell",
+                                ".agents/skills/es-ai-abc-core",
+                                ".agents/skills/es-agent-mechanism-replication",
+                                "scripts",
+                                "docs",
+                                "package"
+                            ],
+    "anchorFiles":  [
+                        "README.md",
+                        "LICENSE",
+                        "docs/independence.md",
+                        "docs/naming-abcd.md",
+                        "ES/Automation/ABCD/ESABCInnovationRun.psm1",
+                        "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
+                        "ES/Automation/ABCD/ESABCDHome.psm1",
+                        "ES/Automation/ABCD/ESABCDPortableAuthority.psm1",
+                        "ES/Automation/ABCD/portable/es-abcd-portable-governance-v1.json",
+                        "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
+                        "ES/Automation/ABCD/ESABCDDivergence.psm1",
+                        "ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1",
+                        "ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1",
+                        "ES/Automation/ABCD/Resolve-ESABCDGenerationMode.ps1",
+                        "ES/Automation/ABCD/Test-ESABCDModeFunctionLevelMapping.ps1",
+                        "ES/Automation/Contracts/es-ai-abc-core-v1.json",
+                        "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
+                        "ES/Automation/Contracts/es-ai-abc-scoring-v1.json",
+                        "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json",
+                        "ES/Automation/Contracts/es-ai-abc-mode.registry.json",
+                        "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
+                        ".agents/skills/es-ai-abc-core/SKILL.md",
+                        "get.ps1",
+                        "scripts/Install-ESABCD.ps1",
+                        "scripts/Get-ESABCDProjectProfile.ps1",
+                        "scripts/OneClick-Install.ps1",
+                        "scripts/Invoke-ESABCDSmoke.ps1",
+                        "scripts/Invoke-ESABCDAutonomySuite.ps1",
+                        "scripts/New-ESABCDAdaptChecklist.ps1",
+                        "docs/one-click.md",
+                        "docs/ai-install-playbook.md",
+                        "VERSION",
+                        "CHANGELOG.md"
+                    ],
+    "excludedDomains":  [
+                            "gameplay",
+                            "Unity scenes",
+                            "project AIKnowledge",
+                            "project AIWarnings corpus",
+                            "credentials",
+                            "provider secrets",
+                            "weapon domain parts",
+                            "ESFramework-as-hard-dependency"
+                        ],
+    "integration":  {
+                        "layout":  "overlay-into-project-root",
+                        "installScript":  "scripts/Install-ESABCD.ps1",
+                        "smokeScript":  "scripts/Invoke-ESABCDSmoke.ps1",
+                        "autonomyScript":  "scripts/Invoke-ESABCDAutonomySuite.ps1",
+                        "requires":  {
+                                         "powershell":  "5.1+",
+                                         "optional":  [
+                                                          "pwsh 7+"
+                                                      ],
+                                         "notRequired":  [
+                                                             "ESFramework",
+                                                             "Unity",
+                                                             "AIWarnings corpus"
+                                                         ]
+                                     }
+                    },
+    "verification":  {
+                         "hashAlgorithm":  "SHA256",
+                         "missingIsFailure":  true,
+                         "runtimeClaimsRequireFreshReceipt":  true,
+                         "autonomySuiteRequiredForIndependenceClaim":  true
+                     },
+    "nonClaims":  [
+                      "Unity",
+                      "PlayMode",
+                      "Profiler",
+                      "Player",
+                      "IL2CPP",
+                      "Release",
+                      "model-provider-success",
+                      "ESFramework-host-required"
+                  ],
+    "releaseVersion":  "1.0.0",
+    "releaseTag":  "v1.0.0",
+    "releaseStatus":  "ga"
 }

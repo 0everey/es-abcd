@@ -50,7 +50,9 @@
       "ABC names the three semantic roles; D, Core and Part are mode suffixes, not additional roles.",
       "modeId values remain stable compatibility identities; display names may be localized without renaming IDs.",
       "ABCC and ABCP must reference this authority instead of copying or redefining the ABC vocabulary.",
-      "Token ABCD has exactly one legal semantic: modeId ABCD.Dynamic. No second meaning is allowed in any context."
+      "Token ABCD has exactly one legal semantic: modeId ABCD.Dynamic. No second meaning is allowed in any context.",
+      "Colloquial ABCD mode/function/level (模式/功能/级) maps only to generation modes creative-divergence|engineering|stable.",
+      "ABCD.Dynamic, ABCC.Core, ABCP.Part are architecture stack identities, not ABCD 模式/功能/级."
     ],
     "monoSemanticLock": {
       "schemaVersion": 2,
@@ -116,7 +118,27 @@
       ],
       "p0RuleId": "es.abcd.p0.abcd-identity-mono-semantic.v1",
       "claimCapWithoutInnovationRun": true,
-      "pollutionDecision": "claim-cap"
+      "pollutionDecision": "claim-cap",
+      "architectureIdentityOnlyModeId": "ABCD.Dynamic",
+      "abcdModeFunctionLevelMapsToGenerationModes": true,
+      "abcdModeFunctionLevelNotArchitectureIdentities": true
+    },
+    "abcdModeFunctionLevelMapping": {
+      "schemaVersion": 1,
+      "mapsTo": "generation-modes-only",
+      "onlyGenerationModeIds": [
+        "creative-divergence",
+        "engineering",
+        "stable"
+      ],
+      "notArchitectureIdentities": [
+        "ABCD.Dynamic",
+        "ABCC.Core",
+        "ABCP.Part"
+      ],
+      "contractRef": "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json",
+      "resolverPath": "ES/Automation/ABCD/Resolve-ESABCDGenerationMode.ps1",
+      "defaultGenerationModeId": "engineering"
     }
   },
   "modes": [
@@ -178,5 +200,58 @@
     "silentFallback": false,
     "textCopying": false
   },
-  "generationModesContractRef": "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json"
+  "generationModesContractRef": "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json",
+  "stackIdentities": [
+    {
+      "modeId": "ABCD.Dynamic",
+      "displayName": "ABCD (Dynamic)",
+      "independent": true,
+      "orchestration": "dynamic",
+      "dependsOnCore": false,
+      "capabilityCoverage": [
+        "bounded-tool-action",
+        "failure-recovery",
+        "branch-evaluation",
+        "state-transition-guard",
+        "environment-trust-gate",
+        "audit-evidence-chain"
+      ],
+      "fallback": "none"
+    },
+    {
+      "modeId": "ABCC.Core",
+      "displayName": "ABCC (Core)",
+      "independent": true,
+      "orchestration": "semantic-adapter",
+      "dependsOnCore": false,
+      "capabilityCoverage": [
+        "bounded-tool-action",
+        "failure-recovery",
+        "branch-evaluation",
+        "state-transition-guard",
+        "environment-trust-gate",
+        "audit-evidence-chain"
+      ],
+      "fallback": "explicit-only",
+      "contractRef": "ES/Automation/Contracts/es-ai-abc-core-v1.json"
+    },
+    {
+      "modeId": "ABCP.Part",
+      "displayName": "ABCP (Part)",
+      "independent": false,
+      "orchestration": "bounded-domain",
+      "dependsOnCore": true,
+      "capabilityCoverage": [
+        "bounded-tool-action",
+        "failure-recovery",
+        "branch-evaluation",
+        "state-transition-guard",
+        "environment-trust-gate",
+        "audit-evidence-chain"
+      ],
+      "fallback": "explicit-only",
+      "contractRef": "ES/Automation/Contracts/es-ai-abc-part-v1.schema.json"
+    }
+  ],
+  "modesNote": "Field modes[] are architecture stack identities (Dynamic/Core/Part). ABCD 模式/功能/级 = generation modes in generation-mode contract."
 }
