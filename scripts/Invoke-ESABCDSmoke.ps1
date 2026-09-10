@@ -85,6 +85,50 @@ $branch = [pscustomobject]@{
 }
 $score = Invoke-ESABCStableScore -Branch $branch -GenerationMode $Mode -ReviewRounds 3
 
+# Mono-semantic check runs against the PACKAGE root (has docs/skills),
+# not the consumer project root (overlay may omit docs).
+$monoScript = Join-Path $abcd 'Test-ESABCDMonoSemanticAuthority.ps1'
+$monoPackageRoot = $ProjectRoot
+$pkgMarker = Join-Path $ProjectRoot 'package\es-abcd-portable.manifest.json'
+if (-not (Test-Path -LiteralPath $pkgMarker -PathType Leaf)) {
+    # Consumer overlay: prefer package beside installed modules via Home, else script parent chain.
+    $homeMod = Join-Path $abcd 'ESABCDHome.psm1'
+    if (Test-Path -LiteralPath $homeMod) {
+        Import-Module $homeMod -Force -Global
+        try { $monoPackageRoot = Get-ESABCDPackageRoot } catch { $monoPackageRoot = $ProjectRoot }
+    }
+    # If Home still points at consumer (installed copy of Home resolves ..\..\.. to consumer),
+    # fall back to discovering a real package by walking from this smoke script.
+    if (-not (Test-Path -LiteralPath (Join-Path $monoPackageRoot 'package\es-abcd-portable.manifest.json'))) {
+        $walk = if ($PSScriptRoot) { Get-Item $PSScriptRoot } else { $null }
+        for ($i = 0; $i -lt 6 -and $null -ne $walk; $i++) {
+            $m = Join-Path $walk.FullName 'package\es-abcd-portable.manifest.json'
+            if (Test-Path -LiteralPath $m) { $monoPackageRoot = $walk.FullName; break }
+            $walk = $walk.Parent
+        }
+    }
+}
+if (-not (Test-Path -LiteralPath $monoScript -PathType Leaf)) {
+    $monoScript = Join-Path $monoPackageRoot 'ES\Automation\ABCD\Test-ESABCDMonoSemanticAuthority.ps1'
+}
+if (-not (Test-Path -LiteralPath $monoScript -PathType Leaf)) {
+    throw "Missing mono-semantic test: $monoScript"
+}
+$monoRaw = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $monoScript -ProjectRoot $monoPackageRoot 2>&1
+if ($LASTEXITCODE -ne 0) {
+    throw "ABCD_MONO_SEMANTIC_FAILED: $monoRaw"
+}
+$monoJsonText = ($monoRaw | Where-Object { $_ -is [string] -or $_.ToString() } | ForEach-Object { "$_" }) -join "`n"
+# Extract last JSON object if mixed streams
+if ($monoJsonText -match '(?s)\{.*\}\s*$') {
+    $mono = ($Matches[0] | ConvertFrom-Json)
+} else {
+    $mono = ($monoJsonText | ConvertFrom-Json)
+}
+if ([string]$mono.status -cne 'passed') {
+    throw "ABCD_MONO_SEMANTIC_NOT_PASSED: $($mono.findings -join ';')"
+}
+
 $receipt = [ordered]@{
     schemaVersion = 1
     recordType = 'ESABCDSmokeReceipt'
@@ -102,6 +146,12 @@ $receipt = [ordered]@{
     selectionStatus = [string]$sel.selectionStatus
     stableScoreStatus = [string]$score.status
     stableTotalScore = [double]$score.totalScore
+    monoSemantic = [ordered]@{
+        status = [string]$mono.status
+        onlyModeId = [string]$mono.onlyModeId
+        semanticCardinality = [int]$mono.semanticCardinality
+        engineeringFourLetterNeverCorrect = [bool]$mono.engineeringFourLetterNeverCorrect
+    }
     runtimeStatus = 'runtime-not-run'
     nonClaims = @('Unity','PlayMode','Profiler','Player','Release','provider-completed-final-decision')
     capturedUtc = [DateTime]::UtcNow.ToString('o')

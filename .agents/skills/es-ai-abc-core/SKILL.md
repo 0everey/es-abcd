@@ -19,6 +19,21 @@ below are the authority for ABCC contracts.
 
 ## Formal modes
 
+**Mono-semantic lock (`semanticCardinality=1`):** bare token `ABCD` has
+**exactly one** legal meaning — `possibleModeIds=["ABCD.Dynamic"]` only.
+Machine lock: `ES/Automation/Contracts/es-ai-abc-mode.registry.json` →
+`namingAuthority.monoSemanticLock` (`secondMeaningPolicy=blocked`,
+`interpretationPolicy=hard-fail-second-meaning`). Hard resolver:
+`ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1` (host must resolve before
+expand). **Engineering four-letter** (`A架构/B行为/C成本/D证据`,
+`engineering ABCD`) is permanently `neverValidAsCorrectSemantic`:
+`isCorrectSemantic=false`, `mayPresentAsCorrectSemantic=false`,
+`mayClaimAccepted=false`, `mayUseTokenABCD=false` — rename only to
+engineering-method / five-stage / four-layer-validation / StaticReview;
+pollution → claim-cap. Portable P0:
+`es.abcd.p0.abcd-identity-mono-semantic.v1`. Static check:
+`ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1`.
+
 - **ABCD (Dynamic)** is the original independent, broad, adaptive system.
 - **ABCC (Core)** is an independent A↔B semantic adapter that exposes all six
   ABCD kernel capabilities through stable contracts.

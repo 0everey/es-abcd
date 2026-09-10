@@ -24,29 +24,76 @@
       "ruleId": "es.aiwarning.p0.ai-delivery-claim-boundary",
       "severity": "P0",
       "decision": "claim-cap",
-      "match": ["runtime", "playmode", "发布", "可玩", "验收通过", "unity", "profiler", "il2cpp", "player"],
+      "match": [
+        "runtime",
+        "playmode",
+        "发布",
+        "可玩",
+        "验收通过",
+        "unity",
+        "profiler",
+        "il2cpp",
+        "player"
+      ],
       "purpose": "Cap delivery claims when runtime evidence is absent."
     },
     {
       "ruleId": "es.abcd.p0.runtime-not-run-nonclaim",
       "severity": "P0",
       "decision": "claim-cap",
-      "match": ["runtime-not-run", "未运行", "未启动"],
+      "match": [
+        "runtime-not-run",
+        "未运行",
+        "未启动"
+      ],
       "purpose": "runtime-not-run is missing evidence, not static failure, and must not be sold as runtime pass."
     },
     {
       "ruleId": "es.abcd.p0.host-optional",
       "severity": "P0",
       "decision": "consume-and-report",
-      "match": ["esframework", "原生ES", "宿主"],
+      "match": [
+        "esframework",
+        "原生ES",
+        "宿主"
+      ],
       "purpose": "ESFramework host is optional; Core must remain usable without it."
     },
     {
       "ruleId": "es.abcd.p0.capability-parity",
       "severity": "P0",
       "decision": "claim-cap",
-      "match": ["能力缺失", "阉割", "简化版", "stub-only"],
+      "match": [
+        "能力缺失",
+        "阉割",
+        "简化版",
+        "stub-only"
+      ],
       "purpose": "Portable mode must not drop the six kernel capabilities."
+    },
+    {
+      "ruleId": "es.abcd.p0.abcd-identity-mono-semantic.v1",
+      "severity": "P0",
+      "decision": "claim-cap",
+      "match": [
+        "ABCD",
+        "ABCC",
+        "ABCP",
+        "ABCD.Dynamic",
+        "engineering ABCD",
+        "monoSemanticLock",
+        "semanticCardinality",
+        "A=architecture",
+        "C=cost",
+        "D=evidence",
+        "工程ABCD",
+        "A架构",
+        "C成本",
+        "D证据",
+        "第二种语义",
+        "也可以指"
+      ],
+      "purpose": "Bare ABCD is only ABCD.Dynamic. Engineering four-letter A/B/C/D is never a correct ABCD semantic; claim-cap and rename to engineering-method/five-stage/four-layer-validation."
     }
   ],
   "defaultPolicyDecision": "consume-and-report",

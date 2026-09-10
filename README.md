@@ -25,6 +25,7 @@
 
 - **默认**不需要本机存在 `ESFrameWorkPublish`，不需要 `Assets/Plugins/ES/AIWarnings`。  
 - 强自主验收：`powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1`  
+- **ABCD 单义锁（拒绝意义偏差）**：裸词 `ABCD` 仅 `ABCD.Dynamic`；工程四字母（A架构/B行为/C成本/D证据）永久 `neverValidAsCorrectSemantic`。机器：`monoSemanticLock` + `Resolve-ESABCDMonoSemantic.ps1` + `Test-ESABCDMonoSemanticAuthority.ps1`（见 [docs/concepts.md](docs/concepts.md)）。  
 - 详细说明：[docs/independence.md](docs/independence.md)
 
 ---
@@ -56,9 +57,22 @@
 
 ---
 
-## 极简一键接入（推荐）
+## 极简接入（两种同样推荐）
 
-在你的**项目根目录**打开 PowerShell，执行**一条命令**：
+### 方式 A：下载到本地后，对 AI 说一句话（最省心）
+
+1. 克隆或下载本仓到本地（只需一次）  
+2. 对 AI 说：
+
+> **把 es-abcd 安装到 `D:\work\MyProject`，并给出迁移适配清单。**
+
+3. AI 应按 [docs/ai-install-playbook.md](docs/ai-install-playbook.md) 执行 `get.ps1` + 清单脚本，然后把清单路径回报给你。  
+
+你只要收：**安装回执 + `adapt-checklist-*.md` + 日常两行用法**。
+
+### 方式 B：自己一条命令
+
+在你的**项目根目录**打开 PowerShell，执行：
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1)"
@@ -73,11 +87,12 @@ $get = irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1
 
 **一键会自动完成：**
 
-1. 缓存/更新 `es-abcd`（`%LOCALAPPDATA%\es-abcd\repo`，或使用已有本地克隆）  
+1. 缓存/更新 `es-abcd`（或使用已有本地克隆）  
 2. 布局检查  
 3. 叠加安装到目标项目  
 4. Smoke 验收（静态；`runtime-not-run` 为预期）  
 5. 生成日常入口 `ES\Automation\ABCD\Use-ESABCD.ps1`  
+6. 生成 **迁移/适配清单** `ES\Automation\ABCD\out\adapt-checklist-*.md`  
 
 **装完当天用法：**
 
@@ -85,6 +100,7 @@ $get = irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1
 cd C:\path\to\你的项目
 . .\ES\Automation\ABCD\Use-ESABCD.ps1
 Invoke-ESABCDQuick -Requirement "冻结三层架构并写清所有权"
+# 打开 out\adapt-checklist-*.md 按 todo/review 勾完即可
 ```
 
 | 约束 | 说明 |

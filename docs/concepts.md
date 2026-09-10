@@ -16,6 +16,21 @@
 | **ABCC.Core** | 是 | A↔B 语义适配合同 + 六项内核能力 |
 | **ABCP.Part** | 否 | 领域部件：只引用 Core 的 ID/合同，**禁止复制 Core 正文** |
 
+## 单义锁（拒绝 ABCD 意义偏差）
+
+机器权威：`namingAuthority.monoSemanticLock`（`semanticCardinality=1`）。
+
+| 规则 | 说明 |
+|------|------|
+| 裸词 `ABCD` | **只**允许 `modeId=ABCD.Dynamic`；`possibleModeIds` 仅此一项 |
+| 工程四字母 | `A架构/B行为/C成本/D证据`、`engineering ABCD` 属 `neverValidAsCorrectSemantic`：`isCorrectSemantic=false`（永久），**不得**当正确 ABCD 语义 |
+| 改称 | 工程检查只能叫 **engineering-method / 五阶段 / 四层验证 / StaticReview**，**不得叫 ABCD** |
+| 解析器 | `ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1`；污染 → `claim-cap`，resolved 仍只能是 `ABCD.Dynamic` |
+| 可移植 P0 | `es.abcd.p0.abcd-identity-mono-semantic.v1`（不依赖 ESFramework AIWarnings 语料） |
+| 静态证明 | `Test-ESABCDMonoSemanticAuthority.ps1` |
+
+上下文、任务类型、报告模板都**不能**改写身份；无 InnovationRun 回执不得 ABCD Accepted。
+
 ## 六项内核能力（对等要求）
 
 1. `bounded-tool-action` — 有界、授权下的动作与变更证据  

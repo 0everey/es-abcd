@@ -108,6 +108,38 @@ Add-Case 'audit-warnings-portable' $awOk ([string]$aw.authorityId)
 
 Add-Case 'core-runs-regardless-of-sibling-es' $true ("esSiblingPresent=$esPresent")
 
+# Mono-semantic lock: reject ABCD meaning drift (engineering four-letter never correct).
+$monoScript = Join-Path $PackageRoot 'ES\Automation\ABCD\Test-ESABCDMonoSemanticAuthority.ps1'
+$monoResolver = Join-Path $PackageRoot 'ES\Automation\ABCD\Resolve-ESABCDMonoSemantic.ps1'
+Add-Case 'mono-semantic-scripts-present' (
+    (Test-Path -LiteralPath $monoScript -PathType Leaf) -and
+    (Test-Path -LiteralPath $monoResolver -PathType Leaf)
+) 'Test+Resolve'
+if ((Test-Path -LiteralPath $monoScript -PathType Leaf)) {
+    try {
+        $monoJson = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $monoScript -ProjectRoot $PackageRoot 2>&1
+        $monoExit = $LASTEXITCODE
+        $monoObj = $null
+        try { $monoObj = ($monoJson | Out-String | ConvertFrom-Json) } catch { $monoObj = $null }
+        $monoOk = ($monoExit -eq 0 -and $null -ne $monoObj -and [string]$monoObj.status -eq 'passed')
+        $detail = if ($null -ne $monoObj) {
+            "status=$([string]$monoObj.status);cardinality=$([string]$monoObj.semanticCardinality);neverCorrect=$([string]$monoObj.engineeringFourLetterNeverCorrect)"
+        } else {
+            "exit=$monoExit"
+        }
+        Add-Case 'mono-semantic-authority-passed' $monoOk $detail
+        if ($monoOk) {
+            Add-Case 'mono-semantic-cardinality-one' ([int]$monoObj.semanticCardinality -eq 1) ([string]$monoObj.semanticCardinality)
+            Add-Case 'mono-semantic-engineering-never-correct' ([bool]$monoObj.engineeringFourLetterNeverCorrect -eq $true) 'ok'
+        }
+    }
+    catch {
+        Add-Case 'mono-semantic-authority-passed' $false $_.Exception.Message
+    }
+} else {
+    Add-Case 'mono-semantic-authority-passed' $false 'script-missing'
+}
+
 $caseArray = @($cases.ToArray())
 $failed = @($caseArray | Where-Object { $_.status -eq 'failed' })
 $status = if ($failed.Count) { 'failed' } else { 'passed' }

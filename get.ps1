@@ -21,7 +21,8 @@ param(
     [string]$CacheRoot = '',
     [switch]$Force,
     [switch]$SkipSmoke,
-    [switch]$SkipCloneUpdate
+    [switch]$SkipCloneUpdate,
+    [switch]$SkipChecklist
 )
 
 $ErrorActionPreference = 'Stop'
@@ -199,6 +200,26 @@ function Invoke-ESABCDQuick {
 [IO.File]::WriteAllText($shim, $shimBody, [Text.UTF8Encoding]::new($false))
 Write-Ok ("shim " + $shim)
 
+$checklistJson = $null
+$checklistMd = $null
+if (-not $SkipChecklist) {
+    Write-Step 'adapt checklist'
+    $chk = Join-Path $pkg 'scripts\New-ESABCDAdaptChecklist.ps1'
+    if (Test-Path -LiteralPath $chk) {
+        $chkOut = & powershell -NoProfile -ExecutionPolicy Bypass -File $chk -TargetRoot $TargetRoot -PackageRoot $pkg -OutMarkdown | Out-String
+        Write-Host $chkOut
+        $chkDir = Join-Path $TargetRoot 'ES\Automation\ABCD\out'
+        $j = Get-ChildItem $chkDir -Filter 'adapt-checklist-*.json' -EA SilentlyContinue | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
+        $m = Get-ChildItem $chkDir -Filter 'adapt-checklist-*.md' -EA SilentlyContinue | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
+        if ($j) { $checklistJson = $j.FullName }
+        if ($m) { $checklistMd = $m.FullName }
+        Write-Ok 'checklist'
+    }
+    else {
+        Write-WarnLine 'checklist script missing; skip'
+    }
+}
+
 $receipt = [pscustomobject]@{
     schemaVersion = 1
     recordType = 'ESABCDOneClickReceipt'
@@ -210,10 +231,15 @@ $receipt = [pscustomobject]@{
     requiresUnity = $false
     smokeReceipt = $smokeReceipt
     shim = $shim
+    adaptChecklistJson = $checklistJson
+    adaptChecklistMarkdown = $checklistMd
+    aiPlaybook = 'docs/ai-install-playbook.md'
     next = @(
         '. .\ES\Automation\ABCD\Use-ESABCD.ps1',
-        'Invoke-ESABCDQuick -Requirement "your architecture goal"'
+        'Invoke-ESABCDQuick -Requirement "your architecture goal"',
+        'Open adapt-checklist-*.md and close todo/review items'
     )
+    sayToAi = 'Install es-abcd to this project and refresh the adapt checklist.'
     runtimeStatus = 'runtime-not-run'
     nonClaims = @('Unity','PlayMode','Profiler','Player','Release')
     capturedUtc = [DateTime]::UtcNow.ToString('o')
@@ -230,10 +256,13 @@ Write-Host '  ESFramework host: NOT required'
 Write-Host '  Unity / PlayMode : NOT claimed'
 Write-Host ''
 Write-Host '  Daily use:'
-Write-Host '    cd ' $TargetRoot
+Write-Host ('    cd ' + $TargetRoot)
 Write-Host '    . .\ES\Automation\ABCD\Use-ESABCD.ps1'
 Write-Host '    Invoke-ESABCDQuick -Requirement "your goal"'
 Write-Host ''
+Write-Host '  Say to AI next time:'
+Write-Host '    Install es-abcd to this project and refresh the adapt checklist.'
+if ($checklistMd) { Write-Host ('  Checklist: ' + $checklistMd) }
 Write-Host ('  Receipt: ' + $outPath)
 Write-Host '======================' -ForegroundColor Green
 Write-Host ''

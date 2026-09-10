@@ -34,6 +34,8 @@
     "ES/Automation/ABCD/portable/es-abcd-portable-governance-v1.json",
     "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
     "ES/Automation/ABCD/ESABCDDivergence.psm1",
+    "ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1",
+    "ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1",
     "ES/Automation/Contracts/es-ai-abc-core-v1.json",
     "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
     "ES/Automation/Contracts/es-ai-abc-scoring-v1.json",
