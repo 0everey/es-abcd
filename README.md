@@ -1,114 +1,59 @@
 # es-abcd
 
-帮你和 AI 一起做**靠谱的工程决策**：先把目标说清楚，再比几种做法，再留下可核对的结果。  
-它**不是**游戏引擎，也**不用**先装一整套原来的 ES 框架。
+和 AI 用自然语言做工程决策的工具包。  
+不依赖旧 ES 大仓，不是 Unity 插件。
 
-开源地址：https://github.com/0everey/es-abcd  
-
----
-
-## 跳转目录（点哪里去哪）
-
-| 我想… | 去这 |
-|--------|------|
-| **第一次装进项目** | [怎么用](#怎么用全程说人话--路径要给全) |
-| **整张场景地图（S0–S7）** | [docs/scenarios.md](docs/scenarios.md) |
-| **进 Unity / 场景里真测** | [docs/scene-testing.md](docs/scene-testing.md) |
-| **AI 必须怎么装** | [docs/ai-install-playbook.md](docs/ai-install-playbook.md) |
-| **和旧 ES 啥关系** | [docs/independence.md](docs/independence.md) |
-| **ABCD 词是啥意思** | [docs/concepts.md](docs/concepts.md) |
-
-最短路径：
-
-```text
-给齐两个路径 → 让 AI 安装并出清单 → 勾清单
-      ↓
-需要真进场景时 → 打开「场景测试」专页，继续用白话指挥 AI
-```
+https://github.com/0everey/es-abcd · MIT
 
 ---
 
-## 怎么用（全程说人话 · 路径要给全）
+## 用法
 
-### 第一次
+1. 克隆本仓到一个目录，例如 `D:\tools\es-abcd`  
+2. 对 AI 说（路径换成你的）：
 
-1. 本仓库放到一个目录，例如 `D:\tools\es-abcd`。  
-2. 准备好**项目根目录的完整路径**。  
-3. 对 AI 说：
+> es-abcd 在 `D:\tools\es-abcd`，装到项目 `D:\work\MyProject`，出适配清单，用人话汇报。
 
-> es-abcd 在 `D:\tools\es-abcd`。  
-> 请安装到项目 `D:\work\MyProject`，给出迁移适配清单，用人话汇报，**路径都写绝对路径**。
+3. 装完后日常只说话，例如：
 
-不要只说「装到我电脑上」——**包目录 + 项目目录**都要有。
-
-### 之后
-
-- 项目在 `D:\work\MyProject`。刷新适配清单。  
-- 清单第 N 条你做掉，用人话同步。  
-- 项目在 `D:\work\MyProject`。用 ABCD 帮我决策：……  
-
-### 要进场景真测时
-
-> Unity 项目在 `D:\work\MyProject`。es-abcd 已装过。  
-> 按场景测试指南带我做场景/PlayMode 测试；要我授权的先列出。  
-> 测完用人话总结，证据给绝对路径；没跑到的写「场景未跑/未验」。
-
-详情 → **[场景测试指南](docs/scene-testing.md)**  
-总地图 → **[场景跳转目录](docs/scenarios.md)**
+> 项目 `D:\work\MyProject`，用**工程模式**测一下：冻结三层架构。  
+> 同一项目，用**创意模式**多给几个做法。  
+> 同一项目，用**稳定模式**看哪个更贴现状。
 
 ---
 
-## 装好后你会拿到什么
+## 三种可测场景（生成模式）
 
-AI 应说人话，并给出**具体路径**：
+| 你怎么说 | 模式 | 测什么 |
+|----------|------|--------|
+| 工程模式 / engineering | `engineering` | 架构冻结、所有权、生命周期、能不能落地 |
+| 创意模式 / 发散 | `creative-divergence` | 多方案、差异大不大、有没有新意 |
+| 稳定模式 / stable | `stable` | 是否贴合现有项目、完整、安全、能收口 |
 
-1. 装成了没有  
-2. 适配清单在哪（`…/out/adapt-checklist-*.md`）  
-3. 回执在哪（oneclick / smoke）  
-4. 还要你拍板的项  
+对 AI 直接点名即可，例如：
 
-日常继续白话下令即可。需要自己点文件时，以 AI 回报的绝对路径为准。
+> 项目 `D:\work\MyProject`。场景用工程模式，目标：…… 结果用人话讲，并说明还不能宣称什么。
 
----
-
-## 两层验收（别混）
-
-| 层 | 你怎么说 | 证明什么 |
-|----|----------|----------|
-| 编排核 | 安装 / 冒烟 / 清单 / 自主验收 | 工具能转 |
-| **场景** | 按 [场景测试](docs/scene-testing.md) 做 PlayMode / ESTEST 等 | 关卡与玩法在编辑器或真机里的表现 |
-
-只有编排核回执，**不能**说场景测过了。
+三种都是**模板**：换目标文本就能反复测，不必改代码。
 
 ---
 
-## 和原来的 ES 框架
+## 装好后有什么
 
-- **es-abcd**：可单独用。  
-- **旧 ES 大仓**：有就选用，没有也能用。  
-- 目标已是 ES 树时：先让 AI 按清单查双核心冲突，再场景测。
+- 适配清单：`项目\ES\Automation\ABCD\out\adapt-checklist-*.md`  
+- 日常入口：`项目\ES\Automation\ABCD\Use-ESABCD.ps1`（AI 会用，你不必记）
 
 ---
 
 ## 边界
 
-- 冒烟通过 ≠ 游戏已玩通 ≠ 可发版。  
-- 运行时没验，AI 必须明说，不能夸成验收通过。  
-- 清单是地图；业务改动仍由你指定范围，一项项让 AI 做。
+能装上、能跑三种模式 ≠ 游戏已在编辑器玩通 ≠ 可发版。  
+没做真实运行验证时，AI 必须说清楚。
 
 ---
 
-## 给 AI（用户可跳过）
+## 给 AI
 
-1. 先问清并确认：**es-abcd 目录**、**项目根**（绝对路径）。  
-2. 安装按 [ai-install-playbook.md](ai-install-playbook.md)。  
-3. 用户要「场景测试」时跳转 [scene-testing.md](docs/scene-testing.md)，不得用 smoke 冒充场景通过。  
-4. 汇报必须带绝对路径，说人话。
-
-场景总表：[scenarios.md](docs/scenarios.md)
-
----
-
-## 许可
-
-MIT
+安装按 `docs/ai-install-playbook.md`。  
+用户说「场景」时，默认指上表三种生成模式，不是 Unity 关卡。  
+路径要绝对路径；回报说人话。
