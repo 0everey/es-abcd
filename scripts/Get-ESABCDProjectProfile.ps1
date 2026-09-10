@@ -1,4 +1,4 @@
-# Analyze any target project and emit an integration profile for adaptive install.
+﻿# Analyze any target project and emit an integration profile for adaptive install.
 # ASCII-primary for Windows PowerShell 5.1.
 # Usage:
 #   powershell -File .\scripts\Get-ESABCDProjectProfile.ps1 -TargetRoot <项目根路径>
@@ -119,47 +119,47 @@ $risks = New-Object System.Collections.Generic.List[string]
 switch ($primary) {
     'es-abcd-package-self' {
         $blockInstall = $true
-        [void]$notes.Add('Target is the es-abcd package itself. Install into a different project root.')
-        [void]$actions.Add('Pick a consumer project path, not the es-abcd repo root.')
+        [void]$notes.Add('目标是 es-abcd 自身，请换到业务项目。')
+        [void]$actions.Add('请选业务项目路径，不要用 es-abcd 仓根。')
     }
     'es-abcd-already-installed' {
         $forceRecommended = $true
-        [void]$notes.Add('es-abcd core already present. Treat as upgrade/refresh.')
-        [void]$actions.Add('Run get.ps1 with -Force to refresh mismatched files.')
-        [void]$actions.Add('Refresh adapt checklist after upgrade.')
+        [void]$notes.Add('已检测到 es-abcd 核心，按升级/刷新处理。')
+        [void]$actions.Add('用 get.ps1 -Force 刷新不一致文件。')
+        [void]$actions.Add('升级后刷新适配清单。')
         if ($kindArr -contains 'esframework-like') {
-            [void]$risks.Add('Possible dual ABCD/ES automation trees. Prefer single portable core overlay.')
+            [void]$risks.Add('可能存在双套自动化核心，建议只保留一套 portable 叠加。')
         }
     }
     'esframework-like' {
         $forceRecommended = $true
-        [void]$notes.Add('ESFramework-like markers detected. Portable governance stays default.')
-        [void]$actions.Add('Install/refresh overlay; do not hand-copy a second Core.')
-        [void]$actions.Add('Review dual-core and AIWarnings host options on checklist.')
-        [void]$risks.Add('Old in-tree automation may conflict if edited in parallel.')
+        [void]$notes.Add('检测到类 ESFramework 标记；默认仍用 portable 治理。')
+        [void]$actions.Add('安装或刷新叠加；不要手拷第二套核心。')
+        [void]$actions.Add('在清单上检查双核与 host 语料选项。')
+        [void]$risks.Add('若与旧树并行改，可能冲突。')
         if ($kindArr -contains 'unity') {
-            [void]$notes.Add('Unity+ES tree: smoke is static only; PlayMode is separate evidence.')
+            [void]$notes.Add('Unity+ES：冒烟仅静态；PlayMode 须另证。')
         }
     }
     'unity' {
-        [void]$notes.Add('Unity project detected. Overlay uses ES/Automation layout under project root.')
-        [void]$actions.Add('Install portable core; keep ES_ABCD_GOVERNANCE_MODE=portable.')
-        [void]$actions.Add('Do not treat smoke as PlayMode pass.')
-        [void]$risks.Add('Unity assets untouched by design; gameplay still yours.')
+        [void]$notes.Add('检测到 Unity 工程；按项目根下 ES/Automation 布局叠加。')
+        [void]$actions.Add('安装 portable 核心；保持 portable 治理。')
+        [void]$actions.Add('不要把冒烟当成 PlayMode 通过。')
+        [void]$risks.Add('默认不改 Unity 资产；玩法仍归你。')
     }
     'empty-or-sparse' {
-        [void]$notes.Add('Empty or sparse folder. Safe greenfield overlay.')
-        [void]$actions.Add('Full install overlay is appropriate.')
+        [void]$notes.Add('空或几乎空目录，可安全全新叠加。')
+        [void]$actions.Add('适合完整安装叠加。')
     }
     default {
         [void]$notes.Add("Detected kinds: $($kindArr -join ', '). Core still installs via fixed ES/Automation overlay.")
-        [void]$actions.Add('Install overlay; project type does not block ABCD core.')
-        [void]$actions.Add('Use engineering/creative/stable scenario templates from README after install.')
+        [void]$actions.Add('可安装叠加；项目类型不阻碍 ABCD 核心。')
+        [void]$actions.Add('装完后用 README 工程/创意/稳定场景模板测试。')
     }
 }
 
 if ($signals['isPackageChild'] -and -not $signals['isSameAsPackage']) {
-    [void]$risks.Add('Target is inside es-abcd package tree; usually wrong. Prefer an external consumer project.')
+    [void]$risks.Add('目标落在 es-abcd 包目录内，通常不对；请用外部业务项目。')
 }
 
 $strategy = [pscustomobject]@{
@@ -173,19 +173,19 @@ $strategy = [pscustomobject]@{
 
 # human summary for AI to speak
 $human = New-Object System.Collections.Generic.List[string]
-[void]$human.Add("Target: $TargetRoot")
-[void]$human.Add("Primary kind: $primary")
-[void]$human.Add("All kinds: $($kindArr -join ', ')")
+[void]$human.Add("目标: $TargetRoot")
+[void]$human.Add("主类型: $primary")
+[void]$human.Add("全部类型: $($kindArr -join ', ')")
 if ($blockInstall) {
-    [void]$human.Add('Install: BLOCKED. Choose another project root.')
+    [void]$human.Add('安装: 已拦截。请换业务项目根，不要装进 es-abcd 自身。')
 } elseif ($signals['hasAbcdHome']) {
-    [void]$human.Add('Install: refresh/upgrade recommended (-Force if hashes differ).')
+    [void]$human.Add('安装: 建议刷新/升级（哈希不一致时用 -Force）。')
 } else {
-    [void]$human.Add('Install: full portable overlay recommended.')
+    [void]$human.Add('安装: 建议完整可移植叠加。')
 }
-[void]$human.Add('Governance: portable (no host ES corpus required).')
-foreach ($n in $notes) { [void]$human.Add("Note: $n") }
-foreach ($r in $risks) { [void]$human.Add("Risk: $r") }
+[void]$human.Add('治理: portable（不需要宿主 AIWarnings 语料）。')
+foreach ($n in $notes) { [void]$human.Add("说明: $n") }
+foreach ($r in $risks) { [void]$human.Add("风险: $r") }
 
 $profile = [pscustomobject]@{
     schemaVersion   = 1

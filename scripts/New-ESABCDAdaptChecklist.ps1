@@ -1,4 +1,4 @@
-# Generate migration/adaptation checklist after es-abcd install.
+﻿# Generate migration/adaptation checklist after es-abcd install.
 # ASCII-primary for Windows PowerShell 5.1 parser safety.
 # Usage:
 #   powershell -File .\scripts\New-ESABCDAdaptChecklist.ps1 -TargetRoot <项目根路径> -OutMarkdown
@@ -164,7 +164,7 @@ $doc = [pscustomobject]@{
         '. .\ES\Automation\ABCD\Use-ESABCD.ps1',
         'Invoke-ESABCDQuick -Requirement "your goal"'
     )
-    aiOneLiner      = 'Install es-abcd to this project and refresh the adapt checklist.'
+    aiOneLiner      = '把 es-abcd 装进本项目并刷新适配清单。'
     checks          = $arr
     runtimeStatus   = 'runtime-not-run'
     nonClaims       = @('Unity', 'PlayMode', 'Profiler', 'Player', 'Release')
@@ -179,50 +179,50 @@ $jsonPath = Join-Path $outDir ('adapt-checklist-' + $stamp + '.json')
 $mdPath = $null
 if ($OutMarkdown) {
     $lines = New-Object System.Collections.Generic.List[string]
-    [void]$lines.Add('# es-abcd migration / adaptation checklist')
+    [void]$lines.Add('# es-abcd 迁移 / 适配清单')
     [void]$lines.Add('')
-    [void]$lines.Add('- **project**: ' + $ProjectName)
-    [void]$lines.Add('- **targetRoot**: `' + $TargetRoot + '`')
-    [void]$lines.Add('- **generatedUtc**: ' + $doc.generatedUtc)
-    [void]$lines.Add('- **independence**: requiresESFramework=false')
-    [void]$lines.Add('- **projectKind**: ' + $primaryKind)
-    [void]$lines.Add('- **kinds**: ' + ($profileKinds -join ', '))
+    [void]$lines.Add('- **项目**: ' + $ProjectName)
+    [void]$lines.Add('- **项目根**: `' + $TargetRoot + '`')
+    [void]$lines.Add('- **生成时间(UTC)**: ' + $doc.generatedUtc)
+    [void]$lines.Add('- **独立性**: 不依赖 ESFramework')
+    [void]$lines.Add('- **项目类型**: ' + $primaryKind)
+    [void]$lines.Add('- **类型标签**: ' + ($profileKinds -join ', '))
     if ($profileObj -and $profileObj.humanSummary) {
-        [void]$lines.Add('- **analysis**: ' + [string]$profileObj.humanSummary)
+        [void]$lines.Add('- **分析摘要**: ' + [string]$profileObj.humanSummary)
     }
-    [void]$lines.Add('- **summary**: total=' + $arr.Count + ' done=' + $done + ' todo=' + $todo + ' review=' + $review)
+    [void]$lines.Add('- **汇总**: 合计=' + $arr.Count + ' 已完成=' + $done + ' 待办=' + $todo + ' 待审=' + $review)
     [void]$lines.Add('')
-    [void]$lines.Add('## Daily use')
+    [void]$lines.Add('## 日常用法')
     [void]$lines.Add('')
     [void]$lines.Add('```powershell')
     [void]$lines.Add('. .\ES\Automation\ABCD\Use-ESABCD.ps1')
     [void]$lines.Add('Invoke-ESABCDQuick -Requirement "your goal"')
     [void]$lines.Add('```')
     [void]$lines.Add('')
-    [void]$lines.Add('## Say this to AI (copy)')
+    [void]$lines.Add('## 可对 AI 说（复制）')
     [void]$lines.Add('')
-    [void]$lines.Add('> Install es-abcd to this project and refresh the adapt checklist.')
+    [void]$lines.Add('> 把 es-abcd 装进本项目并刷新适配清单（路径用我提供的绝对路径）。')
     [void]$lines.Add('')
-    [void]$lines.Add('## Checks')
+    [void]$lines.Add('## 检查项')
     [void]$lines.Add('')
-    [void]$lines.Add('| ID | Status | Title | Action |')
-    [void]$lines.Add('|----|--------|-------|--------|')
+    [void]$lines.Add('| 编号 | 状态 | 标题 | 行动 |')
+    [void]$lines.Add('|------|------|------|------|')
     foreach ($c in $arr) {
         $action = ([string]$c.action).Replace('|', '/')
         [void]$lines.Add('| `' + $c.id + '` | **' + $c.status + '** | ' + $c.title + ' | ' + $action + ' |')
     }
     [void]$lines.Add('')
-    [void]$lines.Add('## Legend')
+    [void]$lines.Add('## 状态说明')
     [void]$lines.Add('')
-    [void]$lines.Add('- **done**: satisfied')
-    [void]$lines.Add('- **todo**: must do')
-    [void]$lines.Add('- **review**: human/AI judgment')
-    [void]$lines.Add('- **optional**: optional')
-    [void]$lines.Add('- **info**: boundary note')
+    [void]$lines.Add('- **done**: 已满足')
+    [void]$lines.Add('- **todo**: 必须做')
+    [void]$lines.Add('- **review**: 需你或 AI 判断')
+    [void]$lines.Add('- **optional**: 可选')
+    [void]$lines.Add('- **info**: 边界说明')
     [void]$lines.Add('')
-    [void]$lines.Add('## Non-claims')
+    [void]$lines.Add('## 非声明')
     [void]$lines.Add('')
-    [void]$lines.Add('This checklist and Smoke are NOT Unity PlayMode / release acceptance. runtime-not-run means missing runtime evidence, not static failure.')
+    [void]$lines.Add('本清单与冒烟 **不等于** Unity PlayMode / 发版验收。runtime-not-run 表示缺少运行时证据，不是静态失败。')
     $mdPath = Join-Path $outDir ('adapt-checklist-' + $stamp + '.md')
     [IO.File]::WriteAllText($mdPath, ($lines -join "`r`n"), [Text.UTF8Encoding]::new($false))
 }

@@ -2,7 +2,9 @@
 
 和 AI 用自然语言做工程决策的工具包。不依赖旧 ES 大仓，不是 Unity 插件。
 
-**版本：** 1.0.0（GA） · https://github.com/0everey/es-abcd · MIT
+**版本：** 1.0.0 正式版 · https://github.com/0everey/es-abcd · MIT  
+
+文档与对用户输出默认**中文**；技术标识（如 `engineering`）可与中文并用。
 
 ---
 

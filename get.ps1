@@ -1,4 +1,4 @@
-# es-abcd one-click bootstrap (remote-friendly)
+﻿# es-abcd one-click bootstrap (remote-friendly)
 # Usage (from ANY project root):
 #   powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1)"
 # Or with explicit target:
@@ -33,10 +33,10 @@ function Write-Step([string]$Msg) {
     Write-Host ("[es-abcd] " + $Msg) -ForegroundColor Cyan
 }
 function Write-Ok([string]$Msg) {
-    Write-Host ("[es-abcd] OK  " + $Msg) -ForegroundColor Green
+    Write-Host ("[es-abcd] 完成 " + $Msg) -ForegroundColor Green
 }
 function Write-WarnLine([string]$Msg) {
-    Write-Host ("[es-abcd] !!  " + $Msg) -ForegroundColor Yellow
+    Write-Host ("[es-abcd] 注意 " + $Msg) -ForegroundColor Yellow
 }
 
 # Default target = caller's current directory
@@ -56,9 +56,9 @@ $pkg = Join-Path $CacheRoot 'repo'
 
 Write-Host ''
 Write-Host '======== es-abcd one-click ========' -ForegroundColor White
-Write-Host ('  Target : ' + $TargetRoot)
-Write-Host ('  Cache  : ' + $pkg)
-Write-Host ('  Mode   : portable (no ESFramework host required)')
+Write-Host ('  目标   : ' + $TargetRoot)
+Write-Host ('  缓存   : ' + $pkg)
+Write-Host ('  模式   : portable（不依赖旧 ES 宿主）')
 Write-Host '==================================' -ForegroundColor White
 Write-Host ''
 
@@ -80,20 +80,20 @@ if (-not [string]::IsNullOrWhiteSpace($PSScriptRoot)) {
 }
 
 if ($selfRoot) {
-    Write-Step ("using local checkout: " + $selfRoot)
+    Write-Step ("使用本地包: " + $selfRoot)
     $pkg = $selfRoot
 }
 elseif ($SkipCloneUpdate -and (Test-Path (Join-Path $pkg 'package\es-abcd-portable.manifest.json'))) {
     Write-Step 'using cached package (SkipCloneUpdate)'
 }
 else {
-    Write-Step 'ensure git package cache'
+    Write-Step '准备 git 缓存包'
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
         throw 'GIT_REQUIRED: install Git for Windows, then retry one-click.'
     }
     New-Item -ItemType Directory -Force -Path $CacheRoot | Out-Null
     if (-not (Test-Path -LiteralPath (Join-Path $pkg '.git'))) {
-        Write-Step ("git clone " + $RepoUrl)
+        Write-Step ("克隆 " + $RepoUrl)
         if (Test-Path -LiteralPath $pkg) {
             Remove-Item -LiteralPath $pkg -Recurse -Force
         }
@@ -101,7 +101,7 @@ else {
         if ($LASTEXITCODE -ne 0) { throw "GIT_CLONE_FAILED:$LASTEXITCODE" }
     }
     else {
-        Write-Step 'git fetch/pull cache'
+        Write-Step '更新缓存包'
         Push-Location $pkg
         try {
             & git fetch --depth 1 origin $Branch 2>$null
@@ -123,7 +123,7 @@ foreach ($p in @($install, $smoke, $layout)) {
 
 
 # --- adaptive project analysis (any project) ---
-Write-Step 'analyze target project'
+Write-Step '分析目标项目'
 $profileScript = Join-Path $(if ($selfRoot) { $selfRoot } else { if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path } }) 'scripts\Get-ESABCDProjectProfile.ps1'
 if (-not (Test-Path -LiteralPath $profileScript)) {
     if ($selfRoot) { $profileScript = Join-Path $selfRoot 'scripts\Get-ESABCDProjectProfile.ps1' }
@@ -136,7 +136,7 @@ $projectProfilePath = $null
 if (Test-Path -LiteralPath $profileScript -PathType Leaf) {
     $pkgForProfile = $(if ($selfRoot) { $selfRoot } elseif (Test-Path (Join-Path $pkg 'package\es-abcd-portable.manifest.json')) { $pkg } else { (Resolve-Path (Join-Path (Split-Path $profileScript -Parent) '..')).Path })
     $rawProfile = & powershell -NoProfile -ExecutionPolicy Bypass -File $profileScript -TargetRoot $TargetRoot -PackageRoot $pkgForProfile 2>&1 | Out-String
-    try { $projectProfile = $rawProfile | ConvertFrom-Json } catch { Write-WarnLine 'profile JSON parse failed'; $projectProfile = $null }
+    try { $projectProfile = $rawProfile | ConvertFrom-Json } catch { Write-WarnLine '项目画像解析失败'; $projectProfile = $null }
     if ($null -ne $projectProfile) {
         Write-Host ('  primaryKind : ' + [string]$projectProfile.primaryKind)
         Write-Host ('  kinds       : ' + ((@($projectProfile.kinds) | ForEach-Object { [string]$_ }) -join ', '))
@@ -145,7 +145,7 @@ if (Test-Path -LiteralPath $profileScript -PathType Leaf) {
             throw ('INSTALL_BLOCKED: ' + [string]$projectProfile.humanSummary)
         }
         if ([bool]$projectProfile.strategy.forceRecommended -and -not $Force) {
-            Write-WarnLine 'Adaptive install enables -Force (upgrade/refresh recommended by profile).'
+            Write-WarnLine '按画像建议：自动启用刷新安装 (-Force)。'
             $Force = $true
         }
         $earlyOut = Join-Path $TargetRoot '.es-abcd-out'
@@ -155,15 +155,15 @@ if (Test-Path -LiteralPath $profileScript -PathType Leaf) {
         Write-Ok ('wrote ' + $projectProfilePath)
     }
 } else {
-    Write-WarnLine 'project profiler missing; continue generic'
+    Write-WarnLine '缺少画像脚本，按通用方式安装'
 }
 
-Write-Step 'layout check'
+Write-Step '检查包布局'
 & powershell -NoProfile -ExecutionPolicy Bypass -File $layout -PackageRoot $pkg
 if ($LASTEXITCODE -ne 0) { throw 'LAYOUT_FAILED' }
 Write-Ok 'layout'
 
-Write-Step ("install overlay -> " + $TargetRoot)
+Write-Step ("叠加安装到 " + $TargetRoot)
 $installArgs = @{
     PackageRoot = $pkg
     TargetRoot  = $TargetRoot
@@ -175,7 +175,7 @@ Write-Ok 'install'
 
 $smokeReceipt = $null
 if (-not $SkipSmoke) {
-    Write-Step 'smoke (static; runtime-not-run expected)'
+    Write-Step '冒烟（静态；运行时未验为预期）'
     $smokeOut = & powershell -NoProfile -ExecutionPolicy Bypass -File $smoke -ProjectRoot $TargetRoot -Mode engineering 2>&1 | Out-String
     Write-Host $smokeOut
     if ($LASTEXITCODE -ne 0) { throw 'SMOKE_FAILED' }
@@ -187,7 +187,7 @@ if (-not $SkipSmoke) {
     Write-Ok 'smoke'
 }
 else {
-    Write-WarnLine 'smoke skipped'
+    Write-WarnLine '已跳过冒烟'
 }
 
 # Consumer helper shim for daily use
@@ -240,7 +240,7 @@ Write-Ok ("shim " + $shim)
 $checklistJson = $null
 $checklistMd = $null
 if (-not $SkipChecklist) {
-    Write-Step 'adapt checklist'
+    Write-Step '生成适配清单'
     $chk = Join-Path $pkg 'scripts\New-ESABCDAdaptChecklist.ps1'
     if (Test-Path -LiteralPath $chk) {
         $chkOut = & powershell -NoProfile -ExecutionPolicy Bypass -File $chk -TargetRoot $TargetRoot -PackageRoot $pkg -OutMarkdown | Out-String
@@ -253,7 +253,7 @@ if (-not $SkipChecklist) {
         Write-Ok 'checklist'
     }
     else {
-        Write-WarnLine 'checklist script missing; skip'
+        Write-WarnLine '缺少清单脚本，跳过'
     }
 }
 
@@ -295,11 +295,11 @@ $receipt = [pscustomobject]@{
     adaptChecklistMarkdown = $checklistMd
     aiPlaybook = 'docs/ai-install-playbook.md'
     next = @(
-        'Read project-profile.json humanSummary',
-        'Open adapt-checklist-*.md',
-        'Use README mode scenarios with YOUR project path'
+        '阅读 project-profile.json 中的 humanSummary',
+        '打开 adapt-checklist-*.md 勾待办',
+        '用 README 三种模式场景模板（填你的项目路径）继续测'
     )
-    sayToAi = 'Install es-abcd from <es-abcd-root> into <project-root>: analyze first, then adapt, then checklist. Report in plain language.'
+    sayToAi = 'es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析再按情况接入，出清单，用人话汇报。'
     runtimeStatus = 'runtime-not-run'
     nonClaims = @('Unity', 'PlayMode', 'Profiler', 'Player', 'Release')
     capturedUtc = [DateTime]::UtcNow.ToString('o')
@@ -309,14 +309,14 @@ $outPath = Join-Path $outDir ('oneclick-' + [DateTime]::UtcNow.ToString('yyyyMMd
 
 Write-Host ''
 Write-Host '======== DONE ========' -ForegroundColor Green
-Write-Host '  Analyzed project + adaptive install + smoke (static).'
-Write-Host ('  Project kind: ' + $kindStr)
-Write-Host '  ESFramework host: NOT required'
-Write-Host '  Unity / PlayMode : NOT claimed'
+Write-Host '  已完成：项目分析 + 按情况接入 + 静态冒烟。'
+Write-Host ('  项目类型: ' + $kindStr)
+Write-Host '  不需要旧 ES 宿主'
+Write-Host '  未宣称 Unity/PlayMode 通过'
 Write-Host ''
-if ($profileOutPath) { Write-Host ('  Profile  : ' + $profileOutPath) }
-if ($checklistMd) { Write-Host ('  Checklist: ' + $checklistMd) }
-Write-Host ('  Receipt  : ' + $outPath)
+if ($profileOutPath) { Write-Host ('  画像    : ' + $profileOutPath) }
+if ($checklistMd) { Write-Host ('  清单    : ' + $checklistMd) }
+Write-Host ('  回执    : ' + $outPath)
 Write-Host '======================' -ForegroundColor Green
 Write-Host ''
 $receipt | ConvertTo-Json -Depth 6

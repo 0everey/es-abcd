@@ -1,20 +1,20 @@
-# Changelog
+# 更新日志
 
 ## 1.0.0 — 2026-09-11
 
-First public release of **es-abcd** (portable ABCD/ABCC core).
+**es-abcd** 首个正式版（GA）。
 
-### Ship
+### 本版交付
 
-- Natural-language install: give `<es-abcd-root>` + `<project-root>` to an AI (or run `get.ps1`)
-- **Adaptive install**: auto-analyze target project kind, then overlay
-- Three generation-mode **scenario templates** (engineering / creative-divergence / stable), 5 copy-paste cases each
-- Portable governance (no ESFramework / AIWarnings corpus required)
-- Autonomy suite + smoke evidence (`runtime-not-run` kept honest)
-- Adapt checklist + project profile receipts
+- 自然语言安装：向 AI 提供 `<es-abcd根路径>` + `<项目根路径>`（或运行 `get.ps1`）
+- **按情况接入**：自动分析目标项目类型，再叠加安装
+- 三种生成模式场景模板（工程 / 创意 / 稳定），各 5 组可复制真场景
+- 默认可移植治理（不依赖 ESFramework / AIWarnings 语料）
+- 自主验收套件 + 冒烟回执（诚实保留 `runtime-not-run`）
+- 适配清单 + 项目画像回执
 
-### Not in this release
+### 本版不做
 
-- Unity PlayMode / Player / release proof
-- Automatic full business-code migration
-- Bundled model API keys
+- Unity PlayMode / 真机 / 发版证明
+- 自动改完全部业务代码
+- 内置模型 API Key

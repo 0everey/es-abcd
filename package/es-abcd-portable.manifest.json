@@ -1,9 +1,9 @@
 {
     "schemaVersion":  1,
     "packageId":  "es-abcd-portable.v1",
-    "displayName":  "ES ABCD 可移植核心",
+    "displayName":  "es-abcd 可移植核心",
     "businessFree":  true,
-    "description":  "独立于原生 ESFramework 的 ABCD/ABCC 工程编排核心。默认 portable 治理，六项能力完整；ESFramework 仅为可选宿主。",
+    "description":  "独立于原生 ESFramework 的 ABCD/ABCC 工程编排核心。默认 portable 治理；任意常见项目可先分析再接入。",
     "independence":  {
                          "requiresESFramework":  false,
                          "requiresUnity":  false,

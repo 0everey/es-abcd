@@ -1,7 +1,10 @@
-# ABCD Generic Portable Core
+# ABCD 可移植核心目录
 
-This directory contains the project-neutral ABCD/ABCC execution core. It is safe to reuse across projects because it contains no gameplay, scene, asset, Knowledge, AIWarnings, provider, credential, or model-specific content.
+本目录是与具体游戏业务解耦的 ABCD/ABCC 执行核心。  
+不含玩法、场景资产、项目私有 AIWarnings 语料、密钥或模型配置。
 
-Start with `es-abcd-generic-package.manifest.json`. After extraction, run `Restore-ESABCDGenericPackage.ps1` against the target project. Missing files are repaired; hash mismatches remain `review-required` unless `-ForceRepair` is explicitly authorized.
+- 包清单：仓库根 `package/es-abcd-portable.manifest.json`  
+- 一键接入：仓库根 `get.ps1`  
+- 用户说明：仓库根 `README.md`  
 
-`idea-validated` and static contract acceptance never imply runtime acceptance. Runtime, PlayMode, Profiler, and release claims require fresh evidence from the target project.
+**静态/合同通过 ≠ 运行时验收。** PlayMode、Profiler、发版须另有新鲜证据。

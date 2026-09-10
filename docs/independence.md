@@ -1,4 +1,4 @@
-# es-abcd 与 ESFramework 的独立性说明
+# es-abcd 与 ESFramework 的独立性
 
 ## 产品身份
 
@@ -18,26 +18,17 @@ es-abcd：
 
 | 模式 | 环境变量 | 含义 |
 |------|----------|------|
-| **portable（默认）** | `ES_ABCD_GOVERNANCE_MODE=portable` 或不设 | 使用本包自带 `portable/es-abcd-portable-governance-v1.json`，六能力完整 |
+| **portable（默认）** | `ES_ABCD_GOVERNANCE_MODE=portable` 或不设 | 使用本包自带治理合同，六项能力完整 |
 | **host（可选）** | `ES_ABCD_GOVERNANCE_MODE=host` | 仅当宿主具备完整 AIWarnings 语料/索引时增强；失败则**回退 portable**，不丢核心能力 |
 
 ## 能力对等（禁止“阉割式自主”）
 
-Portable 模式**必须**保留：
-
-1. `bounded-tool-action`  
-2. `failure-recovery`  
-3. `branch-evaluation`  
-4. `state-transition-guard`  
-5. `environment-trust-gate`  
-6. `audit-evidence-chain`  
-
-以及：发散、候选选择、稳定评分、权威决策、审计摘要投影、合同解析。
+Portable 模式**必须**保留六项内核能力，以及：发散、候选选择、稳定评分、权威决策、审计摘要、合同解析。
 
 ## 路径解析
 
 - `Get-ESABCDPackageRoot`：本包根  
-- `Resolve-ESABCDContractPath`：优先本包合同；若消费方已 Install 叠加，可读消费方 `ES/Automation/Contracts`  
+- `Resolve-ESABCDContractPath`：优先本包合同；消费方已安装时可读其叠加目录  
 - **不再**默认假定「必须先有原生 ES 仓」
 
 ## 验收
@@ -48,11 +39,7 @@ powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
 
 通过条件：`status=passed` 且 `requiresESFramework=false`。
 
-## 与 ES 的协作关系（可选）
+## 与 ES 的协作（可选）
 
-ES 可以：
-
-1. 作为消费方 `Install-ESABCD` 叠加本包；或  
-2. 设置 `host` 模式使用自有 AIWarnings 语料增强治理  
-
-ES **不可以**再被描述为「es-abcd 离开它就不能用」。
+ES 可以 Install 叠加本包，或在有语料时开 host 增强。  
+ES **不可以**再被说成「离开它 es-abcd 就不能用」。
