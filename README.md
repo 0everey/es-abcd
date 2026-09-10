@@ -213,4 +213,4 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 ## 给 AI
 
 - 「场景」= 上表模板；路径**只使用用户给出的绝对路径**，禁止套用文档假路径。  
-- 安装见 `docs/ai-install-playbook.md`。回报说人话。
+- 安装见 `docs/ai-install-playbook.md`。回报说人话。 

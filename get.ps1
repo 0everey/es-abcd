@@ -319,4 +319,4 @@ if ($checklistMd) { Write-Host ('  清单    : ' + $checklistMd) }
 Write-Host ('  回执    : ' + $outPath)
 Write-Host '======================' -ForegroundColor Green
 Write-Host ''
-$receipt | ConvertTo-Json -Depth 6
+$receipt | ConvertTo-Json -Depth 6 

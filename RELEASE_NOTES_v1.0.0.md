@@ -33,4 +33,4 @@ powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
 ## 边界（请对外说清楚）
 
 冒烟 / 自主验收通过 ≠ Unity 场景已测 ≠ 游戏内容可发版。  
-未跑真实运行时，回执会写 `runtime-not-run`。
+未跑真实运行时，回执会写 `runtime-not-run`。 
