@@ -164,12 +164,12 @@ if ($LASTEXITCODE -ne 0) { throw 'LAYOUT_FAILED' }
 Write-Ok 'layout'
 
 Write-Step ("叠加安装到 " + $TargetRoot)
-$installArgs = @{
-    PackageRoot = $pkg
-    TargetRoot  = $TargetRoot
+# Do not splat -Force into nested powershell.exe (becomes String and breaks [switch]).
+if ($Force) {
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $install -PackageRoot $pkg -TargetRoot $TargetRoot -Force
+} else {
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $install -PackageRoot $pkg -TargetRoot $TargetRoot
 }
-if ($Force) { $installArgs['Force'] = $true }
-& powershell -NoProfile -ExecutionPolicy Bypass -File $install @installArgs
 if ($LASTEXITCODE -ne 0) { throw 'INSTALL_FAILED' }
 Write-Ok 'install'
 
