@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "packageId": "es-abcd-portable.v1",
+  "displayName": "ES ABCD Portable Core",
+  "businessFree": true,
+  "description": "Project-neutral ABCD/ABCC engineering orchestration core: InnovationRun, divergence, scoring, gates, and contracts.",
+  "requiredDirectories": [
+    "ES/Automation/ABCD",
+    "ES/Automation/Contracts",
+    "ES/Automation/TaskContextRuntime",
+    "ES/Automation/AI",
+    "ES/Automation/Workers/PowerShell",
+    ".agents/skills/es-ai-abc-core",
+    ".agents/skills/es-agent-mechanism-replication",
+    "scripts",
+    "docs",
+    "package"
+  ],
+  "anchorFiles": [
+    "README.md",
+    "LICENSE",
+    "ES/Automation/ABCD/ESABCInnovationRun.psm1",
+    "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
+    "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
+    "ES/Automation/ABCD/ESABCDDivergence.psm1",
+    "ES/Automation/Contracts/es-ai-abc-core-v1.json",
+    "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
+    "ES/Automation/Contracts/es-ai-abc-scoring-v1.json",
+    "ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json",
+    "ES/Automation/Contracts/es-ai-abc-mode.registry.json",
+    "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
+    ".agents/skills/es-ai-abc-core/SKILL.md",
+    "scripts/Install-ESABCD.ps1",
+    "scripts/Invoke-ESABCDSmoke.ps1"
+  ],
+  "excludedDomains": [
+    "gameplay",
+    "Unity scenes",
+    "project AIKnowledge",
+    "project AIWarnings corpus",
+    "credentials",
+    "provider secrets",
+    "weapon domain parts"
+  ],
+  "integration": {
+    "layout": "overlay-into-project-root",
+    "installScript": "scripts/Install-ESABCD.ps1",
+    "smokeScript": "scripts/Invoke-ESABCDSmoke.ps1",
+    "requires": {
+      "powershell": "5.1+",
+      "optional": ["pwsh 7+"]
+    }
+  },
+  "verification": {
+    "hashAlgorithm": "SHA256",
+    "missingIsFailure": true,
+    "runtimeClaimsRequireFreshReceipt": true
+  },
+  "nonClaims": [
+    "Unity",
+    "PlayMode",
+    "Profiler",
+    "Player",
+    "IL2CPP",
+    "Release",
+    "model-provider-success"
+  ]
+}

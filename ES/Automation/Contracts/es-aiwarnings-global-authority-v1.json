@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "contractId": "es://automation/contracts/aiwarnings/global-authority/v1",
+  "authorityId": "es.aiwarnings.global.default",
+  "authorityRank": 2,
+  "supersededOnlyBy": ["project-skill"],
+  "appliesTo": ["all-project-ai-entries", "direct-ai", "host-independent", "codex", "aibrain", "worker", "skill", "sub-agent"],
+  "dependencyPolicy": {
+    "requiresAbcd": false,
+    "requiresSpecificHost": false,
+    "requiresManagedWorker": false,
+    "specializedPipelinesAreConsumersOnly": true
+  },
+  "requiredPhases": ["bootstrap", "route", "policy-injection", "violation-scan", "closeout"],
+  "mandatoryCoreReads": [
+    "Assets/Plugins/ES/AIWarnings/00_开始阅读（Start）/README.md",
+    "Assets/Plugins/ES/AIWarnings/00_开始阅读（Start）/当前状态（CurrentStatus）.md",
+    "Assets/Plugins/ES/AIWarnings/00_开始阅读（Start）/规则索引（RuleIndex）.md"
+  ],
+  "mandatoryDefaultBehavior": {
+    "unprovenClaims": "claim-cap",
+    "unauthorizedEffects": "block-and-report",
+    "authorityConflict": "replan",
+    "staleSource": "invalidate-and-reread",
+    "missingRoute": "NoAuthorityRoute",
+    "closeoutWarnings": "required"
+  },
+  "summaryPolicy": {
+    "maxMainWarnings": 8,
+    "deduplicateBy": "ruleId",
+    "overflowPolicy": "preserve-highest-priority-and-report-count",
+    "mandatoryFirstRuleId": "es.aiwarning.p0.ai-delivery-claim-boundary",
+    "order": ["mandatory-first", "decision-priority", "severity", "relevance-score-desc", "ruleId-ordinal"],
+    "decisionPriority": ["stop-and-report", "claim-cap", "consume-and-report"],
+    "severityPriority": ["P0", "P1", "P2", "P3"]
+  },
+  "metadataRoutingPolicy": {
+    "enabled": true,
+    "sourceRoot": "Assets/Plugins/ES/AIWarnings",
+    "generatedIndexPath": "Assets/Plugins/ES/AIWarnings/00_开始阅读（Start）/AIWarningsMetadataIndex.json",
+    "boundedHeaderLines": 18,
+    "requiredFields": ["Status", "StableId", "RouteKeys"],
+    "includedStatus": "current",
+    "bodyReadPolicy": "matched-routes-only",
+    "freshnessPolicy": "live-identity-set-plus-matched-source-sha256",
+    "explicitCatalogRole": "specialized-and-reserved-route-overlay"
+  },
+  "minimumReceipt": ["authorityId", "authorityHash", "matchedRuleIds", "policyDecision", "mainWarnings", "consumedAtUtc"],
+  "nonClaims": ["AIWarnings does not replace source, tests, Runtime or Release evidence", "authority rank does not grant write or Runtime permission"]
+}

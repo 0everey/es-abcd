@@ -1,0 +1,23 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.user
+
+# Local run artifacts
+out/
+.output/
+*.log
+*.receipt.json
+*.run.json
+node_modules/
+
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*.key
+credentials/
+secrets/

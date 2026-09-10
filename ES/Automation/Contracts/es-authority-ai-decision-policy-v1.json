@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "contractId": "es://automation/contracts/authority-ai-decision-policy/v1",
+  "domains": {
+    "ai-collaboration": {
+      "safeDefaultFields": ["capturedUtc", "timestampUtc", "receiptPath"],
+      "hardBlockFields": ["authorization", "permission", "write", "delete", "pathTraversal", "identity"],
+      "strictOnUnresolved": false,
+      "description": "Continue bounded work when non-semantic metadata is missing; cap claims when evidence is incomplete."
+    },
+    "game-logic": {
+      "safeDefaultFields": ["capturedUtc", "timestampUtc", "receiptPath"],
+      "hardBlockFields": ["authorization", "permission", "write", "delete", "ownership", "lifecycle", "stateTransition", "identity", "scope", "rollback"],
+      "strictOnUnresolved": true,
+      "description": "Block when ownership, lifecycle, state, identity, scope, rollback or evidence closure is unresolved."
+    },
+    "editor-tooling": {
+      "safeDefaultFields": ["capturedUtc", "timestampUtc", "receiptPath"],
+      "hardBlockFields": ["authorization", "permission", "write", "delete", "assetOwnership", "identity", "scope", "rollback"],
+      "strictOnUnresolved": true,
+      "description": "Block unsafe editor state or asset ownership gaps; allow metadata normalization only."
+    },
+    "release": {
+      "safeDefaultFields": ["capturedUtc", "timestampUtc", "receiptPath"],
+      "hardBlockFields": ["authorization", "permission", "write", "delete", "artifact", "provenance", "environment", "rollback", "identity", "scope"],
+      "strictOnUnresolved": true,
+      "description": "Block artifact, provenance, environment and rollback gaps."
+    }
+  }
+}

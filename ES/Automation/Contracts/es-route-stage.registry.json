@@ -1,0 +1,358 @@
+{
+  "schemaVersion": 1,
+  "registryId": "esframework-route-stage-registry",
+  "normalizationVersion": "route-stage-canonical-v1",
+  "defaultMaxDepth": 1,
+  "maxDepth": 2,
+  "externalInputs": [
+    "authorization",
+    "collaborator-choice",
+    "coreRef",
+    "goal-revision"
+  ],
+  "depthAuthorizations": [
+    {
+      "reasonCode": "ROUTE.DEPTH_2.STATIC_REPLAY_AFTER_VALIDATION",
+      "authorizesDepth": 2,
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "skill",
+        "static-replay",
+        "validation"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "stageContractId": "es.route-stage.skill-creator.v1",
+      "skillName": "es-skill-creator",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "creator",
+        "skill"
+      ],
+      "requires": [
+        "goal-revision"
+      ],
+      "produces": [
+        "skill-candidate"
+      ],
+      "failureConditions": [
+        "candidate-write-denied",
+        "skill-contract-invalid"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.skill-validator.v1",
+      "skillName": "es-skill-validator",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "skill",
+        "validation"
+      ],
+      "requires": [
+        "skill-candidate"
+      ],
+      "produces": [
+        "static-validation"
+      ],
+      "failureConditions": [
+        "candidate-schema-invalid",
+        "validation-evidence-pending"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.static-deep-replay.v1",
+      "skillName": "es-static-deep-replay",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "skill",
+        "static-replay",
+        "validation"
+      ],
+      "requires": [
+        "static-validation"
+      ],
+      "produces": [
+        "replay-receipt"
+      ],
+      "failureConditions": [
+        "replay-nondeterministic",
+        "source-snapshot-stale"
+      ],
+      "depthReasonCode": "ROUTE.DEPTH_2.STATIC_REPLAY_AFTER_VALIDATION"
+    },
+    {
+      "stageContractId": "es.route-stage.agent-mechanism-analysis.v1",
+      "skillName": "es-first-principles-analysis",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "agent-mechanism-replication",
+        "analysis",
+        "design",
+        "root-cause"
+      ],
+      "requires": [
+        "goal-revision"
+      ],
+      "produces": [
+        "mechanism-design"
+      ],
+      "failureConditions": [
+        "mechanism-evidence-unbound",
+        "source-snapshot-stale",
+        "design-contract-invalid"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.agent-mechanism-review.v1",
+      "skillName": "es-adversarial-review",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "agent-mechanism-replication",
+        "design",
+        "review",
+        "risk"
+      ],
+      "requires": [
+        "mechanism-design"
+      ],
+      "produces": [
+        "mechanism-review"
+      ],
+      "failureConditions": [
+        "branch-isolation-gap",
+        "evidence-boundary-overclaim",
+        "unreviewed-critical-risk"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.agent-mechanism-knowledge-candidate.v1",
+      "skillName": "es-knowledge-creator",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "agent-mechanism-replication",
+        "failure-surface",
+        "knowledge-output",
+        "source-ref"
+      ],
+      "requires": [
+        "mechanism-review"
+      ],
+      "produces": [
+        "knowledge-candidate"
+      ],
+      "failureConditions": [
+        "external-source-not-bound",
+        "route-collision",
+        "source-ref-unbound"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.agent-mechanism-knowledge-validation.v1",
+      "skillName": "es-knowledge-validator",
+      "profiles": [
+        "governance"
+      ],
+      "routeKeys": [
+        "agent-mechanism-replication",
+        "content-hash",
+        "knowledge",
+        "route-probe",
+        "stale",
+        "validation"
+      ],
+      "requires": [
+        "knowledge-candidate"
+      ],
+      "produces": [
+        "knowledge-validation"
+      ],
+      "failureConditions": [
+        "content-hash-mismatch",
+        "route-top3-mismatch",
+        "source-hash-drift"
+      ],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.ai-abc-intent.v1",
+      "skillName": "es-ai-abc-core",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-core", "semantic-adapter", "analysis"],
+      "requires": ["goal-revision"],
+      "produces": ["a-intent"],
+      "failureConditions": ["semantic-goal-missing", "interface-schema-invalid"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.ai-abc-negotiation.v1",
+      "skillName": "es-ai-abc-core",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-core", "semantic-adapter", "route-stage"],
+      "requires": ["a-intent"],
+      "produces": ["b-capability-request", "b-result", "abc-core-binding"],
+      "failureConditions": ["capability-mismatch", "adapter-version-incompatible"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.ai-abc-evidence.v1",
+      "skillName": "es-ai-abc-core",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-core", "evidence", "receipt"],
+      "requires": ["b-result"],
+      "produces": ["normalized-evidence"],
+      "failureConditions": ["evidence-missing", "receipt-invalid"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.ai-abc-completion.v1",
+      "skillName": "es-ai-abc-core",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-core", "completion", "delivery-acceptance"],
+      "requires": ["normalized-evidence", "abc-task-binding"],
+      "produces": ["abc-completion"],
+      "failureConditions": ["completion-evidence-gap", "collaborator-acceptance-missing"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.weapon-abc-part.v1",
+      "skillName": "es-weapon-abc-part",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-part", "weapon", "weapon-definition"],
+      "requires": ["abc-core-binding"],
+      "produces": ["weapon-abc-plan"],
+      "failureConditions": ["core-contract-missing", "weapon-interface-invalid"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.weapon-abc-intent.v1",
+      "skillName": "es-weapon-abc-part",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-part", "weapon", "weapon-definition"],
+      "requires": ["goal-revision", "authorization"],
+      "produces": ["a-intent"],
+      "failureConditions": ["semantic-goal-missing", "authorization-missing"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.weapon-abc-negotiation.v1",
+      "skillName": "es-ai-abc-core",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-core", "abc-part", "semantic-adapter", "weapon"],
+      "requires": ["a-intent", "abc-core-binding"],
+      "produces": ["b-capability-request", "b-result"],
+      "failureConditions": ["core-contract-missing", "capability-mismatch", "adapter-version-incompatible"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.weapon-abc-evidence.v1",
+      "skillName": "es-weapon-abc-part",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-part", "weapon", "evidence", "receipt"],
+      "requires": ["b-result"],
+      "produces": ["normalized-evidence"],
+      "failureConditions": ["evidence-missing", "receipt-invalid"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.ai-abc-task-binding.v1",
+      "skillName": "es-task-context-runtime",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "task-context-runtime", "task-lifecycle", "evidence", "receipt"],
+      "requires": ["abc-core-binding", "normalized-evidence"],
+      "produces": ["abc-task-binding"],
+      "failureConditions": ["binding-input-missing", "binding-hash-invalid", "focus-checkpoint-invalid"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.weapon-abc-acceptance.v1",
+      "skillName": "es-weapon-abc-part",
+      "profiles": ["governance"],
+      "routeKeys": ["ai-abc", "abc-part", "weapon", "completion", "delivery-acceptance"],
+      "requires": ["normalized-evidence", "abc-task-binding", "collaborator-choice"],
+      "produces": ["weapon-abc-completion"],
+      "failureConditions": ["completion-evidence-gap", "collaborator-acceptance-missing"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.abcd-divergence.v1",
+      "skillName": "es-agent-mechanism-replication",
+      "profiles": ["governance"],
+      "routeKeys": ["abcd", "divergence", "branch-evaluation", "iteration"],
+      "requires": ["goal-revision", "route-plan"],
+      "produces": ["candidate-set"],
+      "failureConditions": ["candidate-set-empty", "branch-isolation-gap", "divergence-budget-exhausted"],
+      "depthReasonCode": "ROUTE.DEPTH_2.ABCD_DIVERGENCE"
+    },
+    {
+      "stageContractId": "es.route-stage.abcd-audit.v1",
+      "skillName": "es-agent-mechanism-replication",
+      "profiles": ["governance"],
+      "routeKeys": ["abcd", "audit", "evidence", "iteration"],
+      "requires": ["candidate-set"],
+      "produces": ["audit-receipt"],
+      "failureConditions": ["auditor-missing", "evidence-missing", "tool-decision-inconsistency"],
+      "depthReasonCode": "ROUTE.DEPTH_2.ABCD_INDEPENDENT_AUDIT"
+    },
+    {
+      "stageContractId": "es.route-stage.abcd-iteration.v1",
+      "skillName": "es-agent-mechanism-replication",
+      "profiles": ["governance"],
+      "routeKeys": ["abcd", "iteration", "failure-recovery", "correction-cycle"],
+      "requires": ["audit-receipt"],
+      "produces": ["correction-cycle", "iteration-decision"],
+      "failureConditions": ["round-budget-exhausted", "cas-stale", "verification-receipt-missing"],
+      "depthReasonCode": "ROUTE.DEPTH_2.ABCD_ITERATION"
+    },
+    {
+      "stageContractId": "es.route-stage.web-provider-dispatch.v1",
+      "skillName": "es-web-ui-generation-orchestration",
+      "profiles": ["governance"],
+      "routeKeys": ["web-ui", "web-page-generation", "webpage-studio", "provider", "dispatch"],
+      "requires": ["goal-revision", "route-plan", "authorization"],
+      "produces": ["provider-operation-receipt"],
+      "failureConditions": ["provider-dispatch-not-authorized", "provider-operation-missing", "provider-response-missing"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.web-response-normalize.v1",
+      "skillName": "es-web-generation-round-05-capability-design",
+      "profiles": ["governance"],
+      "routeKeys": ["web-ui", "web-page-generation", "webpage-studio", "candidate", "evidence"],
+      "requires": ["provider-operation-receipt", "candidate-set"],
+      "produces": ["web-model-response"],
+      "failureConditions": ["selected-candidate-missing", "web-design-evidence-missing", "response-hash-mismatch"],
+      "depthReasonCode": ""
+    },
+    {
+      "stageContractId": "es.route-stage.web-build-materialization.v2",
+      "skillName": "es-web-generation-build-stage",
+      "profiles": ["governance"],
+      "routeKeys": ["web-ui", "web-page-generation", "webpage-studio", "build-stage", "html"],
+      "requires": ["web-model-response", "abc-task-binding"],
+      "produces": ["ai-web-design-task", "build-pass-receipts", "static-artifact"],
+      "failureConditions": ["design-instantiation-missing", "ai-build-pass-missing", "artifact-integrity-failed"],
+      "depthReasonCode": ""
+    }
+  ]
+}

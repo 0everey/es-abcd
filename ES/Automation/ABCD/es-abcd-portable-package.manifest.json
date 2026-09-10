@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "packageId": "es-abcd-portable-capabilities.v1",
+  "policy": "core-capability-gap-forbidden",
+  "purpose": "Portable ABCD capability restore for another ES project after extraction.",
+  "requiredDirectories": [
+    ".agents/skills/es-ai-abc-core",
+    ".agents/skills/es-agent-mechanism-replication",
+    ".agents/skills/es-game-core-loop-validation",
+    "ES/Automation/ABCD",
+    "ES/Automation/Contracts",
+    "ES/Automation/TaskContextRuntime",
+    "ES/Automation/Workers/PowerShell",
+    "ES/Automation/AI",
+    "Documentation/AIKnowledge",
+    "Assets/Plugins/ES/AIWarnings"
+  ],
+  "anchorFiles": [
+    "ES/Automation/ABCD/ESABCInnovationRun.psm1",
+    "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
+    "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
+    "ES/Automation/Contracts/es-ai-abc-core-v1.json",
+    "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
+    "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
+    ".agents/skills/es-game-core-loop-validation/SKILL.md"
+  ],
+  "restoreScript": "ES/Automation/ABCD/Restore-ESABCDCapabilities.ps1",
+  "verification": {"hashAlgorithm":"SHA256", "missingIsFailure":true, "hashMismatchIsReview":true, "neverClaimRuntimeWithoutFreshReceipt":true}
+}

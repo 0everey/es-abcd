@@ -1,0 +1,329 @@
+{
+  "schemaVersion": 1,
+  "contractId": "es://automation/contracts/authority-consumer-registry/v1",
+  "description": "项目内 AI 权威消费者的显式覆盖清单；观察器和候选生成器不得冒充最终裁决者。",
+  "consumers": [
+    {
+      "id": "global-aiwarnings-policy-resolver",
+      "path": "ES/Automation/AI/Resolve-ESAIWarningsGlobalPolicy.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-policy-resolver",
+      "requiredMarkers": ["authorityRank", "es.aiwarnings.global.default", "requiredPhases", "policyDecision", "ESAIWarningsMetadataIndex", "indexedCurrentWarnings", "sourceManifestHash", "AIWARNINGS_MATCHED_SOURCE_STALE", "bodyReadPolicy"]
+    },
+    {
+      "id": "global-aiwarnings-default-lifecycle",
+      "path": "ES/Automation/AI/Invoke-ESAIWarningsDefaultLifecycle.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-policy-resolver",
+      "requiredMarkers": ["ESAIWarningsDefaultLifecycleReceipt", "host-independent-project-default", "completionAllowed", "AIWARNINGS_CLOSEOUT_MANDATORY_RULE_MISSING", "AIWARNINGS_CLOSEOUT_RULE_MISSING", "Does not declare task completion"]
+    },
+    {
+      "id": "aispace-toolchain-final-summary",
+      "path": ".agents/skills/es-ai-space-organization/scripts/Invoke-ESAISpaceToolchain.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["Add-ESAIWarningsResultProjection", "aispace-toolchain-final-summary", "warningContext", "claimsNotProven"]
+    },
+    {
+      "id": "editor-availability-final-summary",
+      "path": ".agents/skills/es-editor-availability-validator/scripts/Invoke-ESEditorAvailability.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["Add-ESAIWarningsResultProjection", "editor-availability-final-summary", "warningContext", "overallVerdict"]
+    },
+    {
+      "id": "game-core-loop-final-gate",
+      "path": ".agents/skills/es-game-core-loop-validation/scripts/Invoke-ESGameCoreLoopFinalGate.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["Add-ESAIWarningsResultProjection", "game-core-loop-final-gate", "warningContext", "claimsNotProven"]
+    },
+    {
+      "id": "game-core-loop-validation-final-summary",
+      "path": ".agents/skills/es-game-core-loop-validation/scripts/Invoke-ESGameCoreLoopValidation.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["Add-ESAIWarningsResultProjection", "game-core-loop-validation-final-summary", "warningContext", "claimsNotProven"]
+    },
+    {
+      "id": "knowledge-validation-final-summary",
+      "path": ".agents/skills/es-knowledge-validator/scripts/Invoke-ESKnowledgeValidation.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["Add-ESAIWarningsResultProjection", "knowledge-validation-final-summary", "warningContext", "claimsNotProven"]
+    },
+    {
+      "id": "global-aiwarnings-result-projection",
+      "path": "ES/Automation/AI/ESAIWarningsResultProjection.psm1",
+      "kind": "projection-only",
+      "requiredMarkers": ["Projection only", "never declares task completion", "Add-ESAIWarningsResultProjection", "mainWarnings", "skillAuthorityRank", "AIWARNINGS_POLICY_RESOLUTION_FAILED", "projectionStatus"]
+    },
+    {
+      "id": "skill-validator-final-summary",
+      "path": ".agents/skills/es-skill-validator/scripts/Invoke-ESSkillValidation.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["decisionStatus", "Add-ESAIWarningsResultProjection", "warningContext", "es-skill-validator"]
+    },
+    {
+      "id": "skill-portfolio-decision-projection",
+      "path": ".agents/skills/es-skill-validator/scripts/ESPortfolioDecision.psm1",
+      "kind": "projection-only",
+      "requiredMarkers": ["Internal decision projection only", "never declares task completion", "task-facing validator attaches"]
+    },
+    {
+      "id": "web-open-source-capability-compiler",
+      "path": ".agents/skills/es-web-ui-generation-orchestration/scripts/Invoke-ESWebOpenSourceCapabilityCompiler.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["decisionStatus", "Add-ESAIWarningsResultProjection", "warningContext", "web-open-source-capability-compiler"]
+    },
+    {
+      "id": "web-page-studio-final-summary",
+      "path": "ES/Automation/WebPageStudio/Invoke-ESWebPageStudio.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["claimsNotProven", "Add-ESAIWarningsResultProjection", "warningContext", "web-page-studio"]
+    },
+    {
+      "id": "web-page-studio-ai-materialization-summary",
+      "path": "ES/Automation/WebPageStudio/Invoke-ESWebPageStudioAiMaterialization.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["runtimeStatus='runtime-not-run'", "Add-ESAIWarningsResultProjection", "warningContext", "web-page-studio-ai-materialization"]
+    },
+    {
+      "id": "global-closeout-warning-summary",
+      "path": ".agents/skills/es-ai-interaction-governance/scripts/Invoke-ESInteractionCloseout.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["aiWarnings", "mainWarnings", "summaryRequired", "Resolve-ESAIWarningsGlobalPolicy", "inputHash", "contextSource", "warningOverflowCount", "warningsTruncated"]
+    },
+    {
+      "id": "global-aiwarnings-prompt-hook",
+      "path": ".agents/skills/es-ai-interaction-governance/scripts/Invoke-ESAIWarningsPromptHook.ps1",
+      "kind": "projection-only",
+      "requiredMarkers": ["Read-only policy projection", "never declares completion", "UserPromptSubmit", "mainWarnings", "inputHash", "do not grant write"]
+    },
+    {
+      "id": "global-closeout-stop-hook",
+      "path": ".agents/skills/es-ai-interaction-governance/scripts/Invoke-ESInteractionCloseoutHook.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-closeout-warning-summary",
+      "requiredMarkers": ["Final host enforcement", "mainWarnings", "requiredWarningIds", "missingWarningIds", "hasWarningSummary", "decision='block'"]
+    },
+    {
+      "id": "global-authority-kernel",
+      "path": ".agents/scripts/Resolve-ESAuthorityKernel.ps1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["completionAccepted", "acceptanceScope='host-semantic-consumption-only'", "Add-ESAIWarningsResultProjection", "ContextText $raw", "authority-kernel"]
+    },
+    {
+      "id": "render-backend-evidence-receipt",
+      "path": "Assets/Plugins/ES/0_Stand/BaseDefine_RunTime/ShaderSystem/ESRenderBackendEvidenceReceipt.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["DecisionStatus", "AIWarnings global policy", "never declares completion"]
+    },
+    {
+      "id": "render-evidence-aggregate-report",
+      "path": "Assets/Plugins/ES/0_Stand/BaseDefine_RunTime/ShaderSystem/ESRenderEvidenceAggregateReport.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["DecisionStatus", "AIWarnings global policy", "never declares completion"]
+    },
+    {
+      "id": "render-backend-evidence-store",
+      "path": "Assets/Plugins/ES/Editor/ESShader/ESRenderBackendEvidenceReceiptStore.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["DecisionStatus", "AIWarnings global policy", "never declares completion"]
+    },
+    {
+      "id": "esautomation-center",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESAutomationCenter.cs",
+      "kind": "final-decision",
+      "warningSummaryProvider": "esautomation-center",
+      "requiredMarkers": ["authorityDomain", "authorityRiskClass", "IsStrictAuthorityDomain", "domain-required-for-high-risk", "ESAIWarningsCompletionSummary", "mainWarnings", "summaryRequired", "AuthorityContractRef", "authorityHash", "EnsureContextBinding", "metadataIndexHash", "sourceManifestHash", "warningContext"]
+    },
+    {
+      "id": "aibrain-coordinator",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESAIBrainCoordinator.cs",
+      "kind": "final-decision",
+      "warningSummaryProvider": "aibrain-coordinator",
+      "requiredMarkers": ["authorityDomain", "authorityRiskClass", "MapAuthorityDomain", "MapAuthorityRiskClass", "warningsAuthorityRank", "skillAuthorityRank", "mainWarnings", "warningConsumptionReceiptContractId", "ApplyContext", "warningsMetadataIndexHash", "warningsSourceManifestHash"]
+    },
+    {
+      "id": "abcd-authority-kernel",
+      "path": "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "abcd-authority-kernel",
+      "requiredMarkers": ["Get-ESAuthorityDecisionPolicy", "strictOnUnresolved", "claim-cap", "stop-and-report", "aiWarnings", "mainWarnings"]
+    },
+    {
+      "id": "task-context-runtime",
+      "path": "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["AuthorityDomain", "AuthorityRiskClass", "STRICT_AUTHORITY_REQUIRES_ABCD", "Get-ESAuthorityDecisionPolicy", "Add-ESAIWarningsResultProjection", "task-context-runtime", "aiWarnings"]
+    },
+    {
+      "id": "scene-scan-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESAutomationSceneScanPrototype.cs",
+      "kind": "final-decision",
+      "warningSummaryProvider": "esautomation-center",
+      "requiredMarkers": ["completionDecision", "CanAccept", "authorityDomain", "editor-tooling", "warningContext", "Agent Skills AICommands"]
+    },
+    {
+      "id": "feishu-read-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESFeishuReadAutomation.cs",
+      "kind": "final-decision",
+      "warningSummaryProvider": "esautomation-center",
+      "requiredMarkers": ["completionDecision", "CanAccept", "authorityDomain", "ai-collaboration", "warningContext", "Agent Skills AICommands"]
+    },
+    {
+      "id": "feishu-task-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESFeishuTaskAutomation.cs",
+      "kind": "final-decision",
+      "warningSummaryProvider": "esautomation-center",
+      "requiredMarkers": ["completionDecision", "CanAccept", "authorityDomain", "editor-tooling", "warningContext", "Agent Skills AICommands"]
+    },
+    {
+      "id": "abcd-audit-gate",
+      "path": "ES/Automation/ABCD/ESABCDAuditGate.psm1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["decisionStatus", "AUTHORITY_KERNEL_BLOCKED", "final-gate", "Add-ESAIWarningsResultProjection", "abcd-audit-gate", "aiWarnings"]
+    },
+    {
+      "id": "abcd-certification",
+      "path": "ES/Automation/ABCD/ESABCDCertification.psm1",
+      "kind": "final-decision",
+      "warningSummaryProvider": "global-aiwarnings-result-projection",
+      "requiredMarkers": ["decisionStatus", "eligibleForCertification", "evidence-pending", "Add-ESAIWarningsResultProjection", "abcd-certification", "aiWarnings"]
+    },
+    {
+      "id": "evaluation-worker",
+      "path": "ES/Automation/Workers/PowerShell/Invoke-ESTaskContextEvaluationWorker.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["completionDecision = $null"]
+    },
+    {
+      "id": "weapon-abc-part-toolchain",
+      "path": ".agents/skills/es-weapon-abc-part/scripts/ESAbcPartToolchain.psm1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["candidate/static evidence only", "ABCD/TaskContext", "execution-disabled"]
+    },
+    {
+      "id": "aitalk-aggregation",
+      "path": "ES/Automation/TaskCollaboration/ESAITalkAggregation.psm1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["completionDecisionRequired=$true", "never declares Accepted or Completed", "TaskContextRuntime"]
+    },
+    {
+      "id": "web-ui-abcd-projection",
+      "path": "ES/Automation/WebPageStudio/Convert-ESWebUiAggregateToABCD.ps1",
+      "kind": "projection-only",
+      "requiredMarkers": ["readyForABCD", "promotionAllowed", "does-not-authorize-execution"]
+    },
+    {
+      "id": "web-ui-evidence-aggregate",
+      "path": "ES/Automation/WebPageStudio/Invoke-ESWebUiEvidenceAggregate.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["evidencePolicy", "accepted-requires-four-layer-runtime-receipts", "does-not-authorize-network-browser-or-release"]
+    },
+    {
+      "id": "governance-route-probe",
+      "path": ".agents/skills/es-codex-session-bootstrap/scripts/Invoke-ESGovernanceRouteProbe.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["probeStatus = 'ReadOnly'", "never declares production completion", "productionRouteIntegrated = $false"]
+    },
+    {
+      "id": "aitest-scene-capability-provider",
+      "path": "Assets/Scripts/ESLogic/Runtime/Developer/AITest/ESAITestSceneValidationProvider.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Capability admission only", "never declares task", "conditionMet"]
+    },
+    {
+      "id": "aitest-input-capability-provider",
+      "path": "Assets/Scripts/ESLogic/Runtime/Developer/AITest/ESAITestInputCapabilityProvider.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Capability admission only", "never declares task", "TaskContext/ABCD owns"]
+    },
+    {
+      "id": "es-command-palette-registry",
+      "path": "Assets/Plugins/ES/Editor/EditorTools/ESCommandPalette/ESCommandPaletteRegistry.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Palette admission only", "never declares task completion", "grants execution authority"]
+    },
+    {
+      "id": "userspace-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESUserSpaceAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Worker Completed is an execution result only", "TaskContext/ABCD remains the final decision authority"]
+    },
+    {
+      "id": "teamspace-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESTeamSpaceAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Worker Completed is an execution result only", "TaskContext/ABCD remains the final decision authority"]
+    },
+    {
+      "id": "codex-multilaunch-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESCodexMultiLaunchAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["Invocation Completed/Accepted is orchestration status only", "authoritative downstream decision"]
+    },
+    {
+      "id": "agent-graph-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESAgentGraphAutomationEndpoint.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["orchestration status only", "downstream decision"]
+    },
+    {
+      "id": "automation-ai-bridge",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESAutomationAiBridge.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["orchestration status only", "downstream decision"]
+    },
+    {
+      "id": "feishu-identity-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESFeishuIdentityAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["orchestration status only", "downstream decision"]
+    },
+    {
+      "id": "ui-materializer-endpoint",
+      "path": "Assets/Scripts/ESLogic/Editor/UI/ESUIAutomationMaterializerEndpoint.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["authorityDomain = \"editor-tooling\"", "never declares task completion"]
+    },
+    {
+      "id": "deepseek-harness-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESDeepSeekHarnessAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["orchestration status only", "downstream decision", "never declares task completion"]
+    },
+    {
+      "id": "codex-app-server-automation",
+      "path": "Assets/Plugins/ES/Editor/ESAutomation/ESCodexAppServerAutomation.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["ES 保留用户授权", "候选", "ESAutomationRunStatus.Completed"]
+    },
+    {
+      "id": "render-evidence-report",
+      "path": "Assets/Plugins/ES/0_Stand/BaseDefine_RunTime/ShaderSystem/ESRenderEvidenceReport.cs",
+      "kind": "candidate-only",
+      "requiredMarkers": ["decisionStatus", "TryCreate", "ESRenderEvidenceBatchDecision"]
+    },
+    {
+      "id": "web-deep-design-generator",
+      "path": "ES/Automation/WebPageStudio/Invoke-ESWebPageStudioDeepDesign.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["designStatus='accepted'", "runtimeStatus='runtime-not-run'", "nonClaims"]
+    },
+    {
+      "id": "web-preflight-generator",
+      "path": "ES/Automation/WebPageStudio/Invoke-ESWebPageStudioPreflight.ps1",
+      "kind": "candidate-only",
+      "requiredMarkers": ["P0_DESIGN_NOT_ACCEPTED", "promptPlan", "capabilityProfile"]
+    }
+  ]
+}

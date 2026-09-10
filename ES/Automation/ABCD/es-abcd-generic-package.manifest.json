@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "packageId": "es-abcd-generic-portable.v1",
+  "businessFree": true,
+  "requiredDirectories": [".agents/skills/es-ai-abc-core", ".agents/skills/es-agent-mechanism-replication", "ES/Automation/ABCD", "ES/Automation/Contracts", "ES/Automation/TaskContextRuntime", "ES/Automation/Workers/PowerShell"],
+  "excludedDomains": ["gameplay", "Unity scenes", "AIKnowledge", "AIWarnings", "credentials", "provider configuration"],
+  "anchorFiles": [".agents/skills/es-ai-abc-core/SKILL.md", ".agents/skills/es-agent-mechanism-replication/SKILL.md", "ES/Automation/ABCD/ESABCInnovationRun.psm1", "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1", "ES/Automation/ABCD/ESABCDOrchestrator.psm1", "ES/Automation/Contracts/es-ai-abc-core-v1.json", "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json", "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1"],
+  "restoreScript": "ES/Automation/ABCD/Restore-ESABCDGenericPackage.ps1",
+  "verification": {"hashAlgorithm":"SHA256", "missingIsFailure":true, "hashMismatch":"review-required", "runtimeClaimsRequireFreshReceipt":true}
+}
