@@ -56,35 +56,61 @@
 
 ---
 
-## 60 秒上手
+## 极简一键接入（推荐）
 
-> Windows 若没有 `pwsh`，把下面的 `pwsh` 全部换成 `powershell` 即可。
+在你的**项目根目录**打开 PowerShell，执行**一条命令**：
 
 ```powershell
-# 1) 克隆
-git clone https://github.com/0everey/es-abcd.git
-cd es-abcd
-
-# 2) 检查本包是否完整
-powershell -File .\scripts\Test-ESABCDPackageLayout.ps1
-
-# 3) 强自主验收（不依赖原生 ES 游戏仓；在本包根即可）
-powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
-
-# 4)（可选）安装到你的项目根目录
-powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot 'C:\path\to\你的项目'
-
-# 5)（可选）对目标项目冒烟
-powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot 'C:\path\to\你的项目' -Mode engineering
+powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1)"
 ```
 
-成功时应看到：
+指定目标目录：
 
-- 自主套件：`ABCD AUTONOMY SUITE: passed`
-- 冒烟：`ABCD smoke PASSED`
-- 回执在 `ES\Automation\ABCD\out\`
-- 字段：`status=passed`，`runtimeStatus=runtime-not-run`（**正常**，表示未做运行时验收）
-- 自主回执含：`requiresESFramework: false`
+```powershell
+$get = irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1
+& ([scriptblock]::Create($get)) -TargetRoot 'C:\work\MyApp' -Force
+```
+
+**一键会自动完成：**
+
+1. 缓存/更新 `es-abcd`（`%LOCALAPPDATA%\es-abcd\repo`，或使用已有本地克隆）  
+2. 布局检查  
+3. 叠加安装到目标项目  
+4. Smoke 验收（静态；`runtime-not-run` 为预期）  
+5. 生成日常入口 `ES\Automation\ABCD\Use-ESABCD.ps1`  
+
+**装完当天用法：**
+
+```powershell
+cd C:\path\to\你的项目
+. .\ES\Automation\ABCD\Use-ESABCD.ps1
+Invoke-ESABCDQuick -Requirement "冻结三层架构并写清所有权"
+```
+
+| 约束 | 说明 |
+|---|---|
+| 不需要 | 原生 ESFramework 游戏仓、Unity、AIWarnings 语料 |
+| 需要 | PowerShell 5.1+、Git（首次拉包）、网络（首次 `irm`/`git clone`） |
+| 不宣称 | PlayMode / 发布通过（须另有运行时回执） |
+
+本地已克隆本仓时：
+
+```powershell
+powershell -File .\get.ps1 -TargetRoot 'C:\path\to\你的项目'
+# 或
+powershell -File .\scripts\OneClick-Install.ps1 -TargetRoot 'C:\path\to\你的项目'
+```
+
+### 分步上手（需要细控时）
+
+```powershell
+git clone https://github.com/0everey/es-abcd.git
+cd es-abcd
+powershell -File .\scripts\Test-ESABCDPackageLayout.ps1
+powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
+powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot 'C:\path\to\你的项目'
+powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot 'C:\path\to\你的项目'
+```
 
 升级已安装项目：
 
