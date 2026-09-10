@@ -2,13 +2,14 @@
 
 ## 用户可以说的话（示例）
 
-> es-abcd 在 `D:\tools\es-abcd`。请安装到项目 `F:\work\MyGame`，并给出迁移适配清单，用人话汇报。
+> es-abcd 在 `<es-abcd根路径>`。请安装到项目 `<项目根路径>`，并给出迁移适配清单，用人话汇报。
 
-等价说法（**必须带路径，禁止只说「装到我电脑上」**）：
+等价说法（**必须带用户真实绝对路径，禁止假盘符、禁止只说「装到我电脑上」**）：
 
-- es-abcd 包目录是 `…`，项目根是 `…`，请安装并出清单  
-- 安装 ABCD 到 `F:\work\MyGame`（若包路径已知或可探测则先确认）  
-- one-click install：package=`…` target=`…` + checklist  
+- es-abcd 包目录是 `<es-abcd根路径>`，项目根是 `<项目根路径>`，请安装并出清单  
+- 安装 ABCD 到 `<项目根路径>`（包路径已知或可探测则先向用户确认）  
+- one-click install：package=`<es-abcd根路径>` target=`<项目根路径>` + checklist  
+
 
 若用户没给路径：先问清 **es-abcd 目录** 与 **目标项目根** 两个绝对路径，再动手。
 

@@ -11,7 +11,7 @@
   已执行 Install-ESABCD 的目标项目根目录。
 
 .EXAMPLE
-  powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot C:\work\MyProject
+  powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot <项目根路径>
 #>
 [CmdletBinding()]
 param(
@@ -129,6 +129,29 @@ if ([string]$mono.status -cne 'passed') {
     throw "ABCD_MONO_SEMANTIC_NOT_PASSED: $($mono.findings -join ';')"
 }
 
+# Generation mode mapping: ABCD mode/function/level -> creative|engineering|stable only.
+$genMapScript = Join-Path $abcd 'Test-ESABCDModeFunctionLevelMapping.ps1'
+if (-not (Test-Path -LiteralPath $genMapScript -PathType Leaf)) {
+    $genMapScript = Join-Path $monoPackageRoot 'ES\Automation\ABCD\Test-ESABCDModeFunctionLevelMapping.ps1'
+}
+if (-not (Test-Path -LiteralPath $genMapScript -PathType Leaf)) {
+    throw "Missing generation-mode mapping test: $genMapScript"
+}
+$genMapRoot = $monoPackageRoot
+$genMapRaw = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $genMapScript -ProjectRoot $genMapRoot 2>&1
+if ($LASTEXITCODE -ne 0) {
+    throw "ABCD_MODE_FUNCTION_LEVEL_MAPPING_FAILED: $genMapRaw"
+}
+$genMapText = ($genMapRaw | ForEach-Object { "$_" }) -join "`n"
+if ($genMapText -match '(?s)\{.*\}\s*$') {
+    $genMap = ($Matches[0] | ConvertFrom-Json)
+} else {
+    $genMap = ($genMapText | ConvertFrom-Json)
+}
+if ([string]$genMap.status -cne 'passed') {
+    throw "ABCD_MODE_FUNCTION_LEVEL_MAPPING_NOT_PASSED: $($genMap.findings -join ';')"
+}
+
 $receipt = [ordered]@{
     schemaVersion = 1
     recordType = 'ESABCDSmokeReceipt'
@@ -151,6 +174,11 @@ $receipt = [ordered]@{
         onlyModeId = [string]$mono.onlyModeId
         semanticCardinality = [int]$mono.semanticCardinality
         engineeringFourLetterNeverCorrect = [bool]$mono.engineeringFourLetterNeverCorrect
+    }
+    modeFunctionLevelMapping = [ordered]@{
+        status = [string]$genMap.status
+        mapsTo = @('creative-divergence', 'engineering', 'stable')
+        notArchitectureIdentities = @('ABCD.Dynamic', 'ABCC.Core', 'ABCP.Part')
     }
     runtimeStatus = 'runtime-not-run'
     nonClaims = @('Unity','PlayMode','Profiler','Player','Release','provider-completed-final-decision')

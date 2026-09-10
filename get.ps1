@@ -2,7 +2,7 @@
 # Usage (from ANY project root):
 #   powershell -NoProfile -ExecutionPolicy Bypass -Command "iex (irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1)"
 # Or with explicit target:
-#   iex "& { $(irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1) } -TargetRoot 'C:\work\MyApp'"
+#   iex "& { $(irm https://raw.githubusercontent.com/0everey/es-abcd/main/get.ps1) } -TargetRoot '<项目根路径>'"
 #
 # Local (already cloned):
 #   powershell -File .\get.ps1 -TargetRoot .

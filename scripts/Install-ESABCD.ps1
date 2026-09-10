@@ -17,7 +17,7 @@
   当哈希不一致时覆盖目标文件（用于升级）。
 
 .EXAMPLE
-  powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot C:\work\MyProject
+  powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot <项目根路径>
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param(

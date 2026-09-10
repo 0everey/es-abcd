@@ -1,7 +1,7 @@
 # Generate migration/adaptation checklist after es-abcd install.
 # ASCII-primary for Windows PowerShell 5.1 parser safety.
 # Usage:
-#   powershell -File .\scripts\New-ESABCDAdaptChecklist.ps1 -TargetRoot C:\work\MyApp -OutMarkdown
+#   powershell -File .\scripts\New-ESABCDAdaptChecklist.ps1 -TargetRoot <项目根路径> -OutMarkdown
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$TargetRoot,

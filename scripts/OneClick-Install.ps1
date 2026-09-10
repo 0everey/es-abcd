@@ -1,7 +1,7 @@
 # Local one-click wrapper (when you already cloned es-abcd).
 # From your app root OR from this repo:
 #   powershell -File <es-abcd>\scripts\OneClick-Install.ps1
-#   powershell -File <es-abcd>\scripts\OneClick-Install.ps1 -TargetRoot C:\work\MyApp -Force
+#   powershell -File <es-abcd>\scripts\OneClick-Install.ps1 -TargetRoot <项目根路径> -Force
 [CmdletBinding()]
 param(
     [string]$TargetRoot = '',

@@ -140,6 +140,31 @@ if ((Test-Path -LiteralPath $monoScript -PathType Leaf)) {
     Add-Case 'mono-semantic-authority-passed' $false 'script-missing'
 }
 
+# ABCD mode/function/level maps to generation modes only (not Dynamic/Core/Part).
+$genMapScript = Join-Path $PackageRoot 'ES\Automation\ABCD\Test-ESABCDModeFunctionLevelMapping.ps1'
+$genMapResolver = Join-Path $PackageRoot 'ES\Automation\ABCD\Resolve-ESABCDGenerationMode.ps1'
+Add-Case 'generation-mode-mapping-scripts-present' (
+    (Test-Path -LiteralPath $genMapScript -PathType Leaf) -and
+    (Test-Path -LiteralPath $genMapResolver -PathType Leaf)
+) 'Test+Resolve'
+if (Test-Path -LiteralPath $genMapScript -PathType Leaf) {
+    try {
+        $gmRaw = & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $genMapScript -ProjectRoot $PackageRoot 2>&1
+        $gmExit = $LASTEXITCODE
+        $gmObj = $null
+        try { $gmObj = ($gmRaw | Out-String | ConvertFrom-Json) } catch { $gmObj = $null }
+        $gmOk = ($gmExit -eq 0 -and $null -ne $gmObj -and [string]$gmObj.status -eq 'passed')
+        Add-Case 'abcd-mode-function-level-maps-generation-only' $gmOk $(
+            if ($null -ne $gmObj) { "status=$([string]$gmObj.status)" } else { "exit=$gmExit" }
+        )
+    }
+    catch {
+        Add-Case 'abcd-mode-function-level-maps-generation-only' $false $_.Exception.Message
+    }
+} else {
+    Add-Case 'abcd-mode-function-level-maps-generation-only' $false 'script-missing'
+}
+
 $caseArray = @($cases.ToArray())
 $failed = @($caseArray | Where-Object { $_.status -eq 'failed' })
 $status = if ($failed.Count) { 'failed' } else { 'passed' }
