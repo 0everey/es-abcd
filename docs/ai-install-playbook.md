@@ -2,23 +2,26 @@
 
 ## 用户可以说的话（示例）
 
-> 把 es-abcd 安装到 `F:\work\MyGame`，并给出迁移适配清单。
+> es-abcd 在 `D:\tools\es-abcd`。请安装到项目 `F:\work\MyGame`，并给出迁移适配清单，用人话汇报。
 
-等价说法：
+等价说法（**必须带路径，禁止只说「装到我电脑上」**）：
 
-- 安装 ABCD 到 XXX 项目  
-- 接入 es-abcd 到当前仓库  
-- one-click install to `<path>` + checklist  
+- es-abcd 包目录是 `…`，项目根是 `…`，请安装并出清单  
+- 安装 ABCD 到 `F:\work\MyGame`（若包路径已知或可探测则先确认）  
+- one-click install：package=`…` target=`…` + checklist  
+
+若用户没给路径：先问清 **es-abcd 目录** 与 **目标项目根** 两个绝对路径，再动手。
 
 ## Agent 必须执行的固定步骤（不得跳步）
 
-1. **确认本地包**  
-   - 优先：用户已下载/克隆的 `es-abcd` 根（含 `get.ps1`、`package/es-abcd-portable.manifest.json`）  
-   - 否则：`git clone https://github.com/0everey/es-abcd.git` 到约定缓存或用户指定目录  
+1. **确认本地包路径（向用户要或核对）**  
+   - 必须是含 `get.ps1`、`package/es-abcd-portable.manifest.json` 的目录  
+   - 用户未提供时：询问；不要用「电脑上」这种模糊词糊弄  
 
-2. **确认目标项目根 `TargetRoot`**  
+2. **确认目标项目根 `TargetRoot`（绝对路径）**  
    - 必须是已存在目录，或经用户授权可创建  
-   - 不得把 es-abcd 自己的仓根当成业务项目根（除非用户明确要求）  
+   - 不得把 es-abcd 仓根当成业务项目根（除非用户明确要求）  
+   - 回报安装结果时写**绝对路径**，不要只写「已装到项目里」  
 
 3. **一键安装（唯一推荐命令）**
 
