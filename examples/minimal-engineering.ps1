@@ -1,6 +1,6 @@
-# Minimal engineering divergence example (run after Install-ESABCD into a project).
-# Usage:
-#   pwsh -File examples/minimal-engineering.ps1 -ProjectRoot C:\path\to\YourProject
+# 最小 engineering 发散示例（请先 Install-ESABCD 到目标项目）
+# 用法：
+#   powershell -File examples/minimal-engineering.ps1 -ProjectRoot C:\path\to\你的项目
 
 [CmdletBinding()]
 param(
@@ -17,10 +17,9 @@ $contract = "$ProjectRoot\ES\Automation\Contracts\es-ai-abc-generation-mode-v1.j
 $hash = (Get-FileHash -LiteralPath $contract -Algorithm SHA256).Hash.ToLowerInvariant()
 
 $requirement = @'
-Freeze three architecture layers for a multi-domain product:
-(1) platform domains, (2) definition tables, (3) physical/query layers.
-Forbidden: encode faction rules as physics layers; add a fourth platform domain;
-bypass the single execution gateway.
+冻结产品三层架构：
+(1) 平台域，(2) 定义表，(3) 物理/查询层。
+禁止：用物理层表达阵营；新增第四平台域；绕过唯一执行入口。
 '@
 
 $div = Invoke-ESABCModeDivergence `
@@ -31,7 +30,7 @@ $div = Invoke-ESABCModeDivergence `
 
 $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode engineering
 
-Write-Host "directions=$($div.directionCount) selected=$($sel.selectedDirectionId)"
+Write-Host "方向数=$($div.directionCount) 选中=$($sel.selectedDirectionId)"
 Write-Host "claimLevel=$($sel.claimLevel) selectionStatus=$($sel.selectionStatus)"
 Write-Host "candidateSetHash=$($div.candidateSetHash)"
-Write-Host "runtimeStatus=runtime-not-run (expected for this example)"
+Write-Host "runtimeStatus=runtime-not-run（本示例预期如此）"

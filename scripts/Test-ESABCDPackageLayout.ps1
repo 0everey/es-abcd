@@ -1,6 +1,8 @@
 <#
 .SYNOPSIS
-  Verify this repository contains the portable ABCD layout.
+  检查本仓库是否具备可移植 ABCD 布局（安装前自检）。
+.EXAMPLE
+  powershell -File .\scripts\Test-ESABCDPackageLayout.ps1
 #>
 [CmdletBinding()]
 param(

@@ -1,17 +1,17 @@
 <#
 .SYNOPSIS
-  Smoke-test ABCD portable core inside a project root (static only).
+  在目标项目根目录对 ABCD 可移植核心做冒烟测试（仅静态）。
 
 .DESCRIPTION
-  Loads authority + divergence modules, runs an engineering-mode divergence
-  and candidate selection, and emits a machine-readable receipt. Never starts
-  Unity and never claims PlayMode/runtime acceptance.
+  加载权威与发散模块，跑 engineering（可改）发散与候选选择，写出机器可读回执。
+  不启动 Unity，不声称 PlayMode/运行时验收通过。
+  成功时 runtimeStatus 一般为 runtime-not-run（表示未做运行时层验收）。
 
 .PARAMETER ProjectRoot
-  Project that already contains ES/Automation/ABCD (after Install-ESABCD).
+  已执行 Install-ESABCD 的目标项目根目录。
 
 .EXAMPLE
-  ./scripts/Invoke-ESABCDSmoke.ps1 -ProjectRoot C:\work\MyProject
+  powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot C:\work\MyProject
 #>
 [CmdletBinding()]
 param(

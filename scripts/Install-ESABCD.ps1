@@ -1,23 +1,23 @@
 <#
 .SYNOPSIS
-  Install the ES ABCD portable core into a target project root.
+  将 ES ABCD 可移植核心安装（叠加）到目标项目根目录。
 
 .DESCRIPTION
-  Overlays ABCD automation modules, contracts, TaskContextRuntime, minimal AI
-  support modules, and Skill folders into an existing project. Does not run
-  Unity, does not write credentials, and does not claim runtime acceptance.
+  把 ABCD 模块、合同、TaskContextRuntime、最小 AI 辅助与 Skill 目录叠加进现有项目。
+  不启动 Unity、不写入凭据、不声称运行时验收通过。
+  Windows 可用系统自带 powershell 运行本脚本（不一定需要 pwsh）。
 
 .PARAMETER PackageRoot
-  Root of this es-abcd repository (defaults to parent of /scripts).
+  本 es-abcd 仓库根目录（默认：scripts 的上一级）。
 
 .PARAMETER TargetRoot
-  Destination project root that will receive the overlay.
+  接收叠加文件的目标项目根目录。
 
 .PARAMETER Force
-  Replace files that already exist when content hashes differ.
+  当哈希不一致时覆盖目标文件（用于升级）。
 
 .EXAMPLE
-  ./scripts/Install-ESABCD.ps1 -TargetRoot C:\work\MyProject
+  powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot C:\work\MyProject
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param(
@@ -125,6 +125,6 @@ $markerPath = Join-Path $markerDir 'es-abcd-install.receipt.json'
     replaced = $replaced.Count
     skipped = $skipped.Count
     receipt = $markerPath
-    nextStep = 'pwsh -File <package>/scripts/Invoke-ESABCDSmoke.ps1 -ProjectRoot <target>'
+    nextStep = 'powershell -File <package>/scripts/Invoke-ESABCDSmoke.ps1 -ProjectRoot <target>'
     nonClaims = @($manifest.nonClaims)
 } | ConvertTo-Json -Depth 6
