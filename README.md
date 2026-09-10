@@ -53,7 +53,7 @@ No Unity Editor is required for install or smoke.
 
 ```powershell
 # 1) Clone
-git clone https://github.com/<YOUR_USER>/es-abcd.git
+git clone https://github.com/0everey/es-abcd.git
 cd es-abcd
 
 # 2) Verify package layout
