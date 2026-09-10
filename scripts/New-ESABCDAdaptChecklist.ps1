@@ -48,6 +48,22 @@ $hasEsFrameworkMarkers = (Test-Rel 'Assets\Plugins\ES') -or (Test-Rel 'AGENTS.md
 $hasUnity = (Test-Rel 'Assets') -and (Test-Rel 'ProjectSettings')
 $hasOut = Test-Rel 'ES\Automation\ABCD\out'
 
+# Load adaptive project profile if present
+$profileObj = $null
+foreach ($pp in @(
+        (Join-Path $TargetRoot 'ES\Automation\ABCD\out\project-profile.json'),
+        (Join-Path $TargetRoot '.es-abcd-out\project-profile-preinstall.json')
+    )) {
+    if (Test-Path -LiteralPath $pp -PathType Leaf) {
+        try { $profileObj = Get-Content -LiteralPath $pp -Raw -Encoding UTF8 | ConvertFrom-Json; break } catch { }
+    }
+}
+$primaryKind = if ($profileObj) { [string]$profileObj.primaryKind } else { 'unknown' }
+$profileKinds = if ($profileObj) { @($profileObj.kinds | ForEach-Object { [string]$_ }) } else { @() }
+
+Add-Check 'profile.detected' ("Project profile: $primaryKind") $(if ($profileObj) { 'done' } else { 'review' }) `
+    'Run get.ps1 (writes project-profile) or Get-ESABCDProjectProfile.ps1' 'Adaptive install depends on project analysis.'
+
 Add-Check 'install.core' 'Core overlay present' $(if ($hasHome -and $hasContracts) { 'done' } else { 'todo' }) `
     'Run get.ps1 -TargetRoot <this project>' 'Without overlay, ABCD APIs are missing.'
 
@@ -106,6 +122,12 @@ Add-Check 'migrate.old-scripts' 'Retire ad-hoc ABCD copies' 'review' `
 Add-Check 'migrate.import-sites' 'Update call sites to Invoke-ESABCDQuick' 'todo' `
     'Replace hand-rolled Import-Module stacks with Use-ESABCD.ps1' 'Reduces agent/human friction.'
 
+if ($profileObj) {
+    Add-Check 'adapt.strategy' 'Follow adaptive strategy from profile' 'review' `
+        ([string](($profileObj.recommendedActions | ForEach-Object { [string]$_ }) -join ' / ')) `
+        ([string]$profileObj.humanSummary)
+}
+
 $arr = @($checks.ToArray())
 $done = @($arr | Where-Object { $_.status -eq 'done' }).Count
 $todo = @($arr | Where-Object { $_.status -eq 'todo' }).Count
@@ -118,6 +140,11 @@ $doc = [pscustomobject]@{
     targetRoot      = $TargetRoot
     packageRoot     = $PackageRoot
     generatedUtc    = [DateTime]::UtcNow.ToString('o')
+    projectProfile  = [pscustomobject]@{
+        primaryKind = $primaryKind
+        kinds       = $profileKinds
+        humanSummary = $(if ($profileObj) { [string]$profileObj.humanSummary } else { '' })
+    }
     summary         = [pscustomobject]@{ total = $arr.Count; done = $done; todo = $todo; review = $review }
     independence    = [pscustomobject]@{
         productId           = 'es-abcd'
@@ -125,6 +152,7 @@ $doc = [pscustomobject]@{
         requiresUnity       = $false
         esFrameworkMarkers  = [bool]$hasEsFrameworkMarkers
         unityProject        = [bool]$hasUnity
+        anyProjectSupported = $true
     }
     installDetected = [pscustomobject]@{
         core      = $hasHome
@@ -157,6 +185,11 @@ if ($OutMarkdown) {
     [void]$lines.Add('- **targetRoot**: `' + $TargetRoot + '`')
     [void]$lines.Add('- **generatedUtc**: ' + $doc.generatedUtc)
     [void]$lines.Add('- **independence**: requiresESFramework=false')
+    [void]$lines.Add('- **projectKind**: ' + $primaryKind)
+    [void]$lines.Add('- **kinds**: ' + ($profileKinds -join ', '))
+    if ($profileObj -and $profileObj.humanSummary) {
+        [void]$lines.Add('- **analysis**: ' + [string]$profileObj.humanSummary)
+    }
     [void]$lines.Add('- **summary**: total=' + $arr.Count + ' done=' + $done + ' todo=' + $todo + ' review=' + $review)
     [void]$lines.Add('')
     [void]$lines.Add('## Daily use')

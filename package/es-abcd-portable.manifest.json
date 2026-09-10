@@ -27,6 +27,7 @@
     "README.md",
     "LICENSE",
     "docs/independence.md",
+    "docs/naming-abcd.md",
     "ES/Automation/ABCD/ESABCInnovationRun.psm1",
     "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
     "ES/Automation/ABCD/ESABCDHome.psm1",
@@ -36,6 +37,8 @@
     "ES/Automation/ABCD/ESABCDDivergence.psm1",
     "ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1",
     "ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1",
+    "ES/Automation/ABCD/Resolve-ESABCDGenerationMode.ps1",
+    "ES/Automation/ABCD/Test-ESABCDModeFunctionLevelMapping.ps1",
     "ES/Automation/Contracts/es-ai-abc-core-v1.json",
     "ES/Automation/Contracts/es-ai-abc-innovation-run-v1.schema.json",
     "ES/Automation/Contracts/es-ai-abc-scoring-v1.json",
@@ -44,11 +47,15 @@
     "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
     ".agents/skills/es-ai-abc-core/SKILL.md",
     "get.ps1",
+    "get.ps1",
     "scripts/Install-ESABCD.ps1",
+    "scripts/Get-ESABCDProjectProfile.ps1",
     "scripts/OneClick-Install.ps1",
     "scripts/Invoke-ESABCDSmoke.ps1",
     "scripts/Invoke-ESABCDAutonomySuite.ps1",
-    "docs/one-click.md"
+    "scripts/New-ESABCDAdaptChecklist.ps1",
+    "docs/one-click.md",
+    "docs/ai-install-playbook.md"
   ],
   "excludedDomains": [
     "gameplay",

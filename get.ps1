@@ -121,6 +121,43 @@ foreach ($p in @($install, $smoke, $layout)) {
     }
 }
 
+
+# --- adaptive project analysis (any project) ---
+Write-Step 'analyze target project'
+$profileScript = Join-Path $(if ($selfRoot) { $selfRoot } else { if ($PSScriptRoot) { $PSScriptRoot } else { (Get-Location).Path } }) 'scripts\Get-ESABCDProjectProfile.ps1'
+if (-not (Test-Path -LiteralPath $profileScript)) {
+    if ($selfRoot) { $profileScript = Join-Path $selfRoot 'scripts\Get-ESABCDProjectProfile.ps1' }
+}
+if (-not (Test-Path -LiteralPath $profileScript) -and (Test-Path -LiteralPath (Join-Path $pkg 'scripts\Get-ESABCDProjectProfile.ps1'))) {
+    $profileScript = Join-Path $pkg 'scripts\Get-ESABCDProjectProfile.ps1'
+}
+$projectProfile = $null
+$projectProfilePath = $null
+if (Test-Path -LiteralPath $profileScript -PathType Leaf) {
+    $pkgForProfile = $(if ($selfRoot) { $selfRoot } elseif (Test-Path (Join-Path $pkg 'package\es-abcd-portable.manifest.json')) { $pkg } else { (Resolve-Path (Join-Path (Split-Path $profileScript -Parent) '..')).Path })
+    $rawProfile = & powershell -NoProfile -ExecutionPolicy Bypass -File $profileScript -TargetRoot $TargetRoot -PackageRoot $pkgForProfile 2>&1 | Out-String
+    try { $projectProfile = $rawProfile | ConvertFrom-Json } catch { Write-WarnLine 'profile JSON parse failed'; $projectProfile = $null }
+    if ($null -ne $projectProfile) {
+        Write-Host ('  primaryKind : ' + [string]$projectProfile.primaryKind)
+        Write-Host ('  kinds       : ' + ((@($projectProfile.kinds) | ForEach-Object { [string]$_ }) -join ', '))
+        Write-Host ('  human       : ' + [string]$projectProfile.humanSummary)
+        if ([bool]$projectProfile.strategy.blockInstall) {
+            throw ('INSTALL_BLOCKED: ' + [string]$projectProfile.humanSummary)
+        }
+        if ([bool]$projectProfile.strategy.forceRecommended -and -not $Force) {
+            Write-WarnLine 'Adaptive install enables -Force (upgrade/refresh recommended by profile).'
+            $Force = $true
+        }
+        $earlyOut = Join-Path $TargetRoot '.es-abcd-out'
+        New-Item -ItemType Directory -Force -Path $earlyOut | Out-Null
+        $projectProfilePath = Join-Path $earlyOut 'project-profile-preinstall.json'
+        [IO.File]::WriteAllText($projectProfilePath, ($projectProfile | ConvertTo-Json -Depth 10), [Text.UTF8Encoding]::new($false))
+        Write-Ok ('wrote ' + $projectProfilePath)
+    }
+} else {
+    Write-WarnLine 'project profiler missing; continue generic'
+}
+
 Write-Step 'layout check'
 & powershell -NoProfile -ExecutionPolicy Bypass -File $layout -PackageRoot $pkg
 if ($LASTEXITCODE -ne 0) { throw 'LAYOUT_FAILED' }
@@ -220,6 +257,24 @@ if (-not $SkipChecklist) {
     }
 }
 
+$outDir = Join-Path $TargetRoot 'ES\Automation\ABCD\out'
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+# Move/copy preinstall profile into official out dir
+$profileOutPath = $null
+if ($projectProfilePath -and (Test-Path -LiteralPath $projectProfilePath)) {
+    $profileOutPath = Join-Path $outDir 'project-profile.json'
+    Copy-Item -LiteralPath $projectProfilePath -Destination $profileOutPath -Force
+}
+
+$kindStr = 'unknown'
+$kindsArr = @()
+$humanStr = ''
+if ($null -ne $projectProfile) {
+    $kindStr = [string]$projectProfile.primaryKind
+    $kindsArr = @($projectProfile.kinds | ForEach-Object { [string]$_ })
+    $humanStr = [string]$projectProfile.humanSummary
+}
 $receipt = [pscustomobject]@{
     schemaVersion = 1
     recordType = 'ESABCDOneClickReceipt'
@@ -229,41 +284,39 @@ $receipt = [pscustomobject]@{
     governanceMode = 'portable'
     requiresESFramework = $false
     requiresUnity = $false
+    adaptive = $true
+    projectPrimaryKind = $kindStr
+    projectKinds = $kindsArr
+    projectHumanSummary = $humanStr
+    projectProfilePath = $profileOutPath
     smokeReceipt = $smokeReceipt
     shim = $shim
     adaptChecklistJson = $checklistJson
     adaptChecklistMarkdown = $checklistMd
     aiPlaybook = 'docs/ai-install-playbook.md'
     next = @(
-        '. .\ES\Automation\ABCD\Use-ESABCD.ps1',
-        'Invoke-ESABCDQuick -Requirement "your architecture goal"',
-        'Open adapt-checklist-*.md and close todo/review items'
+        'Read project-profile.json humanSummary',
+        'Open adapt-checklist-*.md',
+        'Use README mode scenarios with YOUR project path'
     )
-    sayToAi = 'Install es-abcd to this project and refresh the adapt checklist.'
+    sayToAi = 'Install es-abcd from <es-abcd-root> into <project-root>: analyze first, then adapt, then checklist. Report in plain language.'
     runtimeStatus = 'runtime-not-run'
-    nonClaims = @('Unity','PlayMode','Profiler','Player','Release')
+    nonClaims = @('Unity', 'PlayMode', 'Profiler', 'Player', 'Release')
     capturedUtc = [DateTime]::UtcNow.ToString('o')
 }
-$outDir = Join-Path $TargetRoot 'ES\Automation\ABCD\out'
-New-Item -ItemType Directory -Force -Path $outDir | Out-Null
 $outPath = Join-Path $outDir ('oneclick-' + [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss') + '.json')
-[IO.File]::WriteAllText($outPath, ($receipt | ConvertTo-Json -Depth 6), [Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText($outPath, ($receipt | ConvertTo-Json -Depth 8), [Text.UTF8Encoding]::new($false))
 
 Write-Host ''
 Write-Host '======== DONE ========' -ForegroundColor Green
-Write-Host '  Install + smoke finished (static).'
+Write-Host '  Analyzed project + adaptive install + smoke (static).'
+Write-Host ('  Project kind: ' + $kindStr)
 Write-Host '  ESFramework host: NOT required'
 Write-Host '  Unity / PlayMode : NOT claimed'
 Write-Host ''
-Write-Host '  Daily use:'
-Write-Host ('    cd ' + $TargetRoot)
-Write-Host '    . .\ES\Automation\ABCD\Use-ESABCD.ps1'
-Write-Host '    Invoke-ESABCDQuick -Requirement "your goal"'
-Write-Host ''
-Write-Host '  Say to AI next time:'
-Write-Host '    Install es-abcd to this project and refresh the adapt checklist.'
+if ($profileOutPath) { Write-Host ('  Profile  : ' + $profileOutPath) }
 if ($checklistMd) { Write-Host ('  Checklist: ' + $checklistMd) }
-Write-Host ('  Receipt: ' + $outPath)
+Write-Host ('  Receipt  : ' + $outPath)
 Write-Host '======================' -ForegroundColor Green
 Write-Host ''
-$receipt | ConvertTo-Json -Depth 5
+$receipt | ConvertTo-Json -Depth 6

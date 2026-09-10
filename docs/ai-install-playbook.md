@@ -24,24 +24,33 @@
    - 不得把 es-abcd 仓根当成业务项目根（除非用户明确要求）  
    - 回报安装结果时写**绝对路径**，不要只写「已装到项目里」  
 
-3. **一键安装（唯一推荐命令）**
+3. **一键安装（会先自动分析项目再接入）**
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "<es-abcd>/get.ps1" -TargetRoot "<TargetRoot>" -Force
 ```
 
-4. **生成迁移/适配清单**
+`get.ps1` 内部顺序：分析项目画像 → 按类型调整（如已安装则刷新、禁止装进 es-abcd 自身）→ 叠加安装 → Smoke → 清单。
+
+也可单独分析：
+
+```powershell
+powershell -File "<es-abcd>/scripts/Get-ESABCDProjectProfile.ps1" -TargetRoot "<TargetRoot>"
+```
+
+4. **生成迁移/适配清单**（`get.ps1` 已含；可重跑）
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File "<es-abcd>/scripts/New-ESABCDAdaptChecklist.ps1" -TargetRoot "<TargetRoot>" -OutMarkdown
 ```
 
-5. **向用户回报（固定结构）**  
+5. **向用户回报（固定结构，说人话）**  
+   - 项目被识别成什么（primaryKind / kinds）  
    - 安装结果：`passed/failed`  
-   - 回执路径：`oneclick-*.json` / `smoke-*.json`  
-   - 清单路径：`ES/Automation/ABCD/out/adapt-checklist-*.md`  
-   - 日常两行用法  
-   - **明确**：`requiresESFramework=false`；`runtime-not-run`；未宣称 PlayMode/发布通过  
+   - 画像路径：`…/out/project-profile.json`  
+   - 回执：`oneclick-*.json` / `smoke-*.json`  
+   - 清单：`adapt-checklist-*.md`  
+   - **明确**：任意常见工程均可叠加；`requiresESFramework=false`；`runtime-not-run`；未宣称 PlayMode/发布通过  
 
 ## Agent 禁止事项
 
