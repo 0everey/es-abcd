@@ -1,6 +1,8 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot '..\AI\ESAuthorityDecisionPolicy.psm1') -Force
+Import-Module (Join-Path $PSScriptRoot 'ESABCDPortableAuthority.psm1') -Force -Global
 
 # This is the single canonical capability vocabulary for the ABCD/ABCC boundary.
 # Mode profiles may select a bounded subset, but Dynamic and Core must remain
@@ -73,13 +75,20 @@ function Test-ESABCDCompleteDivergence {
 }
 
 function Get-ESABCDGlobalWarningsSummary {
-    $contractPath = Join-Path $PSScriptRoot '..\Contracts\es-aiwarnings-global-authority-v1.json'
-    $hash = if (Test-Path -LiteralPath $contractPath) { (Get-FileHash -LiteralPath $contractPath -Algorithm SHA256).Hash.ToLowerInvariant() } else { '' }
+    # Portable-first: never requires ESFramework AIWarnings corpus.
+    $holder = Add-ESABCDPortableGovernanceProjection -Result ([pscustomobject]@{}) -ContextText 'delivery claim boundary runtime-not-run' -Domain 'ai-collaboration' -ConsumerId 'abcd-authority-kernel'
+    $w = $holder.aiWarnings
     [pscustomobject][ordered]@{
-        authorityId = 'es.aiwarnings.global.default'; authorityRank = 2; skillAuthorityRank = 1
-        authorityHash = $hash; matchedRuleIds = @('es.aiwarning.p0.ai-delivery-claim-boundary')
-        mainWarnings = @([pscustomobject][ordered]@{ ruleId = 'es.aiwarning.p0.ai-delivery-claim-boundary'; severity = 'P0'; decision = 'claim-cap' })
-        policyDecision = 'claim-cap'; summaryRequired = $true
+        authorityId = [string]$w.authorityId
+        authorityRank = [int]$w.authorityRank
+        skillAuthorityRank = [int]$w.skillAuthorityRank
+        authorityHash = [string]$w.authorityHash
+        matchedRuleIds = @($w.matchedRuleIds)
+        mainWarnings = @($w.mainWarnings)
+        policyDecision = [string]$w.policyDecision
+        summaryRequired = $true
+        governanceMode = 'portable'
+        capabilitiesParity = @($w.capabilitiesParity)
     }
 }
 
@@ -96,7 +105,7 @@ function Resolve-ESABCDAuthorityDecision {
 
     if ($null -eq $Evidence) { throw 'AUTHORITY_EVIDENCE_REQUIRED' }
     $profile = $script:Modes[$Mode]
-    $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
+    $projectRoot = Get-ESABCDPackageRoot
     $domainPolicy = Get-ESAuthorityDecisionPolicy -ProjectRoot $projectRoot -Domain $Domain
     $safeFields = @($domainPolicy.safeDefaultFields)
     $normalized = [ordered]@{}

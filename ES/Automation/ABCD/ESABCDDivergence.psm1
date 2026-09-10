@@ -3,9 +3,10 @@ $script:ESABCGenerationModeCache = @{}
 function Get-ESABCDDivergenceHash($v){$s=[Security.Cryptography.SHA256]::Create();try{([BitConverter]::ToString($s.ComputeHash([Text.Encoding]::UTF8.GetBytes(($v|ConvertTo-Json -Compress -Depth 20)))).Replace('-','').ToLowerInvariant())}finally{$s.Dispose()}}
 
 function Get-ESABCGenerationMode {
- [CmdletBinding()]param([ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[string]$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path)
- $path=Join-Path $ProjectRoot 'ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json'
- if(-not(Test-Path -LiteralPath $path -PathType Leaf)){throw 'ABC_GENERATION_MODE_CONTRACT_MISSING'}
+ [CmdletBinding()]param([ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[string]$ProjectRoot='')
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+ if([string]::IsNullOrWhiteSpace($ProjectRoot)){ $ProjectRoot = Get-ESABCDPackageRoot }
+ $path = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
  $stamp=(Get-Item -LiteralPath $path).LastWriteTimeUtc.Ticks
  $cacheKey="$path|$stamp"
  if($script:ESABCGenerationModeCache.ContainsKey($cacheKey)){$contract=$script:ESABCGenerationModeCache[$cacheKey]}

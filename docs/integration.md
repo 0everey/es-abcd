@@ -2,14 +2,19 @@
 
 ## 接入简单度
 
-对大多数项目：**三步即可**——克隆本仓 → `Install-ESABCD.ps1` → `Invoke-ESABCDSmoke.ps1`。  
-不修改你的业务源码，只叠加固定目录；不依赖 Unity。
+对大多数项目：**三步即可**——克隆本仓 → 自主验收 →（可选）Install 到业务仓。  
+**不依赖原生 ESFramework 游戏仓**；不依赖 Unity。
 
 | 检查项 | 期望 |
 |--------|------|
 | 布局脚本 | `status=passed` |
+| **自主套件** | `Invoke-ESABCDAutonomySuite.ps1` → `passed`，`requiresESFramework=false` |
 | 安装脚本 | `status=installed`，生成 `es-abcd-install.receipt.json` |
 | 冒烟脚本 | `status=passed`，`runtimeStatus=runtime-not-run` |
+
+默认治理：`ES_ABCD_GOVERNANCE_MODE=portable`（自带治理合同）。  
+可选宿主：`host`（仅当具备完整 AIWarnings 语料时增强，失败回退 portable）。  
+独立性说明见 [independence.md](independence.md)。
 
 ## 布局约定
 

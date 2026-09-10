@@ -14,12 +14,28 @@
 
 ---
 
+## 与原生 ESFramework 的独立性（重要）
+
+| | **es-abcd（本仓库）** | **ESFramework（原游戏/项目仓）** |
+|---|---|---|
+| 身份 | 独立开源 **ABCD/ABCC 工程编排产品** | 可选 **消费方 / 宿主** |
+| 是否互为运行时依赖 | **Core 不依赖 ESFramework** | 可选用本包，非必须 |
+| 默认治理 | `portable` 自带治理合同 | 可选 `host` 使用其 AIWarnings 语料 |
+| 六项内核能力 | **完整保留**（禁止阉割式“假自主”） | 不替代本包能力表 |
+
+- **默认**不需要本机存在 `ESFrameWorkPublish`，不需要 `Assets/Plugins/ES/AIWarnings`。  
+- 强自主验收：`powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1`  
+- 详细说明：[docs/independence.md](docs/independence.md)
+
+---
+
 ## 一句话说明
 
 | 你想做什么 | 用不用本仓库 |
 |---|---|
 | 给 AI/协作流程一套可验证的工程决策骨架 | ✅ 用 |
 | 直接驱动 Unity 场景、Prefab、战斗数值 | ❌ 不用（那是业务仓的事） |
+| 必须安装原生 ES 游戏框架才能跑 ABCD | ❌ **不需要**（Core 已 portable） |
 | 把密钥、模型 Provider 写进开源包 | ❌ 禁止 |
 
 ---
@@ -30,8 +46,8 @@
 |---|---|---|
 | 安装步骤 | **简单** | 克隆 → 一条 Install → 一条 Smoke，通常 **3 条命令** |
 | 对目标项目侵入 | **低** | 只叠加 `ES/Automation/...` 与 `.agents/skills/...`，不改你业务源码 |
-| 运行时依赖 | **低** | 只要 Windows PowerShell 5.1+（或 pwsh 7+），**不需要 Unity** |
-| 路径约定 | **固定、可抄** | 一律相对「项目根」：`ES/Automation/Contracts/...` |
+| 运行时依赖 | **低** | PowerShell 5.1+；**不需要 Unity**；**不需要原生 ES 游戏仓** |
+| 路径约定 | **本包可自洽** | 合同由 `Get-ESABCDPackageRoot` / `Resolve-ESABCDContractPath` 解析；Install 仍可叠加到消费方 |
 | 验证反馈 | **明确** | Smoke 输出 `status=passed` + JSON 回执；失败路径清晰 |
 | 学习成本 | **中低** | 先跑通 Smoke 即可用；概念见 [docs/concepts.md](docs/concepts.md) |
 | 不适合谁 | — | 期望「装上就能自动写完游戏」的用户会失望（本核刻意不做） |
@@ -52,18 +68,23 @@ cd es-abcd
 # 2) 检查本包是否完整
 powershell -File .\scripts\Test-ESABCDPackageLayout.ps1
 
-# 3) 安装到你的项目根目录（会创建 ES/Automation 等目录）
+# 3) 强自主验收（不依赖原生 ES 游戏仓；在本包根即可）
+powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
+
+# 4)（可选）安装到你的项目根目录
 powershell -File .\scripts\Install-ESABCD.ps1 -TargetRoot 'C:\path\to\你的项目'
 
-# 4) 冒烟（纯静态，不启动 Unity）
+# 5)（可选）对目标项目冒烟
 powershell -File .\scripts\Invoke-ESABCDSmoke.ps1 -ProjectRoot 'C:\path\to\你的项目' -Mode engineering
 ```
 
 成功时应看到：
 
-- 控制台：`ABCD smoke PASSED`
-- 回执：`你的项目\ES\Automation\ABCD\out\smoke-*.json`
+- 自主套件：`ABCD AUTONOMY SUITE: passed`
+- 冒烟：`ABCD smoke PASSED`
+- 回执在 `ES\Automation\ABCD\out\`
 - 字段：`status=passed`，`runtimeStatus=runtime-not-run`（**正常**，表示未做运行时验收）
+- 自主回执含：`requiresESFramework: false`
 
 升级已安装项目：
 

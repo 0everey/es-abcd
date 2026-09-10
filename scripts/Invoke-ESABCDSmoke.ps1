@@ -15,16 +15,22 @@
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][string]$ProjectRoot,
+    [string]$ProjectRoot = '',
     [ValidateSet('creative-divergence','engineering','stable')]
     [string]$Mode = 'engineering',
-    [string]$Requirement = 'ABCD portable smoke: prove divergence and selection work without gameplay.'
+    [string]$Requirement = 'ABCD portable smoke: prove divergence and selection work without gameplay or ESFramework host.'
 )
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-$ProjectRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
+if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
+    $scriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
+    $ProjectRoot = (Resolve-Path (Join-Path $scriptDir '..')).Path
+} else {
+    $ProjectRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
+}
+$env:ES_ABCD_GOVERNANCE_MODE = 'portable'
 $abcd = Join-Path $ProjectRoot 'ES\Automation\ABCD'
 $divModule = Join-Path $abcd 'ESABCDDivergence.psm1'
 $runModule = Join-Path $abcd 'ESABCInnovationRun.psm1'

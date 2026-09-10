@@ -1,7 +1,9 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-Import-Module (Join-Path $PSScriptRoot 'ESABCDAuthorityKernel.psm1') -Force
-Import-Module (Join-Path $PSScriptRoot '..\AI\ESAIWarningsResultProjection.psm1') -Force
+Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+Import-Module (Join-Path $PSScriptRoot 'ESABCDPortableAuthority.psm1') -Force -Global
+Import-Module (Join-Path $PSScriptRoot 'ESABCDAuthorityKernel.psm1') -Force -Global
+Import-Module (Join-Path $PSScriptRoot '..\AI\ESAIWarningsResultProjection.psm1') -Force -Global
 
 $script:Profiles = [ordered]@{
     DesignChange = [ordered]@{ required = @('bounded-tool-action','branch-evaluation','audit-evidence-chain'); minimumEvidence = 'S1'; negative = @('invalid-input','authority-conflict','stale-source','forged-receipt') }
@@ -34,8 +36,9 @@ function ConvertTo-ESABCDAuditCanonical($Value) {
 function Get-ESABCDAuditHash($Value) { $sha=[Security.Cryptography.SHA256]::Create(); try { ([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes((ConvertTo-ESABCDAuditCanonical $Value)))).Replace('-','').ToLowerInvariant()) } finally {$sha.Dispose()} }
 
 function Get-ESABCDAuditWarningsSummary([string]$ContextText,[string]$Domain='ai-collaboration') {
-    $projectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
-    $holder=Add-ESAIWarningsResultProjection -Result ([pscustomobject]@{}) -ContextText $ContextText -Domain $Domain -ConsumerId 'abcd-audit-gate' -ProjectRoot $projectRoot
+    # Default portable governance — independent of ESFramework host corpus.
+    $projectRoot = Get-ESABCDPackageRoot
+    $holder = Add-ESAIWarningsResultProjection -Result ([pscustomobject]@{}) -ContextText $ContextText -Domain $Domain -ConsumerId 'abcd-audit-gate' -ProjectRoot $projectRoot -GovernanceMode portable
     return $holder.aiWarnings
 }
 
@@ -136,4 +139,4 @@ function New-ESABCDFinalGateReceipt {
     }
 }
 
-Export-ModuleMember -Function New-ESABCDAuditPlan,Test-ESABCDAuditPlan,Test-ESABCDAuditSourceRegistry,New-ESABCDAuthorityGraph,Test-ESABCDAuthorityGraph,New-ESABCDFinalGateReceipt,Get-ESABCDAuditHash,Get-ESABCDValidationProfile
+Export-ModuleMember -Function New-ESABCDAuditPlan,Test-ESABCDAuditPlan,Test-ESABCDAuditSourceRegistry,New-ESABCDAuthorityGraph,Test-ESABCDAuthorityGraph,New-ESABCDFinalGateReceipt,Get-ESABCDAuditHash,Get-ESABCDValidationProfile,Get-ESABCDAuditWarningsSummary

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "contractId": "es://abcd/portable-governance/v1",
+  "authorityId": "es.abcd.portable.governance.v1",
+  "authorityRank": 2,
+  "skillAuthorityRank": 1,
+  "description": "Self-contained governance for es-abcd Core. Does not require ESFramework AIWarnings corpus, catalog index, or Assets tree.",
+  "independence": {
+    "requiresESFramework": false,
+    "requiresUnity": false,
+    "requiresHostAIWarningsCorpus": false,
+    "hostModeOptional": true
+  },
+  "capabilitiesParity": [
+    "bounded-tool-action",
+    "failure-recovery",
+    "branch-evaluation",
+    "state-transition-guard",
+    "environment-trust-gate",
+    "audit-evidence-chain"
+  ],
+  "mandatoryRules": [
+    {
+      "ruleId": "es.aiwarning.p0.ai-delivery-claim-boundary",
+      "severity": "P0",
+      "decision": "claim-cap",
+      "match": ["runtime", "playmode", "发布", "可玩", "验收通过", "unity", "profiler", "il2cpp", "player"],
+      "purpose": "Cap delivery claims when runtime evidence is absent."
+    },
+    {
+      "ruleId": "es.abcd.p0.runtime-not-run-nonclaim",
+      "severity": "P0",
+      "decision": "claim-cap",
+      "match": ["runtime-not-run", "未运行", "未启动"],
+      "purpose": "runtime-not-run is missing evidence, not static failure, and must not be sold as runtime pass."
+    },
+    {
+      "ruleId": "es.abcd.p0.host-optional",
+      "severity": "P0",
+      "decision": "consume-and-report",
+      "match": ["esframework", "原生ES", "宿主"],
+      "purpose": "ESFramework host is optional; Core must remain usable without it."
+    },
+    {
+      "ruleId": "es.abcd.p0.capability-parity",
+      "severity": "P0",
+      "decision": "claim-cap",
+      "match": ["能力缺失", "阉割", "简化版", "stub-only"],
+      "purpose": "Portable mode must not drop the six kernel capabilities."
+    }
+  ],
+  "defaultPolicyDecision": "consume-and-report",
+  "alwaysAttachDeliveryBoundary": true,
+  "nonClaims": [
+    "Unity",
+    "PlayMode",
+    "Profiler",
+    "Player",
+    "IL2CPP",
+    "Release",
+    "ESFramework-host-required"
+  ]
+}

@@ -1,12 +1,14 @@
-﻿Set-StrictMode -Version Latest
+Set-StrictMode -Version Latest
 $ErrorActionPreference='Stop'
 $script:Stages=@('requirement-facts','player-outcomes','lexical-deanchor','seed-divergence','tree-expansion','global-convergence','interaction-graph','adaptive-weighting','player-replay','counterplay-audit','complexity-prune','candidate-tournament','final-decision')
 Import-Module (Join-Path $PSScriptRoot 'ESABCDCapabilityDispatcher.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'ESABCDPatchPlanning.psm1') -Force
 function Get-ESABCInnovationRunHash($v){$s=[Security.Cryptography.SHA256]::Create();try{([BitConverter]::ToString($s.ComputeHash([Text.Encoding]::UTF8.GetBytes(($v|ConvertTo-Json -Compress -Depth 30)))).Replace('-','').ToLowerInvariant())}finally{$s.Dispose()}}
 function Get-ESABCScoringContract {
- [CmdletBinding()]param([string]$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path)
- $path=Join-Path $ProjectRoot 'ES/Automation/Contracts/es-ai-abc-scoring-v1.json';if(-not(Test-Path -LiteralPath $path -PathType Leaf)){throw 'ABC_SCORING_CONTRACT_MISSING'}
+ [CmdletBinding()]param([string]$ProjectRoot='')
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+ if([string]::IsNullOrWhiteSpace($ProjectRoot)){ $ProjectRoot = Get-ESABCDPackageRoot }
+ $path = Resolve-ESABCDContractPath -FileName 'es-ai-abc-scoring-v1.json' -ProjectRoot $ProjectRoot
  $contract=Get-Content -LiteralPath $path -Raw -Encoding UTF8|ConvertFrom-Json;if([int]$contract.schemaVersion -ne 1 -or [string]$contract.contractId -cne 'es://automation/contracts/ai-abc/scoring/v1'){throw 'ABC_SCORING_CONTRACT_INVALID'};return $contract
 }
 function Convert-ESABCScoreToCanonical {
@@ -209,7 +211,9 @@ function Invoke-ESABCEngineeringArchitectureCompetition {
  if([string]::IsNullOrWhiteSpace($Requirement)-or[string]::IsNullOrWhiteSpace($GoalRevision)){throw 'ENGINEERING_ARCHITECTURE_REQUIREMENT_REQUIRED'}
  $contractHash=''
  if(-not [string]::IsNullOrWhiteSpace($ProjectRoot)){
-  $contractPath=Join-Path $ProjectRoot 'ES/Automation/Contracts/es-ai-abc-engineering-architecture-competition-v1.schema.json'
+  Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+  if([string]::IsNullOrWhiteSpace($ProjectRoot)){ $ProjectRoot = Get-ESABCDPackageRoot }
+  $contractPath=Resolve-ESABCDContractPath -FileName 'es-ai-abc-engineering-architecture-competition-v1.schema.json' -ProjectRoot $ProjectRoot
   if(-not(Test-Path -LiteralPath $contractPath -PathType Leaf)){throw 'ENGINEERING_ARCHITECTURE_CONTRACT_MISSING'}
   try{$contractText=Get-Content -Raw -Encoding UTF8 -LiteralPath $contractPath;$contract=ConvertFrom-Json $contractText;$contractHash=(Get-FileHash -LiteralPath $contractPath -Algorithm SHA256).Hash.ToLowerInvariant()}catch{throw 'ENGINEERING_ARCHITECTURE_CONTRACT_INVALID'}
   $requiredAssessments=@('implementationBoundary','lifecycleAssessment','performanceAssessment','networkAssessment','debuggingAssessment','editorProductionAssessment','playerIncrementRegression','innovationDifferentialAssessment','counterfactualRegression');$requiredScores=@('technicalInnovationLevel','safetyLevel','baselinePlayerLevel','playerIncrementDelta','performanceLevel','reusabilityLevel','lifecycleLevel','networkLevel','debuggingLevel','editorProductionLevel','innovationDifferentialLevel');$missingAssessment=@($requiredAssessments|Where-Object{[string]$_ -notin @($contract.requiredAssessments)});$missingScore=@($requiredScores|Where-Object{[string]$_ -notin @($contract.requiredScores)});$bands=@{'0'=-20;'1'=0;'2'=20;'3'=40;'4'=70;'5'=90};$badBand=@($bands.Keys|Where-Object{[double]$contract.scoreBands.$_ -ne [double]$bands[$_]})
@@ -466,7 +470,8 @@ function Invoke-ESABCCodeLifecycleAuditV2 {
 function Assert-ESABCModeExecutionEvidence {
  [CmdletBinding()]param([Parameter(Mandatory)]$Run,[Parameter(Mandatory)]$Selected)
  $c=Get-ESABCScoringContract
- $contract=Get-Content -LiteralPath (Join-Path (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path 'ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json') -Raw -Encoding UTF8|ConvertFrom-Json
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+ $contract=Get-Content -LiteralPath (Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json') -Raw -Encoding UTF8|ConvertFrom-Json
  if(-not $contract.modeExecutionContract.allModesMustExecute){throw 'ABCD_MODE_EXECUTION_CONTRACT_DISABLED'}
  $required=@($contract.modeExecutionContract.mandatoryEvidence)
  $base=@();if($Selected.scoreBreakdown -and $Selected.scoreBreakdown.dimensionNames -and $Selected.scoreBreakdown.dimensionNames.PSObject.Properties['general']){$base=@($Selected.scoreBreakdown.reviewHistory[0].dimensionSnapshot.general)}

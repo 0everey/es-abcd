@@ -3,7 +3,14 @@
   "packageId": "es-abcd-portable.v1",
   "displayName": "ES ABCD 可移植核心",
   "businessFree": true,
-  "description": "与业务解耦的 ABCD/ABCC 工程编排核心：InnovationRun、发散、评分、门禁与合同。中文文档优先，三步安装到任意符合路径约定的项目。",
+  "description": "独立于原生 ESFramework 的 ABCD/ABCC 工程编排核心。默认 portable 治理，六项能力完整；ESFramework 仅为可选宿主。",
+  "independence": {
+    "requiresESFramework": false,
+    "requiresUnity": false,
+    "defaultGovernanceMode": "portable",
+    "hostGovernanceOptional": true,
+    "capabilityParityRequired": true
+  },
   "requiredDirectories": [
     "ES/Automation/ABCD",
     "ES/Automation/Contracts",
@@ -19,8 +26,12 @@
   "anchorFiles": [
     "README.md",
     "LICENSE",
+    "docs/independence.md",
     "ES/Automation/ABCD/ESABCInnovationRun.psm1",
     "ES/Automation/ABCD/ESABCDAuthorityKernel.psm1",
+    "ES/Automation/ABCD/ESABCDHome.psm1",
+    "ES/Automation/ABCD/ESABCDPortableAuthority.psm1",
+    "ES/Automation/ABCD/portable/es-abcd-portable-governance-v1.json",
     "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
     "ES/Automation/ABCD/ESABCDDivergence.psm1",
     "ES/Automation/Contracts/es-ai-abc-core-v1.json",
@@ -31,7 +42,8 @@
     "ES/Automation/TaskContextRuntime/ESTaskContextRuntime.psm1",
     ".agents/skills/es-ai-abc-core/SKILL.md",
     "scripts/Install-ESABCD.ps1",
-    "scripts/Invoke-ESABCDSmoke.ps1"
+    "scripts/Invoke-ESABCDSmoke.ps1",
+    "scripts/Invoke-ESABCDAutonomySuite.ps1"
   ],
   "excludedDomains": [
     "gameplay",
@@ -40,21 +52,25 @@
     "project AIWarnings corpus",
     "credentials",
     "provider secrets",
-    "weapon domain parts"
+    "weapon domain parts",
+    "ESFramework-as-hard-dependency"
   ],
   "integration": {
     "layout": "overlay-into-project-root",
     "installScript": "scripts/Install-ESABCD.ps1",
     "smokeScript": "scripts/Invoke-ESABCDSmoke.ps1",
+    "autonomyScript": "scripts/Invoke-ESABCDAutonomySuite.ps1",
     "requires": {
       "powershell": "5.1+",
-      "optional": ["pwsh 7+"]
+      "optional": ["pwsh 7+"],
+      "notRequired": ["ESFramework", "Unity", "AIWarnings corpus"]
     }
   },
   "verification": {
     "hashAlgorithm": "SHA256",
     "missingIsFailure": true,
-    "runtimeClaimsRequireFreshReceipt": true
+    "runtimeClaimsRequireFreshReceipt": true,
+    "autonomySuiteRequiredForIndependenceClaim": true
   },
   "nonClaims": [
     "Unity",
@@ -63,6 +79,7 @@
     "Player",
     "IL2CPP",
     "Release",
-    "model-provider-success"
+    "model-provider-success",
+    "ESFramework-host-required"
   ]
 }

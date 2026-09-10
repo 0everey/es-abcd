@@ -104,7 +104,10 @@ function Test-ESABCDCertificationEvidenceRef([string]$ProjectRoot, $EvidenceRef,
     $relative = [string]$receiptInfo.relative; $receipt = $receiptInfo.receipt
     $actualHash = (Get-FileHash -LiteralPath $receiptInfo.full -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($actualHash -cne [string](Get-ESABCDCertificationProperty $EvidenceRef 'sha256')) { [void]$Issues.Add("EVIDENCE_DRIFT:$relative") }
-    $centralPath = Join-Path (Resolve-Path -LiteralPath $ProjectRoot).Path 'ES/Automation/Contracts/es-skill-evidence-receipt-v1.schema.json'
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+    $centralPath = $null
+    try { $centralPath = Resolve-ESABCDContractPath -FileName 'es-skill-evidence-receipt-v1.schema.json' -ProjectRoot $ProjectRoot }
+    catch { $centralPath = Join-Path (Resolve-Path -LiteralPath $ProjectRoot).Path 'ES/Automation/Contracts/es-skill-evidence-receipt-v1.schema.json' }
     if (-not (Test-Path -LiteralPath $centralPath -PathType Leaf)) { [void]$Issues.Add('CENTRAL_EVIDENCE_CONTRACT_MISSING'); return }
     $centralHash = (Get-FileHash -LiteralPath $centralPath -Algorithm SHA256).Hash.ToLowerInvariant()
     foreach ($field in @('evidenceContractId','evidenceContractHash','skillName','case','status','evidenceLevel','receiptPath','sourceRefs','sourceRefHashes','toolId','unityVersion','capturedUtc')) {
