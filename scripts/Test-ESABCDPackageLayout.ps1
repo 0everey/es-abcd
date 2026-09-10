@@ -6,11 +6,20 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$PackageRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+    [string]$PackageRoot = ''
 )
 
 $ErrorActionPreference = 'Stop'
-$PackageRoot = (Resolve-Path -LiteralPath $PackageRoot).Path
+if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
+    $scriptDir = if (-not [string]::IsNullOrWhiteSpace($PSScriptRoot)) {
+        $PSScriptRoot
+    } else {
+        Split-Path -Parent $MyInvocation.MyCommand.Path
+    }
+    $PackageRoot = (Resolve-Path (Join-Path $scriptDir '..')).Path
+} else {
+    $PackageRoot = (Resolve-Path -LiteralPath $PackageRoot).Path
+}
 $manifestPath = Join-Path $PackageRoot 'package\es-abcd-portable.manifest.json'
 $m = Get-Content $manifestPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $missing = New-Object System.Collections.Generic.List[string]
