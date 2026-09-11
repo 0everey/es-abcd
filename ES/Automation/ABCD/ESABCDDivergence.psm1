@@ -39,11 +39,15 @@ function Invoke-ESABCModeDivergence {
    [string]$ProjectRoot='',
    [scriptblock]$ModelInvoker=$null
  )
- # P0: LLM-only divergence. Card-pack / mutation-catalog engines are removed.
+ # P0: multi-layer only (seed/expand/audit/self-critique). Single-layer score path deleted.
  if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'}
  if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDModelClient.psm1') -Force -Global
  Import-Module (Join-Path $PSScriptRoot 'ESABCDMultiLayerDivergence.psm1') -Force -Global
- return Invoke-ESABCDMultiLayerDivergence -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -MinimumDirections $MinimumDirections -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
+ if($null -eq $ModelInvoker){ $null = Get-ESABCDModelConfig }
+ if([string]::IsNullOrWhiteSpace($ProjectRoot)){ $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path }
+ $minSeeds = if($MinimumDirections -gt 0){ [Math]::Max(3, $MinimumDirections) } else { 3 }
+ return Invoke-ESABCDMultiLayerDivergence -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -MinimumSeeds $minSeeds -ExpandDepth 2 -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
 }
 
 function Get-ESABCAmplificationAssessment {
