@@ -151,10 +151,14 @@ if ([string]::IsNullOrWhiteSpace([string]$receipt.pipelineLevel)) { throw 'smoke
 Log "path-param-trial-ok deliveryKind=$($receipt.deliveryKind) pipelineLevel=$($receipt.pipelineLevel)"
 
 
-# --- 6 commercial brief markdown ---
-Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDCommercialContent.psm1') -Force -Global
+# --- 6 commercial brief via single entry Invoke-ESABCD ---
+Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDHome.psm1') -Force -Global
+Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDIndex.psm1') -Force -Global
+$idx = Get-ESABCDIndexCatalog
+if (@($idx).Count -lt 8) { throw 'index catalog too small' }
 $commOut = Join-Path $ScratchRoot 'commercial-out'
-$comm = Invoke-ESABCDCommercial -Requirement 'Design daily live-ops loop: gather-craft-prep-sortie hardcore casual social' -Mode creative-divergence -ProjectRoot $PackageRoot -OutDir $commOut
+$comm = Invoke-ESABCD -Requirement 'Design daily live-ops loop: gather-craft-prep-sortie hardcore casual social' -Mode creative-divergence -ProjectRoot $PackageRoot -OutDir $commOut -Output brief
+if ([string]$comm.entry -ne 'Invoke-ESABCD') { throw "entry=$($comm.entry)" }
 if ([string]$comm.deliveryKind -ne 'domain-brief') { throw "commercial deliveryKind=$($comm.deliveryKind)" }
 if ([string]$comm.pipelineLevel -ne 'L1') { throw "commercial level=$($comm.pipelineLevel)" }
 if (-not (Test-Path -LiteralPath $comm.markdownPath)) { throw 'commercial md missing' }

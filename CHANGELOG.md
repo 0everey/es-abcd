@@ -1,5 +1,11 @@
 ﻿## Unreleased
 
+### Entry consolidation
+- Single product entry `Invoke-ESABCD` via `Use-ESABCD.ps1` (Home + Index only).
+- `es-abcd-capability-index.json` + `Import-ESABCDCapability` / `Get-ESABCDIndexCatalog` for on-demand loads.
+- Old Quick/Commercial* names are thin aliases; get.ps1 no longer embeds a fat multi-import shim.
+## Unreleased
+
 ### Commercial usability
 - Axis-grounded content packs (creative/engineering/stable): differentiated scenario/input/feedback/mechanism + zh axis titles.
 - `Invoke-ESABCDCommercial` / `Invoke-ESABCDCommercialBrief` emit human Markdown + JSON briefs.

@@ -418,6 +418,7 @@ function Format-ESABCDCommercialMarkdown {
 }
 
 function Invoke-ESABCDCommercial {
+    # Prefer Invoke-ESABCD -Output brief. Kept as thin alias for older call sites.
     [CmdletBinding()]
     param(
         [Parameter(Mandatory)][string]$Requirement,
@@ -425,63 +426,10 @@ function Invoke-ESABCDCommercial {
         [string]$ProjectRoot = '',
         [string]$OutDir = ''
     )
-    if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
-        Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
-        $ProjectRoot = Get-ESABCDPackageRoot
-    }
     Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
-    Import-Module (Join-Path $PSScriptRoot 'ESABCDDelivery.psm1') -Force -Global
-    Import-Module (Join-Path $PSScriptRoot 'ESABCDDivergence.psm1') -Force -Global
-
-    $contract = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
-    $hash = Get-ESABCDFileSha256 -LiteralPath $contract
-    $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $hash -Mode $Mode -ProjectRoot $ProjectRoot
-    $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode -Requirement $Requirement
-    $md = Format-ESABCDCommercialMarkdown -Selection $sel -Divergence $div -Requirement $Requirement
-
-    if ([string]::IsNullOrWhiteSpace($OutDir)) {
-        $OutDir = Join-Path $ProjectRoot 'ES\Automation\ABCD\out'
-    }
-    New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-    $stamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')
-    $mdPath = Join-Path $OutDir ("commercial-brief-$stamp.md")
-    $jsonPath = Join-Path $OutDir ("commercial-brief-$stamp.json")
-    [IO.File]::WriteAllText($mdPath, $md, [Text.UTF8Encoding]::new($true))
-    $payload = [pscustomobject]@{
-        schemaVersion = 1
-        recordType = 'ESABCDCommercialBrief'
-        requirement = $Requirement
-        mode = $Mode
-        deliveryKind = [string]$sel.deliveryKind
-        pipelineLevel = [string]$sel.pipelineLevel
-        domain = [string]$sel.domain
-        claimLevel = [string]$sel.claimLevel
-        selectedDirectionId = [string]$sel.selectedDirectionId
-        directionCount = [int]$div.directionCount
-        candidateSetHash = [string]$div.candidateSetHash
-        domainBrief = $sel.domainBrief
-        rankedSummaries = @($sel.ranked | ForEach-Object {
-            $c = $_.candidate
-            [pscustomobject]@{
-                rankScore = $_.rankScore
-                directionId = [string]$c.directionId
-                axis = [string]$c.axis
-                axisZh = [string]$c.axisZh
-                productPitch = [string]$c.productPitch
-                concretePlayerScenario = [string]$c.concretePlayerScenario
-                novelMechanism = [string]$c.novelMechanism
-            }
-        })
-        markdownPath = $mdPath
-        runtimeStatus = 'runtime-not-run'
-        commercialReady = $true
-        nonClaims = @('not-shipped','not-balanced','not-playmode','not-universal-ai-wipeout')
-        capturedUtc = [DateTime]::UtcNow.ToString('o')
-    }
-    [IO.File]::WriteAllText($jsonPath, ($payload | ConvertTo-Json -Depth 10), [Text.UTF8Encoding]::new($true))
-    return $payload
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDIndex.psm1') -Force -Global
+    return Invoke-ESABCD -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -OutDir $OutDir -Output brief
 }
-
 Export-ModuleMember -Function @(
     'Get-ESABCDAxisBodyFields',
     'Format-ESABCDCommercialMarkdown',

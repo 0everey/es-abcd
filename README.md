@@ -40,27 +40,29 @@
 
 当前 **商用默认** 会尽量给出 **L1 可讨论方案卡**（轴差异化正文 + 领域槽位/手感卡）；读回执仍以 `deliveryKind` / `pipelineLevel` 为准。这不是「万能内容生成器」，也不是已平衡可发版。
 
-### 商用一键（推荐）
+### 唯一产品入口（推荐）
 
-装好后在项目根：
+装好后在项目根 **只记这一条**：
 
 ```powershell
-. .\ES\Automation\ABCD\Use-ESABCD.ps1
-# 写出中文 Markdown 简报 + JSON（out/commercial-brief-*.md）
-Invoke-ESABCDCommercialBrief -Requirement '采集-合成-战备-出击 五条日活循环，硬核/休闲/社交' -Mode creative-divergence
-# 或
-Invoke-ESABCDQuick -Requirement '近战爆发技能手感，至少5向' -Mode creative-divergence -Commercial
+. .\ES\Automation\ABCD\Use-ESABCD.ps1          # 只加载 Home + Index（能力按需再拉）
+Invoke-ESABCD -Requirement '采集-合成-战备-出击 五条日活…'   # 默认 Output=brief
 ```
 
-你会得到：
-
-| 产物 | 用途 |
+| 调用 | 作用 |
 |------|------|
-| `commercial-brief-*.md` | 给人读的方案简报（需求、领域表/方案卡、透镜排序、主推荐展开） |
-| `commercial-brief-*.json` | 机器回执（deliveryKind、domainBrief、rankedSummaries） |
+| `Invoke-ESABCD -Requirement '…'` | **默认**：写 `out/commercial-brief-*.md` + `.json` |
+| `Invoke-ESABCD … -Output select` | 只要 Select 对象，不写简报文件 |
+| `Invoke-ESABCD … -Output diverge` | 只要发散结果 |
+| `Get-ESABCDIndexCatalog` | 快速索引：能力 id / tier / 模块 / 摘要 |
+| `Import-ESABCDCapability content,divergence -WithDeps` | 按 id 按需加载（一般不必手调） |
+
+兼容旧名（内部都转到 `Invoke-ESABCD`）：`Invoke-ESABCDQuick`、`Invoke-ESABCDCommercialBrief`。
+
+能力分散在独立模块里，由 `ES/Automation/ABCD/es-abcd-capability-index.json` 索引；**不要**再手写一长串 `Import-Module`。
 
 **商用成功** = 有简报文件 + `deliveryKind` 可读 + claim 仍是设计候选。  
-**不需要**先跑仓库里那一大坨 `Test-*.ps1`（安装时已默认不拷贝，只保留冒烟必需的两项静态检查）。
+安装默认不拷贝 bulk `Test-*.ps1`（只留冒烟必需两项）。
 
 ---
 

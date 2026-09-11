@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "productId": "es-abcd",
+  "primaryEntry": "Invoke-ESABCD",
+  "consumerBootstrap": "Use-ESABCD.ps1",
+  "installEntry": "get.ps1",
+  "aliases": {
+    "Invoke-ESABCDQuick": { "mapsTo": "Invoke-ESABCD", "defaults": { "Output": "select" } },
+    "Invoke-ESABCDCommercial": { "mapsTo": "Invoke-ESABCD", "defaults": { "Output": "brief" } },
+    "Invoke-ESABCDCommercialBrief": { "mapsTo": "Invoke-ESABCD", "defaults": { "Output": "brief" } }
+  },
+  "tiers": {
+    "boot": "Home + Index only — always safe to load",
+    "core": "Divergence/Select/Delivery — daily design path",
+    "content": "Axis packs + commercial markdown — on-demand with core",
+    "deep": "InnovationRun / Orchestrator / patch — not needed for brief",
+    "host": "Authority / AIWarnings — optional host governance"
+  },
+  "capabilities": [
+    {
+      "id": "home",
+      "tier": "boot",
+      "module": "ESABCDHome.psm1",
+      "summary": "Package root, contracts, identity, governance mode",
+      "exports": ["Get-ESABCDPackageRoot", "Get-ESABCDGovernanceMode", "Get-ESABCDContractsRoot", "Resolve-ESABCDContractPath", "Get-ESABCDIdentity"],
+      "deps": []
+    },
+    {
+      "id": "index",
+      "tier": "boot",
+      "module": "ESABCDIndex.psm1",
+      "summary": "Capability catalog + on-demand Import-ESABCDCapability + single Invoke-ESABCD",
+      "exports": ["Get-ESABCDCapabilityIndex", "Get-ESABCDCapability", "Import-ESABCDCapability", "Invoke-ESABCD"],
+      "deps": ["home"]
+    },
+    {
+      "id": "hash",
+      "tier": "core",
+      "module": "ESABCDDelivery.psm1",
+      "summary": "Built-in SHA256 (no Get-FileHash hard dep)",
+      "exports": ["Get-ESABCDFileSha256", "Get-ESABCDBytesSha256", "Get-ESABCDStringSha256"],
+      "deps": []
+    },
+    {
+      "id": "delivery",
+      "tier": "core",
+      "module": "ESABCDDelivery.psm1",
+      "summary": "deliveryKind/pipelineLevel, template collision, domain brief L0/L1",
+      "exports": ["Test-ESABCDTemplateCollision", "Test-ESABCDRequirementDomain", "New-ESABCDDomainBrief", "Test-ESABCDLiveOpsBriefChecklist", "Complete-ESABCDSelectionDelivery"],
+      "deps": ["hash"]
+    },
+    {
+      "id": "content",
+      "tier": "content",
+      "module": "ESABCDCommercialContent.psm1",
+      "summary": "Axis-grounded body packs + commercial markdown formatter",
+      "exports": ["Get-ESABCDAxisBodyFields", "Format-ESABCDCommercialMarkdown"],
+      "deps": ["home"],
+      "refs": ["axis-packs:creative", "axis-packs:engineering", "axis-packs:stable"]
+    },
+    {
+      "id": "divergence",
+      "tier": "core",
+      "module": "ESABCDDivergence.psm1",
+      "summary": "Mode divergence + Select + generation mode contract",
+      "exports": ["Invoke-ESABCModeDivergence", "Select-ESABCGenerationCandidate", "Get-ESABCGenerationMode", "Invoke-ESABCGenerationPipeline"],
+      "deps": ["home", "delivery", "content"]
+    },
+    {
+      "id": "innovation-run",
+      "tier": "deep",
+      "module": "ESABCInnovationRun.psm1",
+      "summary": "Deep innovation / engineering competition path (not default brief)",
+      "exports": ["Invoke-ESABCStableScore"],
+      "deps": ["home", "divergence"]
+    },
+    {
+      "id": "authority",
+      "tier": "host",
+      "module": "ESABCDAuthorityKernel.psm1",
+      "summary": "Authority decision kernel (portable or host)",
+      "exports": ["Resolve-ESABCDAuthorityDecision", "Get-ESABCDCoreCapabilities"],
+      "deps": ["home"]
+    },
+    {
+      "id": "portable-authority",
+      "tier": "host",
+      "module": "ESABCDPortableAuthority.psm1",
+      "summary": "Portable governance policy without ESFramework corpus",
+      "exports": ["Resolve-ESABCDPortableGovernancePolicy"],
+      "deps": ["home"]
+    },
+    {
+      "id": "orchestrator",
+      "tier": "deep",
+      "module": "ESABCDOrchestrator.psm1",
+      "summary": "Orchestration store and multi-step runs",
+      "exports": ["New-ESABCDOrchestrationStore"],
+      "deps": ["home", "authority"]
+    },
+    {
+      "id": "capability-dispatch",
+      "tier": "deep",
+      "module": "ESABCDCapabilityDispatcher.psm1",
+      "summary": "Six-kernel capability plan execution",
+      "exports": ["Get-ESABCDCapabilityCatalog", "Invoke-ESABCDCapabilityPlan"],
+      "deps": []
+    },
+    {
+      "id": "patch",
+      "tier": "deep",
+      "module": "ESABCDPatchPlanning.psm1",
+      "summary": "Candidate patch plans and approved apply",
+      "exports": ["New-ESABCDCandidatePatchPlan", "Invoke-ESABCDApprovedApplyRequest"],
+      "deps": []
+    }
+  ],
+  "profiles": {
+    "brief": {
+      "description": "Commercial human brief (default product path)",
+      "load": ["home", "index", "hash", "delivery", "content", "divergence"]
+    },
+    "select": {
+      "description": "Divergence + Select object only (no markdown file)",
+      "load": ["home", "index", "hash", "delivery", "content", "divergence"]
+    },
+    "smoke": {
+      "description": "Install smoke path",
+      "load": ["home", "hash", "delivery", "content", "divergence", "innovation-run", "authority"]
+    },
+    "deep": {
+      "description": "Full deep path — load only when needed",
+      "load": ["home", "index", "divergence", "innovation-run", "orchestrator", "capability-dispatch", "patch"]
+    }
+  }
+}
