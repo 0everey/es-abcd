@@ -1,0 +1,68 @@
+{
+    "id":  "T-CRE-04",
+    "total_abcd":  82,
+    "total_prompt":  41,
+    "delta":  41,
+    "abcd":  {
+                 "failure_rollback":  5,
+                 "testability":  9,
+                 "non_claim":  10,
+                 "risk":  8,
+                 "mode_fit":  9,
+                 "structure":  9,
+                 "multi_option":  10,
+                 "ownership_boundary":  5,
+                 "consistency":  9,
+                 "actionability":  8
+             },
+    "prompt":  {
+                   "failure_rollback":  7,
+                   "testability":  2,
+                   "non_claim":  4,
+                   "risk":  3,
+                   "mode_fit":  5,
+                   "structure":  4,
+                   "multi_option":  5,
+                   "ownership_boundary":  3,
+                   "consistency":  5,
+                   "actionability":  3
+               },
+    "abcd_topScore":  92.3,
+    "abcd_live_axes":  [
+                           {
+                               "axis":  "flow-continuity",
+                               "score":  92.3,
+                               "rank":  1
+                           },
+                           {
+                               "axis":  "novelty-delta",
+                               "score":  91.95,
+                               "rank":  2
+                           },
+                           {
+                               "axis":  "presentation-beat",
+                               "score":  88,
+                               "rank":  3
+                           },
+                           {
+                               "axis":  "counterplay-clarity",
+                               "score":  86.65,
+                               "rank":  4
+                           },
+                           {
+                               "axis":  "moment-to-moment-feel",
+                               "score":  84.95,
+                               "rank":  5
+                           },
+                           {
+                               "axis":  "skill-ceiling",
+                               "score":  83.15,
+                               "rank":  6
+                           },
+                           {
+                               "axis":  "expressive-input",
+                               "score":  82.85,
+                               "rank":  7
+                           }
+                       ]
+}

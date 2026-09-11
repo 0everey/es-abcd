@@ -1,0 +1,68 @@
+{
+    "id":  "T-CRE-01",
+    "total_abcd":  82,
+    "total_prompt":  48,
+    "delta":  34,
+    "abcd":  {
+                 "failure_rollback":  5,
+                 "testability":  9,
+                 "non_claim":  10,
+                 "risk":  8,
+                 "mode_fit":  9,
+                 "structure":  9,
+                 "multi_option":  10,
+                 "ownership_boundary":  5,
+                 "consistency":  9,
+                 "actionability":  8
+             },
+    "prompt":  {
+                   "failure_rollback":  2,
+                   "testability":  2,
+                   "non_claim":  4,
+                   "risk":  7,
+                   "mode_fit":  5,
+                   "structure":  7,
+                   "multi_option":  7,
+                   "ownership_boundary":  4,
+                   "consistency":  3,
+                   "actionability":  7
+               },
+    "abcd_topScore":  85.5,
+    "abcd_live_axes":  [
+                           {
+                               "axis":  "presentation-beat",
+                               "score":  85.5,
+                               "rank":  1
+                           },
+                           {
+                               "axis":  "moment-to-moment-feel",
+                               "score":  81.9,
+                               "rank":  2
+                           },
+                           {
+                               "axis":  "counterplay-clarity",
+                               "score":  81.75,
+                               "rank":  3
+                           },
+                           {
+                               "axis":  "novelty-delta",
+                               "score":  80.95,
+                               "rank":  4
+                           },
+                           {
+                               "axis":  "expressive-input",
+                               "score":  80.05,
+                               "rank":  5
+                           },
+                           {
+                               "axis":  "skill-ceiling",
+                               "score":  75.6,
+                               "rank":  6
+                           },
+                           {
+                               "axis":  "flow-continuity",
+                               "score":  75.35,
+                               "rank":  7
+                           }
+                       ]
+}

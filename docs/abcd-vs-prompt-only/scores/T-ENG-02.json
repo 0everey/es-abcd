@@ -1,0 +1,58 @@
+{
+    "id":  "T-ENG-02",
+    "total_abcd":  86,
+    "total_prompt":  37,
+    "delta":  49,
+    "abcd":  {
+                 "failure_rollback":  7,
+                 "testability":  9,
+                 "non_claim":  10,
+                 "risk":  8,
+                 "mode_fit":  9,
+                 "structure":  9,
+                 "multi_option":  8,
+                 "ownership_boundary":  9,
+                 "consistency":  9,
+                 "actionability":  8
+             },
+    "prompt":  {
+                   "failure_rollback":  2,
+                   "testability":  2,
+                   "non_claim":  2,
+                   "risk":  7,
+                   "mode_fit":  3,
+                   "structure":  5,
+                   "multi_option":  2,
+                   "ownership_boundary":  8,
+                   "consistency":  3,
+                   "actionability":  3
+               },
+    "abcd_topScore":  88.65,
+    "abcd_live_axes":  [
+                           {
+                               "axis":  "state-machine-integrity",
+                               "score":  88.65,
+                               "rank":  1
+                           },
+                           {
+                               "axis":  "ownership-lifecycle",
+                               "score":  87.7,
+                               "rank":  2
+                           },
+                           {
+                               "axis":  "performance-peak-budget",
+                               "score":  86.8,
+                               "rank":  3
+                           },
+                           {
+                               "axis":  "failure-recovery",
+                               "score":  86.5,
+                               "rank":  4
+                           },
+                           {
+                               "axis":  "determinism",
+                               "score":  81.6,
+                               "rank":  5
+                           }
+                       ]
+}

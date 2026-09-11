@@ -83,6 +83,57 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ---
 
+## 3.5 ABCD vs 仅提示词 · 全维度对比（真实同题）
+
+**问题：** 不用这套体系、只丢提示词给 AI，和接上 ABCD 差在哪？
+
+**怎么比（可复跑）：**
+
+| 臂 | 做法 |
+|----|------|
+| ABCD | live `Divergence + Select` 回执（上表 12 场） |
+| 仅提示词 | **不**加载任何 ABCD 模块，同题写一版「能开工」聊天风答卷 |
+| 量表 | 同一 10 维（各 0–10，合计 /100），规则在脚本里 |
+
+**总结果（12 场平均）：**
+
+| | 分数 /100 |
+|--|-----------|
+| **ABCD** | **85.33** |
+| **仅提示词** | **41.42** |
+| **差值（ABCD − 仅提示词）** | **+43.91** |
+
+**分模式平均差值：** 工程约 +42 · 创意约 +40 · 稳定约 **+49.5**（稳定拉开最大）
+
+**分维上 ABCD 多出来的，主要不是文笔，而是：**
+
+| 维度 | ABCD均 | 仅提示词均 | 差 |
+|------|--------|------------|-----|
+| 诚实不夸大 | 10 | 1.83 | **+8.2** |
+| 可验证性 | 9 | 2.92 | **+6.1** |
+| 多方案发散 | 8.67 | 3.92 | **+4.8** |
+| 结构清晰 | 9 | 4.5 | **+4.5** |
+| 失败/回滚 | 7.33 | 3.17 | **+4.2** |
+| 一致性/少空话 | 9 | 4.17 | **+4.8** |
+
+**单场量表差值（ABCD 高多少）：**
+
+| 场景 | 差值 | 场景 | 差值 |
+|------|------|------|------|
+| 技能系统 | +39 | 近战手感 | +34 |
+| 成长经济 | +49 | 日活循环 | +36 |
+| 道具管线 | +37 | 品类矩阵 | +49 |
+| 战斗闭环 | +44 | Boss 战法 | +41 |
+| 技能表扩展 | +49 | 道具导入 | **+50** |
+| 活动开关 | **+50** | 修关不毁档 | +49 |
+
+完整分场答卷 + 10 维表 + 证据链 → **[docs/abcd-vs-prompt-only/README.md](./docs/abcd-vs-prompt-only/README.md)**  
+复跑对比：`powershell -File .\scripts\Build-AbcdVsPromptOnlyComparison.ps1`
+
+> 说明：仅提示词臂是「无 ABCD 模块的对照答卷」（脚本固化、可复跑），用来量「有没有这套体系」的差距；**不是**某云厂商模型排行榜。两边都未替代 PlayMode。
+
+---
+
 ## 4. 工程模式 · 典型场景（可复制 + 本场实测）
 
 适合：边界清楚、能落地。实测：**5 向 · 定一个主推荐**。
@@ -333,16 +384,18 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ## 8. 证据链（文末 · 审计用）
 
-本批入口：真实 `Invoke-ESABCModeDivergence` + `Select-ESABCGenerationCandidate`。  
-复跑：`powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1`
+本批 ABCD 入口：真实 `Invoke-ESABCModeDivergence` + `Select-ESABCGenerationCandidate`。  
+复跑场景：`powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1`  
+复跑 vs 提示词：`powershell -File .\scripts\Build-AbcdVsPromptOnlyComparison.ps1`
 
 ### 总览
 
 | 项 | 链接 |
 |----|------|
-| 对照表 | [COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md) |
-| 证据目录 | [scenario-run-reports/](./docs/scenario-run-reports/README.md) |
-| 回执 JSON 目录 | [receipts/](./docs/scenario-run-reports/receipts/) |
+| **vs 仅提示词全文** | [abcd-vs-prompt-only/](./docs/abcd-vs-prompt-only/README.md) |
+| 场景对照表 | [COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md) |
+| 场景证据目录 | [scenario-run-reports/](./docs/scenario-run-reports/README.md) |
+| 场景回执 JSON | [receipts/](./docs/scenario-run-reports/receipts/) |
 
 ### 逐场证据（报告 MD + 回执 JSON）
 

@@ -1,0 +1,68 @@
+{
+    "id":  "T-CRE-02",
+    "total_abcd":  82,
+    "total_prompt":  46,
+    "delta":  36,
+    "abcd":  {
+                 "failure_rollback":  5,
+                 "testability":  9,
+                 "non_claim":  10,
+                 "risk":  8,
+                 "mode_fit":  9,
+                 "structure":  9,
+                 "multi_option":  10,
+                 "ownership_boundary":  5,
+                 "consistency":  9,
+                 "actionability":  8
+             },
+    "prompt":  {
+                   "failure_rollback":  2,
+                   "testability":  2,
+                   "non_claim":  4,
+                   "risk":  7,
+                   "mode_fit":  8,
+                   "structure":  4,
+                   "multi_option":  8,
+                   "ownership_boundary":  3,
+                   "consistency":  5,
+                   "actionability":  3
+               },
+    "abcd_topScore":  93.9,
+    "abcd_live_axes":  [
+                           {
+                               "axis":  "skill-ceiling",
+                               "score":  93.9,
+                               "rank":  1
+                           },
+                           {
+                               "axis":  "flow-continuity",
+                               "score":  89.75,
+                               "rank":  2
+                           },
+                           {
+                               "axis":  "moment-to-moment-feel",
+                               "score":  89.35,
+                               "rank":  3
+                           },
+                           {
+                               "axis":  "expressive-input",
+                               "score":  88.35,
+                               "rank":  4
+                           },
+                           {
+                               "axis":  "novelty-delta",
+                               "score":  88.2,
+                               "rank":  5
+                           },
+                           {
+                               "axis":  "counterplay-clarity",
+                               "score":  80.5,
+                               "rank":  6
+                           },
+                           {
+                               "axis":  "presentation-beat",
+                               "score":  78.35,
+                               "rank":  7
+                           }
+                       ]
+}

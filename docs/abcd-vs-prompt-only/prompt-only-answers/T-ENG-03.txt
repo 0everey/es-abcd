@@ -1,0 +1,8 @@
+【仅提示词 · 无 ABCD】批量道具管线
+需求：大量道具制作入库管线：模板命名字段校验批量生成，单入口禁旁路。
+
+用 Excel/CSV 配道具，字段 id,name,type,stack,price。写个 Editor 菜单 ImportItems 读 CSV 生成 SO。背包直接按 id 加。
+
+坏数据跳过并 log。命名统一 item_。批量生成用循环创建 SO。
+
+弄完就能大批量加道具了，很适合快速铺内容。

@@ -1,0 +1,58 @@
+{
+    "id":  "T-STA-04",
+    "total_abcd":  87,
+    "total_prompt":  38,
+    "delta":  49,
+    "abcd":  {
+                 "failure_rollback":  9,
+                 "testability":  9,
+                 "non_claim":  10,
+                 "risk":  8,
+                 "mode_fit":  9,
+                 "structure":  9,
+                 "multi_option":  8,
+                 "ownership_boundary":  8,
+                 "consistency":  9,
+                 "actionability":  8
+             },
+    "prompt":  {
+                   "failure_rollback":  0,
+                   "testability":  7,
+                   "non_claim":  0,
+                   "risk":  7,
+                   "mode_fit":  6,
+                   "structure":  4,
+                   "multi_option":  2,
+                   "ownership_boundary":  3,
+                   "consistency":  5,
+                   "actionability":  4
+               },
+    "abcd_topScore":  88.1,
+    "abcd_live_axes":  [
+                           {
+                               "axis":  "compatibility",
+                               "score":  88.1,
+                               "rank":  1
+                           },
+                           {
+                               "axis":  "rollback",
+                               "score":  87.75,
+                               "rank":  2
+                           },
+                           {
+                               "axis":  "integration-fit",
+                               "score":  85.6,
+                               "rank":  3
+                           },
+                           {
+                               "axis":  "regression-fixture",
+                               "score":  78,
+                               "rank":  4
+                           },
+                           {
+                               "axis":  "contract-completeness",
+                               "score":  77.95,
+                               "rank":  5
+                           }
+                       ]
+}
