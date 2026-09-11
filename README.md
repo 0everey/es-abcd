@@ -38,7 +38,29 @@
 | **过程栏** | 多向发散、模式轴、hash/claim、可复核结构、不夸大 | 通常明显 | 体系强制：方向数、选择状态、runtime-not-run |
 | **内容栏** | 领域槽位覆盖、可写稿深度、是否贴业务 | **不保证碾压** | 强提示词 / 领域熟手模型可在内容栏打平或反超；弱对照样本不能当「全面碾压任意 AI」唯一证据 |
 
-当前默认成功路径是 **L0 透镜**；只有 live-ops 等已接线领域才升到 **L1 domain-brief**。这不是「万能内容生成器」。
+当前 **商用默认** 会尽量给出 **L1 可讨论方案卡**（轴差异化正文 + 领域槽位/手感卡）；读回执仍以 `deliveryKind` / `pipelineLevel` 为准。这不是「万能内容生成器」，也不是已平衡可发版。
+
+### 商用一键（推荐）
+
+装好后在项目根：
+
+```powershell
+. .\ES\Automation\ABCD\Use-ESABCD.ps1
+# 写出中文 Markdown 简报 + JSON（out/commercial-brief-*.md）
+Invoke-ESABCDCommercialBrief -Requirement '采集-合成-战备-出击 五条日活循环，硬核/休闲/社交' -Mode creative-divergence
+# 或
+Invoke-ESABCDQuick -Requirement '近战爆发技能手感，至少5向' -Mode creative-divergence -Commercial
+```
+
+你会得到：
+
+| 产物 | 用途 |
+|------|------|
+| `commercial-brief-*.md` | 给人读的方案简报（需求、领域表/方案卡、透镜排序、主推荐展开） |
+| `commercial-brief-*.json` | 机器回执（deliveryKind、domainBrief、rankedSummaries） |
+
+**商用成功** = 有简报文件 + `deliveryKind` 可读 + claim 仍是设计候选。  
+**不需要**先跑仓库里那一大坨 `Test-*.ps1`（安装时已默认不拷贝，只保留冒烟必需的两项静态检查）。
 
 ---
 

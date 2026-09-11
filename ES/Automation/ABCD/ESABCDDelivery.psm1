@@ -191,26 +191,96 @@ function New-ESABCDDomainBrief {
         }
     }
     elseif ($domainInfo.domain -eq 'combat-feel') {
-        $deliveryKind = 'lens-only'
-        $pipelineLevel = 'L0'
-        $deliveryStatus = 'lens-only-feel-domain'
-        $brief = [pscustomobject]@{
-            domain = 'combat-feel'
-            summary = '手感域默认以透镜排序为 L0 交付；完整手感方案文案可接后续写稿。'
-            lensesUsed = $lenses
+        # L1 feel cards from ranked lenses (commercial content, still design-candidate)
+        Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
+        $cards = New-Object System.Collections.Generic.List[object]
+        $ci = 0
+        foreach ($lens in $lenses) {
+            $ci++
+            if ($ci -gt 5) { break }
+            $axisName = if ([string]::IsNullOrWhiteSpace([string]$lens.axis)) { 'moment-to-moment-feel' } else { [string]$lens.axis }
+            $body = Get-ESABCDAxisBodyFields -Axis $axisName -Mode $Mode -Requirement $Requirement -Ordinal $ci
+            [void]$cards.Add([pscustomobject]@{
+                    title          = "手感方案 $ci · $($body.axisZh)"
+                    pitch          = [string]$body.productPitch
+                    scenario       = [string]$body.concretePlayerScenario
+                    inputSequence  = [string]$body.inputSequence
+                    visibleFeedback= [string]$body.visibleFeedback
+                    novelMechanism = [string]$body.novelMechanism
+                    risk           = [string]$body.risk
+                    hardCost       = '需实机组手感与帧数据验证；当前为设计候选'
+                    groundedAxis   = $axisName
+                    groundedLensId = [string]$lens.directionId
+                })
         }
-        $checklist = [pscustomobject]@{ passed = $true; domain = 'combat-feel'; notes = 'L0 lens-only allowed for feel domain' }
+        while ($cards.Count -lt 5) {
+            $n = $cards.Count + 1
+            $body = Get-ESABCDAxisBodyFields -Axis 'moment-to-moment-feel' -Mode $Mode -Requirement $Requirement -Ordinal $n
+            [void]$cards.Add([pscustomobject]@{
+                    title = "手感方案 $n · $($body.axisZh)"; pitch = $body.productPitch; scenario = $body.concretePlayerScenario
+                    inputSequence = $body.inputSequence; visibleFeedback = $body.visibleFeedback; novelMechanism = $body.novelMechanism
+                    risk = $body.risk; hardCost = '需实机验证'; groundedAxis = 'moment-to-moment-feel'; groundedLensId = ''
+                })
+        }
+        $brief = [pscustomobject]@{
+            domain     = 'combat-feel'
+            language   = 'zh-CN'
+            summary    = '近战/手感域 L1：按透镜展开的 5 张可讨论手感方案卡（含场景/输入/反馈/机制/硬伤）。'
+            cards      = @($cards.ToArray())
+            lensesUsed = $lenses
+            requirement= $Requirement
+            mode       = $Mode
+        }
+        $deliveryKind = 'domain-brief'
+        $pipelineLevel = 'L1'
+        $deliveryStatus = 'domain-brief-closed'
+        $checklist = [pscustomobject]@{ passed = ($cards.Count -ge 5); domain = 'combat-feel'; cardCount = $cards.Count }
     }
     else {
-        $deliveryKind = 'lens-only'
-        $pipelineLevel = 'L0'
-        $deliveryStatus = 'DELIVERY_LENS_ONLY'
-        $brief = [pscustomobject]@{
-            domain = 'generic'
-            summary = '通用题默认 L0 透镜排序；未识别为 live-ops 时不自动编造领域环。'
-            lensesUsed = $lenses
+        # Generic commercial: still emit ranked axis cards as L1-lite content pack when we have grounded bodies
+        Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
+        $cards = New-Object System.Collections.Generic.List[object]
+        $ci = 0
+        foreach ($lens in $lenses) {
+            $ci++
+            if ($ci -gt 7) { break }
+            $axisName = if ([string]::IsNullOrWhiteSpace([string]$lens.axis)) { 'integration-fit' } else { [string]$lens.axis }
+            $body = Get-ESABCDAxisBodyFields -Axis $axisName -Mode $Mode -Requirement $Requirement -Ordinal $ci
+            [void]$cards.Add([pscustomobject]@{
+                    title          = "方案 $ci · $($body.axisZh)"
+                    pitch          = [string]$body.productPitch
+                    scenario       = [string]$body.concretePlayerScenario
+                    inputSequence  = [string]$body.inputSequence
+                    visibleFeedback= [string]$body.visibleFeedback
+                    novelMechanism = [string]$body.novelMechanism
+                    risk           = [string]$body.risk
+                    hardCost       = '设计候选；需项目上下文审阅'
+                    groundedAxis   = $axisName
+                    groundedLensId = [string]$lens.directionId
+                })
         }
-        $checklist = [pscustomobject]@{ passed = $true; domain = 'generic'; notes = 'L0 default' }
+        $hasCards = $cards.Count -ge 3
+        $brief = [pscustomobject]@{
+            domain      = 'generic'
+            language    = 'zh-CN'
+            summary     = if ($hasCards) { '通用题商用 L1-lite：按模式轴展开的可讨论方案卡（非特定域槽位）。' } else { '通用题 L0 透镜排序。' }
+            cards       = @($cards.ToArray())
+            lensesUsed  = $lenses
+            requirement = $Requirement
+            mode        = $Mode
+        }
+        if ($hasCards) {
+            $deliveryKind = 'domain-brief'
+            $pipelineLevel = 'L1'
+            $deliveryStatus = 'domain-brief-closed'
+            $checklist = [pscustomobject]@{ passed = $true; domain = 'generic'; cardCount = $cards.Count; notes = 'L1-lite axis cards' }
+        }
+        else {
+            $deliveryKind = 'lens-only'
+            $pipelineLevel = 'L0'
+            $deliveryStatus = 'DELIVERY_LENS_ONLY'
+            $checklist = [pscustomobject]@{ passed = $true; domain = 'generic'; notes = 'L0 default' }
+        }
     }
 
     return [pscustomobject]@{
@@ -330,6 +400,8 @@ function Complete-ESABCDSelectionDelivery {
         domain                 = [string]$delivery.domain
         domainBrief            = $delivery.domainBrief
         domainChecklist        = $delivery.checklist
+        commercialContent      = $true
+        contentTier           = 'axis-grounded-v1'
     }
     return $out
 }

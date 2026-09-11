@@ -1,5 +1,12 @@
 ﻿## Unreleased
 
+### Commercial usability
+- Axis-grounded content packs (creative/engineering/stable): differentiated scenario/input/feedback/mechanism + zh axis titles.
+- `Invoke-ESABCDCommercial` / `Invoke-ESABCDCommercialBrief` emit human Markdown + JSON briefs.
+- Combat-feel and generic paths promote to L1 domain-brief cards; live-ops keeps five-loop brief.
+- Consumer install skips bulk `Test-*.ps1` (keeps mono + mode-mapping only) for lean commercial overlay.
+## Unreleased
+
 ### Added
 - `ESABCDDelivery.psm1`: `deliveryKind` / `pipelineLevel` (L0 lens-only vs L1 domain-brief), template-collision gate, live-ops domain brief checklist, built-in SHA256.
 - `scripts/Test-ESABCDDeliveryGates.ps1` gating suite for delivery honesty and portable hash/path params.

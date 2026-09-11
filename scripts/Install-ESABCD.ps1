@@ -74,6 +74,18 @@ function Copy-Rel([string]$Rel) {
         if ($rel -match '^(README\.md|LICENSE|\.gitignore|docs/|package/|examples/|\.git/)') {
             continue
         }
+        # Commercial install: strip bulk Test-* (keep only smoke-critical static checks).
+        $leaf = [IO.Path]::GetFileName($rel)
+        $keepTests = @(
+            'Test-ESABCDMonoSemanticAuthority.ps1',
+            'Test-ESABCDModeFunctionLevelMapping.ps1'
+        )
+        if ($leaf -like 'Test-*.ps1' -and $leaf -notin $keepTests) {
+            continue
+        }
+        if ($leaf -like '*Regression*.ps1') {
+            continue
+        }
         $dst = Join-Path $TargetRoot $rel
         $dstDir = Split-Path -Parent $dst
         if (-not (Test-Path -LiteralPath $dstDir)) {

@@ -32,33 +32,43 @@ $contract = Join-Path $PackageRoot 'ES\Automation\Contracts\es-ai-abc-generation
 $hash = Get-ESABCDFileSha256 -LiteralPath $contract
 Log "hash-ok $hash"
 
-# --- 1 deliveryKind on default creative short run ---
+# --- 1 deliveryKind on default creative short run (axis-grounded content) ---
 $div = Invoke-ESABCModeDivergence -Requirement 'melee burst skill feel probe' -SourceHash $hash -Mode creative-divergence -ProjectRoot $PackageRoot
 $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode creative-divergence -Requirement 'melee burst skill feel probe'
 if ([string]::IsNullOrWhiteSpace([string]$sel.deliveryKind)) { throw 'deliveryKind missing' }
 if ([string]::IsNullOrWhiteSpace([string]$sel.pipelineLevel)) { throw 'pipelineLevel missing' }
-if ([string]$sel.deliveryKind -ne 'lens-only') { throw "expected lens-only got $($sel.deliveryKind)" }
-if ([string]$sel.pipelineLevel -ne 'L0') { throw "expected L0 got $($sel.pipelineLevel)" }
-if (-not [bool]$sel.templateCollision.hasCollision) { throw 'expected template collision on default creative templates' }
 if ([string]$sel.claimLevel -notmatch 'design-candidate') { throw 'claimLevel missing design-candidate' }
-Log "delivery-kind-ok kind=$($sel.deliveryKind) level=$($sel.pipelineLevel) collision=$($sel.templateCollision.collisionCount) claim=$($sel.claimLevel)"
+# Axis-grounded bodies must differ across candidates (commercial content upgrade)
+$s0 = [string]$div.directions[0].concretePlayerScenario
+$s1 = [string]$div.directions[1].concretePlayerScenario
+if ($s0 -ceq $s1) { throw 'axis bodies still identical - content pack not wired' }
+if ([string]::IsNullOrWhiteSpace([string]$div.directions[0].axisZh)) { throw 'axisZh missing' }
+if ([bool]$sel.templateCollision.hasCollision) { throw 'differentiated axis bodies should not template-collide' }
+Log "delivery-kind-ok kind=$($sel.deliveryKind) level=$($sel.pipelineLevel) collision=$($sel.templateCollision.collisionCount) claim=$($sel.claimLevel) axis0=$($div.directions[0].axisZh)"
 [IO.File]::WriteAllText((Join-Path $ScratchRoot 'delivery-kind.log'), ($log -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
 
-# --- 2 template collision unit + fail switch ---
-$c1 = $div.directions[0]
-$c2 = $div.directions[1]
+# --- 2 template collision unit + fail switch (synthetic identical bodies) ---
+$c1 = $div.directions[0] | ConvertTo-Json -Depth 8 | ConvertFrom-Json
+$c2 = $div.directions[1] | ConvertTo-Json -Depth 8 | ConvertFrom-Json
+$c1.concretePlayerScenario = 'SAME_SCENARIO_BODY'
+$c2.concretePlayerScenario = 'SAME_SCENARIO_BODY'
+$c1.inputSequence = 'SAME_INPUT'
+$c2.inputSequence = 'SAME_INPUT'
+$c1.visibleFeedback = 'SAME_FEEDBACK'
+$c2.visibleFeedback = 'SAME_FEEDBACK'
+$c2.directionId = 'cand-synthetic-dup-0001'
 $collision = Test-ESABCDTemplateCollision -Candidates @($c1, $c2)
-if (-not [bool]$collision.hasCollision) { throw 'unit collision expected' }
+if (-not [bool]$collision.hasCollision) { throw 'unit collision expected on synthetic twins' }
 $threw = $false
 try {
-    $null = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode creative-divergence -Requirement 'x' -FailOnTemplateCollision
+    $null = Select-ESABCGenerationCandidate -Candidates @($c1, $c2) -Mode creative-divergence -Requirement 'x' -FailOnTemplateCollision
 } catch {
     $threw = $true
     if ($_.Exception.Message -notmatch 'LENS_TEMPLATE_COLLISION') { throw "wrong throw $($_.Exception.Message)" }
 }
 if (-not $threw) { throw 'FailOnTemplateCollision should throw' }
 Log 'template-collision-ok'
-[IO.File]::WriteAllText((Join-Path $ScratchRoot 'template-collision.log'), "hasCollision=true throwOnFail=true collisionCount=$($collision.collisionCount)`n", [Text.UTF8Encoding]::new($false))
+[IO.File]::WriteAllText((Join-Path $ScratchRoot 'template-collision.log'), "hasCollision=true throwOnFail=true collisionCount=$($collision.collisionCount) synthetic=true`n", [Text.UTF8Encoding]::new($false))
 
 # --- 3 live-ops domain brief L1 (English keywords trigger domain; Chinese slots in brief body) ---
 $liveReq = 'Design daily live-ops loop: gather-craft-prep-sortie with hardcore/casual/social; who it attracts and who it annoys.'
@@ -140,12 +150,25 @@ if ([string]::IsNullOrWhiteSpace([string]$receipt.pipelineLevel)) { throw 'smoke
 [IO.File]::WriteAllText($pathLog, "trial=$trial`nget_exit=0`nsmoke_exit=0`ndeliveryKind=$($receipt.deliveryKind)`npipelineLevel=$($receipt.pipelineLevel)`n$trialOut`n$smokeOut", [Text.UTF8Encoding]::new($false))
 Log "path-param-trial-ok deliveryKind=$($receipt.deliveryKind) pipelineLevel=$($receipt.pipelineLevel)"
 
+
+# --- 6 commercial brief markdown ---
+Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDCommercialContent.psm1') -Force -Global
+$commOut = Join-Path $ScratchRoot 'commercial-out'
+$comm = Invoke-ESABCDCommercial -Requirement 'Design daily live-ops loop: gather-craft-prep-sortie hardcore casual social' -Mode creative-divergence -ProjectRoot $PackageRoot -OutDir $commOut
+if ([string]$comm.deliveryKind -ne 'domain-brief') { throw "commercial deliveryKind=$($comm.deliveryKind)" }
+if ([string]$comm.pipelineLevel -ne 'L1') { throw "commercial level=$($comm.pipelineLevel)" }
+if (-not (Test-Path -LiteralPath $comm.markdownPath)) { throw 'commercial md missing' }
+$mdText = [IO.File]::ReadAllText($comm.markdownPath)
+if ($mdText -notmatch '商用交付简报') { throw 'md missing title' }
+if ($mdText.Length -lt 400) { throw 'md too short' }
+Log "commercial-brief-ok md=$($comm.markdownPath) bytes=$($mdText.Length)"
+[IO.File]::WriteAllText((Join-Path $ScratchRoot 'commercial-brief.log'), "md=$($comm.markdownPath)`njson bytes ok`nlen=$($mdText.Length)`n", [Text.UTF8Encoding]::new($false))
 # summary
 $summary = [pscustomobject]@{
     status = 'passed'
     packageRoot = $PackageRoot
     scratchRoot = $ScratchRoot
-    checks = @('delivery-kind', 'template-collision', 'domain-brief-liveops', 'hash-polyfill', 'path-param-trial')
+    checks = @('delivery-kind', 'template-collision', 'domain-brief-liveops', 'hash-polyfill', 'path-param-trial', 'commercial-brief')
 }
 $summary | ConvertTo-Json | Set-Content (Join-Path $ScratchRoot 'gates-summary.json') -Encoding UTF8
 Log 'ALL_GATES_PASSED'

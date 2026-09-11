@@ -36,6 +36,7 @@
                         "ES/Automation/ABCD/ESABCDOrchestrator.psm1",
                         "ES/Automation/ABCD/ESABCDDivergence.psm1",
         "ES/Automation/ABCD/ESABCDDelivery.psm1",
+        "ES/Automation/ABCD/ESABCDCommercialContent.psm1",
                         "ES/Automation/ABCD/Resolve-ESABCDMonoSemantic.ps1",
                         "ES/Automation/ABCD/Test-ESABCDMonoSemanticAuthority.ps1",
                         "ES/Automation/ABCD/Resolve-ESABCDGenerationMode.ps1",

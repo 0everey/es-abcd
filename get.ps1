@@ -201,6 +201,7 @@ $ErrorActionPreference = 'Stop'
 $env:ES_ABCD_GOVERNANCE_MODE = 'portable'
 Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot 'ESABCDDelivery.psm1') -Force -Global
+Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot 'ESABCDDivergence.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1') -Force -Global
 
@@ -209,7 +210,8 @@ function Invoke-ESABCDQuick {
     param(
         [Parameter(Mandatory)][string]$Requirement,
         [ValidateSet('engineering','creative-divergence','stable')][string]$Mode = 'engineering',
-        [string]$ProjectRoot = ''
+        [string]$ProjectRoot = '',
+        [switch]$Commercial
     )
     if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
         $here = (Get-Location).Path
@@ -218,6 +220,9 @@ function Invoke-ESABCDQuick {
         } else {
             $ProjectRoot = Get-ESABCDPackageRoot
         }
+    }
+    if ($Commercial) {
+        return Invoke-ESABCDCommercial -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot
     }
     $contract = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
     $hash = Get-ESABCDFileSha256 -LiteralPath $contract
@@ -236,7 +241,27 @@ function Invoke-ESABCDQuick {
         candidateSetHash = [string]$div.candidateSetHash
         runtimeStatus = 'runtime-not-run'
         projectRoot = $ProjectRoot
+        commercialContent = [bool]$sel.commercialContent
     }
+}
+
+function Invoke-ESABCDCommercialBrief {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory)][string]$Requirement,
+        [ValidateSet('engineering','creative-divergence','stable')][string]$Mode = 'creative-divergence',
+        [string]$ProjectRoot = '',
+        [string]$OutDir = ''
+    )
+    if ([string]::IsNullOrWhiteSpace($ProjectRoot)) {
+        $here = (Get-Location).Path
+        if (Test-Path (Join-Path $here 'ES\Automation\Contracts\es-ai-abc-generation-mode-v1.json')) {
+            $ProjectRoot = $here
+        } else {
+            $ProjectRoot = Get-ESABCDPackageRoot
+        }
+    }
+    return Invoke-ESABCDCommercial -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -OutDir $OutDir
 }
 '@
 [IO.File]::WriteAllText($shim, $shimBody, [Text.UTF8Encoding]::new($false))
