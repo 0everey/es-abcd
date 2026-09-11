@@ -165,12 +165,31 @@ function Invoke-ESABCD {
     $ProjectRoot = Resolve-ESABCDProjectRoot -ProjectRoot $ProjectRoot
     $profileName = if ($Output -eq 'brief') { 'brief' } else { 'select' }
     Import-ESABCDProfile -Name $profileName | Out-Null
+    Import-ESABCDCapability -Id @('content') -WithDeps | Out-Null
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDRealDivergence.psm1') -Force -Global
 
     $contract = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
     $hash = Get-ESABCDFileSha256 -LiteralPath $contract
     $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $hash -Mode $Mode -ProjectRoot $ProjectRoot
 
+    if ([string]::IsNullOrWhiteSpace($OutDir)) {
+        $OutDir = Join-Path $ProjectRoot 'ES\Automation\ABCD\out'
+    }
+    New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
+    $stamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')
+
     if ($Output -eq 'diverge') {
+        # minimal selection shell for Chinese receipt of pure divergence
+        $selShell = [pscustomobject]@{
+            deliveryKind = 'lens-only'; pipelineLevel = 'L0'; domain = 'generic'
+            claimLevel = 'candidate'; selectionStatus = 'divergence-only'
+            selectedDirectionId = [string]$div.directions[0].directionId
+            ranked = @($div.directions | ForEach-Object { [pscustomobject]@{ candidate = $_; rankScore = 0 } })
+            domainBrief = $null; templateCollision = $null
+        }
+        $zh = ConvertTo-ESABCDChineseReceipt -Selection $selShell -Divergence $div -Requirement $Requirement -Entry 'Invoke-ESABCD'
+        $zhPath = Join-Path $OutDir ("receipt-zh-$stamp.json")
+        [IO.File]::WriteAllText($zhPath, ($zh | ConvertTo-Json -Depth 12), [Text.UTF8Encoding]::new($true))
         return [pscustomobject]@{
             entry            = 'Invoke-ESABCD'
             output           = 'diverge'
@@ -179,11 +198,17 @@ function Invoke-ESABCD {
             divergence       = $div
             directionCount   = [int]$div.directionCount
             candidateSetHash = [string]$div.candidateSetHash
+            divergenceEngine = [string]$div.iterationTraceKind
+            中文回执         = $zh
+            中文回执路径     = $zhPath
             runtimeStatus    = 'runtime-not-run'
         }
     }
 
     $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode -Requirement $Requirement
+    $zh = ConvertTo-ESABCDChineseReceipt -Selection $sel -Divergence $div -Requirement $Requirement -Entry 'Invoke-ESABCD'
+    $zhPath = Join-Path $OutDir ("receipt-zh-$stamp.json")
+    [IO.File]::WriteAllText($zhPath, ($zh | ConvertTo-Json -Depth 12), [Text.UTF8Encoding]::new($true))
 
     if ($Output -eq 'select') {
         return [pscustomobject]@{
@@ -201,19 +226,17 @@ function Invoke-ESABCD {
             domain                = [string]$sel.domain
             candidateSetHash      = [string]$div.candidateSetHash
             commercialContent     = [bool]$sel.commercialContent
+            divergenceEngine      = [string]$div.iterationTraceKind
             selection             = $sel
             divergence            = $div
+            中文回执              = $zh
+            中文回执路径          = $zhPath
             runtimeStatus         = 'runtime-not-run'
         }
     }
 
-    # brief (default): human markdown + json via content formatter
+    # brief (default): Chinese markdown + machine json + final Chinese receipt
     $md = Format-ESABCDCommercialMarkdown -Selection $sel -Divergence $div -Requirement $Requirement
-    if ([string]::IsNullOrWhiteSpace($OutDir)) {
-        $OutDir = Join-Path $ProjectRoot 'ES\Automation\ABCD\out'
-    }
-    New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-    $stamp = [DateTime]::UtcNow.ToString('yyyyMMdd-HHmmss')
     $mdPath = Join-Path $OutDir ("commercial-brief-$stamp.md")
     $jsonPath = Join-Path $OutDir ("commercial-brief-$stamp.json")
     [IO.File]::WriteAllText($mdPath, $md, [Text.UTF8Encoding]::new($true))
@@ -232,6 +255,7 @@ function Invoke-ESABCD {
         selectedDirectionId   = [string]$sel.selectedDirectionId
         directionCount        = [int]$div.directionCount
         candidateSetHash      = [string]$div.candidateSetHash
+        divergenceEngine      = [string]$div.iterationTraceKind
         domainBrief           = $sel.domainBrief
         rankedSummaries       = @($sel.ranked | ForEach-Object {
                 $c = $_.candidate
@@ -243,17 +267,21 @@ function Invoke-ESABCD {
                     productPitch            = [string]$c.productPitch
                     concretePlayerScenario  = [string]$c.concretePlayerScenario
                     novelMechanism          = [string]$c.novelMechanism
+                    keptMutations           = $c.keptMutations
                 }
             })
         markdownPath          = $mdPath
         jsonPath              = $jsonPath
+        chineseReceiptPath    = $zhPath
+        中文回执              = $zh
+        中文回执路径          = $zhPath
         runtimeStatus         = 'runtime-not-run'
         commercialReady       = $true
         nonClaims             = @('not-shipped', 'not-balanced', 'not-playmode', 'not-universal-ai-wipeout')
         capturedUtc           = [DateTime]::UtcNow.ToString('o')
         projectRoot           = $ProjectRoot
     }
-    [IO.File]::WriteAllText($jsonPath, ($payload | ConvertTo-Json -Depth 10), [Text.UTF8Encoding]::new($true))
+    [IO.File]::WriteAllText($jsonPath, ($payload | ConvertTo-Json -Depth 12), [Text.UTF8Encoding]::new($true))
     return $payload
 }
 

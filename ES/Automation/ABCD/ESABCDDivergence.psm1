@@ -35,28 +35,27 @@ function Invoke-ESABCModeDivergence {
  if([string]::IsNullOrWhiteSpace($ProjectRoot)){ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global; $ProjectRoot = Get-ESABCDPackageRoot }
  if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'};if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
  $profile=Get-ESABCGenerationMode -Mode $Mode -ProjectRoot $ProjectRoot;$count=if($MinimumDirections -gt 0){$MinimumDirections}else{$profile.minimumDirections};if($count -lt $profile.minimumDirections -or $count -gt $profile.maximumDirections){throw 'ABC_GENERATION_DIRECTION_BUDGET_INVALID'}
- Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDRealDivergence.psm1') -Force -Global
  $axes=@($profile.requiredAxes);$directions=[Collections.Generic.List[object]]::new();$allRounds=[Collections.Generic.List[object]]::new()
+ $realRounds=6
  for($i=0;$i -lt $count;$i++){
-   $axis=[string]$axes[$i % $axes.Count];$seed=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;axis=$axis;ordinal=$i+1};$hash=Get-ESABCDDivergenceHash $seed;$id='cand-'+$hash.Substring(0,20)
-   $scores=[ordered]@{};foreach($name in @('delight','smoothness','presentation','skillCeiling','joyLoop','first10sMoment','expressionCeiling','noveltyDelta','counterplayClarity','depth','breakthrough','reusability','longevity','projectFit','completeness','safety','closure')){$scores[$name]=[int](([Convert]::ToInt32((Get-ESABCDDivergenceHash ([ordered]@{seed=$seed;dimension=$name})).Substring(0,6),16))%31)+70}
-   $body=Get-ESABCDAxisBodyFields -Axis $axis -Mode $Mode -Requirement $Requirement -Ordinal ($i+1)
-   $playerValue=if($Mode -eq 'creative-divergence'){'player-delight-flow-expression-and-high-ceiling'}elseif($Mode -eq 'engineering'){'deep-reusable-technical-system-with-long-life'}else{'project-fit-complete-safe-and-repeatable-content-loop'};$chain="core action ($axis / $($body.axisZh)) -> linked mechanic -> visible payoff -> recovery choice; amplify one action via "+([string]$profile.amplificationLoop);$self="weakest=$axis; repair=add a concrete linked mechanic, visible payoff and recovery choice; ranking=post-repair uses "+(($profile.rankingPriority|%{[string]$_}) -join ',')
-   $candidate=[pscustomobject][ordered]@{directionId=$id;mode=$Mode;ordinal=$i+1;axis=$axis;axisZh=[string]$body.axisZh;productPitch=[string]$body.productPitch;contentTier=[string]$body.contentTier;focus=@($profile.focus);rankingPriority=@($profile.rankingPriority);selfCritiqueLoop=[string]$profile.selfCritiqueLoop;noveltyPrompt="Explore $axis ($($body.axisZh)) without copying an existing default pattern";playerValue=$playerValue;modeScores=[pscustomobject]$scores;amplificationChain=$chain;selfCritique=$self;selfCritiquePasses=2;seedDraft=[string]$body.seedDraft;expansionSet="ABCD recursive expansion branch $($i+1)";auditFindings='ABCD audit pending: authority, ownership, counterplay, recovery';playabilityBackpressure='first-payoff and complexity budget reviewed per round';finalDecision='candidate; not finalized';deletedAnchors=@("default-$axis-assumption",'one-shot-resolution');novelMechanism=[string]$body.novelMechanism;plausibilityRationale='Player-readable cause and effect bounded by resource, timing, target and recovery constraints';counterplayInvariant='Opponent receives warning plus interrupt, evade or punish window';surpriseScore=78;plausibilityScore=75;firstUseAffordance="One primary input produces immediate visible response for $axis";partialUnderstandingPath='Basic response is useful before full system comprehension';masteryDepth='Timing, branching and matchup expression deepen after first use';onboardingBurden=70;firstPayoffSeconds=6;firstInputCount=1;preservedIdentity='requested subject identity remains intact';preservedRole='requested role remains intact';requestedFormFactor='input-declared-form-factor';formFactorPreserved=$true;mechanismDelta='change mechanism only; identity, role and form factor are invariant';concretePlayerScenario=[string]$body.concretePlayerScenario;inputSequence=[string]$body.inputSequence;visibleFeedback=[string]$body.visibleFeedback;acceptabilityRationale='First action is legible and useful immediately while mastery layers remain optional';concretenessScore=90;acceptabilityScore=82;assumption=[string]$body.assumption;risk=[string]$body.risk;pruningPolicy=$profile.pruningPolicy;hidden=$false;status='candidate';verificationPredicate="source-hash-equals:$SourceHash";identityHash=$hash;lineageRoot=$id;lineageDepth=0;iterationTrace=@()}
-   $beam=@($candidate);$trace=[Collections.Generic.List[object]]::new();for($round=1;$round -le 12;$round++){ $parent=$beam[0];$branches=@();for($branch=1;$branch -le 2;$branch++){ $accept=[math]::Min(100,60+(($i+$round+$branch)%31));$b=[pscustomobject][ordered]@{roundId=$round;parentCandidateId=[string]$parent.directionId;branchId="$id-r$round-b$branch";branchReason="round $round tests one concrete alternative to $axis ($($body.axisZh))";concreteChange="alter one decision on axis $axis while preserving identity; body=$($body.productPitch)";playerAcceptability=$accept;keepOrDiscardReason=if($branch -eq 1){"keep: higher readability for $($body.axisZh)"}else{'discard: retain as counterfactual, lower acceptance'};decision=if($branch -eq 1){'keep'}else{'discard'}};$branches+=,$b;[void]$trace.Add($b)};$beam=@($parent)}
-   $candidate.iterationTrace=@($trace);$candidate.lineageDepth=12;[void]$allRounds.AddRange(@($trace));[void]$directions.Add($candidate)
+   $axis=[string]$axes[$i % $axes.Count]
+   $candidate=New-ESABCDRealDirectionCandidate -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -Axis $axis -Ordinal ($i+1) -Profile $profile -RealRounds $realRounds
+   [void]$allRounds.AddRange(@($candidate.iterationTrace));[void]$directions.Add($candidate)
  }
- $canonical=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;directions=@($directions);rounds=@($allRounds)}
+ $canonical=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;directions=@($directions);rounds=@($allRounds);engine='real-axis-branch-v1'}
  [pscustomobject][ordered]@{
    schemaVersion=1;contractId='es://automation/contracts/ai-abc/generation-modes/v1';mode=$Mode;profile=$profile
    requirement=$Requirement;sourceHash=$SourceHash;directionCount=$directions.Count;directions=@($directions)
-   iterationPolicy=[ordered]@{minimumRounds=12;branchingPerRound=@(2,4);selection='player-acceptability-before-deepening';lineageRequired=$true}
-   roundCount=12;branchCount=$allRounds.Count;hiddenDirectionCount=0
-   selectionPolicy=if($Mode -eq 'creative-divergence'){'rank-after-visible-tree-search'}else{'deterministic-ranked-after-visible-tree-search'}
+   iterationPolicy=[ordered]@{minimumRounds=$realRounds;branchingPerRound=@(2,2);selection='content-fit-keep-discard';lineageRequired=$true;engine='real-axis-branch-v1'}
+   roundCount=$realRounds;branchCount=$allRounds.Count;hiddenDirectionCount=0
+   selectionPolicy=if($Mode -eq 'creative-divergence'){'rank-after-real-axis-branch'}else{'deterministic-ranked-after-real-axis-branch'}
    status=$profile.outputStatus;claimLevel='candidate';auditDeferred=$true
    candidateSetHash=(Get-ESABCDDivergenceHash $canonical);graphAuthority='candidate-only'
    deliveryKind='lens-pending';pipelineLevel='L0';runtimeStatus='runtime-not-run'
-   iterationTraceKind='synthetic-trace'
+   iterationTraceKind='real-axis-branch-v1'
+   divergenceEngine='real-axis-branch-v1'
+   language='zh-CN'
  }
 }
 

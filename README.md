@@ -1,4 +1,4 @@
-# es-abcd
+﻿# es-abcd
 
 **跟 AI 一起做系统设计时用的协作工具。** 本页即可完整预览：怎么用、会得到什么、每种模式的真实场景与实测结果。
 
@@ -59,7 +59,10 @@ Invoke-ESABCD -Requirement '采集-合成-战备-出击 五条日活…'   # 默
 
 兼容旧名（内部都转到 `Invoke-ESABCD`）：`Invoke-ESABCDQuick`、`Invoke-ESABCDCommercialBrief`。
 
-能力分散在独立模块里，由 `ES/Automation/ABCD/es-abcd-capability-index.json` 索引；**不要**再手写一长串 `Import-Module`。
+能力分散在独立模块里，由 ES/Automation/ABCD/es-abcd-capability-index.json 索引；**不要**再手写一长串 Import-Module。
+
+**发散**：eal-axis-branch-v1 真实轴分支（每轮双变体按需求贴合分 keep/discard），不是空合成 trace。  
+**回执**：默认写出 out/receipt-zh-*.json 中文最终回执（模式/交付/方向/分支摘要均为中文键）。
 
 **商用成功** = 有简报文件 + `deliveryKind` 可读 + claim 仍是设计候选。  
 安装默认不拷贝 bulk `Test-*.ps1`（只留冒烟必需两项）。

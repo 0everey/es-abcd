@@ -44,6 +44,11 @@ $s1 = [string]$div.directions[1].concretePlayerScenario
 if ($s0 -ceq $s1) { throw 'axis bodies still identical - content pack not wired' }
 if ([string]::IsNullOrWhiteSpace([string]$div.directions[0].axisZh)) { throw 'axisZh missing' }
 if ([bool]$sel.templateCollision.hasCollision) { throw 'differentiated axis bodies should not template-collide' }
+if ([string]$div.iterationTraceKind -ne 'real-axis-branch-v1') { throw "engine=$($div.iterationTraceKind)" }
+$tr = @($div.directions[0].iterationTrace | Where-Object { $_.decision -eq 'keep' })
+if ($tr.Count -lt 2) { throw 'real keep traces missing' }
+if ([string]::IsNullOrWhiteSpace([string]$tr[0].concreteChange)) { throw 'keep concreteChange empty' }
+if ([string]$tr[0].language -ne 'zh-CN') { throw 'trace language not zh' }
 Log "delivery-kind-ok kind=$($sel.deliveryKind) level=$($sel.pipelineLevel) collision=$($sel.templateCollision.collisionCount) claim=$($sel.claimLevel) axis0=$($div.directions[0].axisZh)"
 [IO.File]::WriteAllText((Join-Path $ScratchRoot 'delivery-kind.log'), ($log -join "`n") + "`n", [Text.UTF8Encoding]::new($false))
 
@@ -165,6 +170,14 @@ if (-not (Test-Path -LiteralPath $comm.markdownPath)) { throw 'commercial md mis
 $mdText = [IO.File]::ReadAllText($comm.markdownPath)
 if ($mdText -notmatch '商用交付简报') { throw 'md missing title' }
 if ($mdText.Length -lt 400) { throw 'md too short' }
+if ([string]::IsNullOrWhiteSpace([string]$comm.chineseReceiptPath) -and [string]::IsNullOrWhiteSpace([string]$comm.'中文回执路径')) { throw 'chinese receipt path missing' }
+$zhP = if ($comm.chineseReceiptPath) { $comm.chineseReceiptPath } else { $comm.'中文回执路径' }
+if (-not (Test-Path -LiteralPath $zhP)) { throw 'chinese receipt file missing' }
+$zhObj = Get-Content -LiteralPath $zhP -Raw -Encoding UTF8 | ConvertFrom-Json
+if ([string]$zhObj.'记录类型' -ne 'ESABCD中文回执') { throw 'zh record type' }
+if ([string]$zhObj.'发散引擎' -ne 'real-axis-branch-v1') { throw 'zh engine' }
+if (@($zhObj.'方向列表').Count -lt 5) { throw 'zh directions' }
+if ([string]$zhObj.'发散引擎中文' -notmatch '真实') { throw 'zh engine label' }
 Log "commercial-brief-ok md=$($comm.markdownPath) bytes=$($mdText.Length)"
 [IO.File]::WriteAllText((Join-Path $ScratchRoot 'commercial-brief.log'), "md=$($comm.markdownPath)`njson bytes ok`nlen=$($mdText.Length)`n", [Text.UTF8Encoding]::new($false))
 # summary

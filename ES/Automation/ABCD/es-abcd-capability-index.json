@@ -59,6 +59,14 @@
       "refs": ["axis-packs:creative", "axis-packs:engineering", "axis-packs:stable"]
     },
     {
+      "id": "real-divergence",
+      "tier": "core",
+      "module": "ESABCDRealDivergence.psm1",
+      "summary": "Real axis-branch keep/discard search + Chinese final receipt",
+      "exports": ["New-ESABCDRealDirectionCandidate", "ConvertTo-ESABCDChineseReceipt"],
+      "deps": ["content", "hash"]
+    },
+    {
       "id": "divergence",
       "tier": "core",
       "module": "ESABCDDivergence.psm1",
@@ -118,11 +126,11 @@
   "profiles": {
     "brief": {
       "description": "Commercial human brief (default product path)",
-      "load": ["home", "index", "hash", "delivery", "content", "divergence"]
+      "load": ["home", "index", "hash", "delivery", "content", "real-divergence", "divergence"]
     },
     "select": {
       "description": "Divergence + Select object only (no markdown file)",
-      "load": ["home", "index", "hash", "delivery", "content", "divergence"]
+      "load": ["home", "index", "hash", "delivery", "content", "real-divergence", "divergence"]
     },
     "smoke": {
       "description": "Install smoke path",
