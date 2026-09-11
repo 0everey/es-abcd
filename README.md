@@ -2,15 +2,38 @@
 
 和 AI 用自然语言做工程决策的工具包。不依赖旧 ES 大仓，不是 Unity 插件。
 
-**版本：** 1.0.0 正式版 · https://github.com/0everey/es-abcd · MIT  
+**版本：** 1.0.0 正式版 · [GitHub](https://github.com/0everey/es-abcd) · [Release](https://github.com/0everey/es-abcd/releases/tag/v1.0.0) · MIT  
 
-文档与对用户输出默认**中文**；技术标识（如 `engineering`）可与中文并用。
+文档默认**中文**；模式 id（如 `engineering`）可与中文并用。
+
+---
+
+## 目录（GitHub 可点）
+
+| 我想… | 点这里 |
+|--------|--------|
+| **5 分钟试用** | [开始试用.md](./开始试用.md) |
+| **一键试验沙箱脚本** | [scripts/Start-ESABCDTrial.ps1](./scripts/Start-ESABCDTrial.ps1) |
+| **看 live 实测对比（最醒目）** | [docs/scenario-run-reports/COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md) |
+| **12 场报告总索引** | [docs/scenario-run-reports/README.md](./docs/scenario-run-reports/README.md) |
+| 工程 T-ENG-01 技能系统 | [docs/scenario-run-reports/T-ENG-01.md](./docs/scenario-run-reports/T-ENG-01.md) |
+| 创意 T-CRE-01 近战手感 | [docs/scenario-run-reports/T-CRE-01.md](./docs/scenario-run-reports/T-CRE-01.md) |
+| 稳定 T-STA-01 技能表扩展 | [docs/scenario-run-reports/T-STA-01.md](./docs/scenario-run-reports/T-STA-01.md) |
+| AI 安装剧本 | [docs/ai-install-playbook.md](./docs/ai-install-playbook.md) |
+| 与 ES 独立性 | [docs/independence.md](./docs/independence.md) |
+| 复跑实测套件 | [scripts/Run-ESABCDScenarioReportSuite.ps1](./scripts/Run-ESABCDScenarioReportSuite.ps1) |
+
+### 12 场报告直达
+
+**工程** · [01](./docs/scenario-run-reports/T-ENG-01.md) · [02](./docs/scenario-run-reports/T-ENG-02.md) · [03](./docs/scenario-run-reports/T-ENG-03.md) · [04](./docs/scenario-run-reports/T-ENG-04.md)  
+
+**创意** · [01](./docs/scenario-run-reports/T-CRE-01.md) · [02](./docs/scenario-run-reports/T-CRE-02.md) · [03](./docs/scenario-run-reports/T-CRE-03.md) · [04](./docs/scenario-run-reports/T-CRE-04.md)  
+
+**稳定** · [01](./docs/scenario-run-reports/T-STA-01.md) · [02](./docs/scenario-run-reports/T-STA-02.md) · [03](./docs/scenario-run-reports/T-STA-03.md) · [04](./docs/scenario-run-reports/T-STA-04.md)
 
 ---
 
 ## 试用（约 5 分钟）
-
-跟 AI 做技能、系统、批量内容前，可以先试一次：
 
 1. 克隆本仓库  
 2. 在仓库根目录运行：
@@ -22,37 +45,38 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 3. 把运行结束打印的整段话复制给 AI  
 4. 再从下文复制创意/稳定场景，对比三种模式  
 
-说明、是否适合你、试完看什么 → **[开始试用.md](开始试用.md)**
+说明 → **[开始试用.md](./开始试用.md)**  
+看别人已经跑过的 live 结果 → **[实测对比](./docs/scenario-run-reports/COMPARISON-modes-live.md)**
 
 ---
 
 ## 接到你自己的项目
 
-1. 准备 **es-abcd 根路径** + **项目根路径**（都要真实绝对路径）。  
+1. 准备 **es-abcd 根路径** + **项目根路径**（真实绝对路径）。  
 2. 对 AI 说：
 
 ```text
 es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项目再按情况接入，出适配清单，用人话汇报。
 ```
 
-会**自动识别**项目类型（空目录 / 已装过 / Unity / 类 ES / Node / .NET 等）再决定全新装还是刷新。  
-不要求必须是某一种引擎。
-
-**禁止**使用文档假路径；路径必须由你提供。
+会**自动识别**项目类型再决定全新装或刷新。  
+**禁止**使用文档假路径。
 
 ---
 
 ## 三种模式 · 真实场景（可复制）
 
-- **工程模式**：做对、边界清、能落地  
-- **创意模式**：多方案、差异大  
-- **稳定模式**：贴现状、少翻车、能收口  
+- **工程模式** `engineering`：做对、边界清、能落地  
+- **创意模式** `creative-divergence`：多方案、差异大  
+- **稳定模式** `stable`：贴现状、少翻车、能收口  
+
+每条复制后只改 `<项目根路径>`。跑完可对照 [实测报告](./docs/scenario-run-reports/README.md)。
 
 ---
 
 ### 工程模式 — 5 组
 
-**1. 设计技能系统**
+**1. 设计技能系统** · live 样例 → [T-ENG-01](./docs/scenario-run-reports/T-ENG-01.md)
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -61,7 +85,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：方案要点 + 风险 + 还不能宣称已实装/已平衡。
 ```
 
-**2. 设计成长与经济**
+**2. 设计成长与经济** · [T-ENG-02](./docs/scenario-run-reports/T-ENG-02.md)
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -70,7 +94,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：结构图（文字即可）+ 失败案例 + 未验证项。
 ```
 
-**3. 批量道具管线**
+**3. 批量道具管线** · [T-ENG-03](./docs/scenario-run-reports/T-ENG-03.md)
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -88,7 +112,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：状态与边界 + 风险清单。
 ```
 
-**5. 战斗结算闭环**
+**5. 战斗结算闭环** · [T-ENG-04](./docs/scenario-run-reports/T-ENG-04.md)
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -101,7 +125,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 
 ### 创意模式 — 5 组
 
-**1. 技能手感与表现发散**
+**1. 技能手感与表现发散** · [T-CRE-01](./docs/scenario-run-reports/T-CRE-01.md)
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -110,7 +134,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：多方案列表 + 推荐尝试顺序（非最终定案）。
 ```
 
-**2. 新玩法循环**
+**2. 新玩法循环** · [T-CRE-02](./docs/scenario-run-reports/T-CRE-02.md)
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -119,7 +143,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：5 循环 + 放弃理由示例。
 ```
 
-**3. 大量道具的品类创意**
+**3. 大量道具的品类创意** · [T-CRE-03](./docs/scenario-run-reports/T-CRE-03.md)
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -128,7 +152,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：5 套矩阵要点 + 哪套最适合先做 20 个样例。
 ```
 
-**4. Boss 战花样**
+**4. Boss 战花样** · [T-CRE-04](./docs/scenario-run-reports/T-CRE-04.md)
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -150,7 +174,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 
 ### 稳定模式 — 5 组
 
-**1. 现有技能表不翻车扩展**
+**1. 现有技能表不翻车扩展** · [T-STA-01](./docs/scenario-run-reports/T-STA-01.md)
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -159,7 +183,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：扩展步骤 + 回归检查表 + 禁止事项。
 ```
 
-**2. 道具批量导入不炸服**
+**2. 道具批量导入不炸服** · [T-STA-02](./docs/scenario-run-reports/T-STA-02.md)
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -168,7 +192,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：导入规程 + 失败样例处理 + 未测环境声明。
 ```
 
-**3. 活动开关与配置热更**
+**3. 活动开关与配置热更** · [T-STA-03](./docs/scenario-run-reports/T-STA-03.md)
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -177,7 +201,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：开关方案 + 事故预案。
 ```
 
-**4. 老关卡修 bug 不毁档**
+**4. 老关卡修 bug 不毁档** · [T-STA-04](./docs/scenario-run-reports/T-STA-04.md)
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -206,21 +230,13 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 
 ## 边界
 
-跑通场景 ≠ 编辑器已验收 ≠ 可发版。运行时未验必须写明。
+跑通场景 ≠ 编辑器已验收 ≠ 可发版。运行时未验必须写明。  
+live 报告均为 `design-candidate` / `runtime-not-run`。
 
 ---
 
 ## 给 AI
 
-- 「场景」= 上表模板；路径**只使用用户给出的绝对路径**，禁止套用文档假路径。  
-- 安装见 `docs/ai-install-playbook.md`。回报说人话。
-
----
-
-## 场景实测报告（live）
-
-三模式真实 Divergence/Select 场次报告（禁止掺假）：
-
-- 目录：`docs/scenario-run-reports/`
-- 对比：`docs/scenario-run-reports/COMPARISON-modes-live.md`
-- 复跑：`powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1`（会写试验根与 numbered MD）
+- 「场景」= 上表模板；路径只用用户给出的绝对路径。  
+- 安装：[docs/ai-install-playbook.md](./docs/ai-install-playbook.md)  
+- 回报说人话；需要对照时打开 [实测索引](./docs/scenario-run-reports/README.md)
