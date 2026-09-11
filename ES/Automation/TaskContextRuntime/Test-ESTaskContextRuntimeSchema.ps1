@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$SchemaPath,
     [string]$EvidenceSchemaPath,
@@ -172,4 +172,4 @@ $extraEvent=$event|ConvertTo-Json -Depth 40|ConvertFrom-Json;$extraEvent|Add-Mem
 
 $failed=@($cases|Where-Object status -eq 'failed')
 [pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESTaskContextRuntimeSchema';status=if($failed.Count){'failed'}else{'passed'};caseCount=$cases.Count;passedCount=@($cases|Where-Object status -eq 'passed').Count;failedCount=$failed.Count;cases=@($cases);schemaPath=(Resolve-Path -LiteralPath $SchemaPath).Path;fixtureRoot=$fixtureRoot;runtimeStatus='runtime-not-run';claimsNotProven=@('Equivalence to an external full Draft 2020-12 implementation','Unity or Worker Runtime','release acceptance')}|ConvertTo-Json -Depth 12
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

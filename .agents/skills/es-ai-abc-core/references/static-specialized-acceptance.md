@@ -20,4 +20,4 @@ an ordered stage plan, carry retained parent content into the next tree round,
 record interaction deltas and recompute branch weights from observed gaps.
 
 Static evidence is limited to JSON/Markdown contracts and hashes. It does not
-prove Unity, Player, Runtime, performance, network or release behavior.
+prove Unity, Player, Runtime, performance, network or release behavior. 

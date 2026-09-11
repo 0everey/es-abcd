@@ -6,4 +6,4 @@
   "localContract": { "path": "references/evidence-receipt-contract.md", "hash": "ae242ae34d9b3fea6142f62501caca1f84df781e32732d5f2ecc4fcdf2ab84eb", "mode": "additive-extension" },
   "stableEntrypoint": { "path": "scripts/Test-ESSkillEvidence.ps1", "hash": "971ecdcdb3049ce29ef20ceaa9537aa817e761184b5fa46caee693cf7ff1ba0a", "mode": "central-delegate", "centralValidatorPath": ".agents/skills/es-skill-governance/scripts/Test-ESStrictEvidenceReceipt.ps1" },
   "compatibility": { "legacyReadable": true, "legacyReceiptBeforeUtc": "2026-08-26T03:45:00Z", "legacyReceiptAcceptanceEndsUtc": "2026-09-02T03:45:00Z", "newReceiptBinding": "required", "retirementState": "not-authorized" }
-}
+} 

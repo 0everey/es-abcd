@@ -164,4 +164,4 @@
 - [证据目录](./README.md)
 - [vs 仅提示词](../abcd-vs-prompt-only/README.md)
 
-> 禁止手改 cand-* / 分数。复跑场景套件后执行：`powershell -File .\\scripts\\Build-ScenarioHumanReports.ps1`
+> 禁止手改 cand-* / 分数。复跑场景套件后执行：`powershell -File .\\scripts\\Build-ScenarioHumanReports.ps1` 

@@ -542,4 +542,4 @@ all_positive_delta=$((@($allRows | Where-Object { $_.delta_abcd_minus_prompt -gt
 "@
 
 Write-Output "DONE avgA=$avgA avgP=$avgP delta=$avgD cases=$($allRows.Count)"
-$allRows | ForEach-Object { "$($_.id) A=$($_.total_abcd) P=$($_.total_prompt) d=$($_.delta_abcd_minus_prompt) top=$($_.abcd_topScore)" }
+$allRows | ForEach-Object { "$($_.id) A=$($_.total_abcd) P=$($_.total_prompt) d=$($_.delta_abcd_minus_prompt) top=$($_.abcd_topScore)" } 

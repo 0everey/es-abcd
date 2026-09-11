@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = ''
 )
@@ -256,4 +256,4 @@ $status = if ($errors.Count -eq 0) { 'passed' } else { 'failed' }
     )
 } | ConvertTo-Json -Depth 8
 
-if ($errors.Count -gt 0) { exit 1 }
+if ($errors.Count -gt 0) { exit 1 } 

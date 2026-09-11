@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot,
     [string]$WorkerPath,
@@ -293,4 +293,4 @@ $failed = @($results | Where-Object { $_.status -eq 'failed' })
     runtimeStatus = 'runtime-not-run'
     claimsNotProven = @('Unity Editor registration/runtime execution', 'Release acceptance', 'global P0 integration')
 } | ConvertTo-Json -Depth 12
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

@@ -369,4 +369,4 @@ $index = [pscustomobject]@{
 Write-JsonFile (Join-Path $ScratchRoot 'suite-index.json') $index
 Log "DONE passed=$passN failed=$failN"
 $index | ConvertTo-Json -Depth 6
-if ($failN -gt 0) { exit 2 }
+if ($failN -gt 0) { exit 2 } 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory)][string]$CandidateEnvelopePath,
     [Parameter(Mandatory)][string]$CandidateId,
@@ -25,4 +25,4 @@ $ctx=[pscustomobject][ordered]@{scope=($AllowedWriteScopes -join ';');authorizat
 $result=Invoke-ESABCDBoundedPatchCandidateAction -Context $ctx
 $receipt=[ordered]@{schemaVersion=1;contractId='es://automation/contracts/abcd/codex-candidate-bridge-receipt/v1';candidateEnvelopePath=$full;candidateId=$CandidateId;authorizationRef=$AuthorizationRef;result=$result;status='candidate-only';nonClaims=@('no-Apply','no-Git','no-Unity-runtime','no-release');capturedUtc=[DateTime]::UtcNow.ToString('o')}
 if(-not [string]::IsNullOrWhiteSpace($ReceiptPath)){$out=[IO.Path]::GetFullPath($ReceiptPath);$dir=[IO.Path]::GetDirectoryName($out);if(-not(Test-Path -LiteralPath $dir)){New-Item -ItemType Directory -Force -Path $dir|Out-Null};[IO.File]::WriteAllText($out,($receipt|ConvertTo-Json -Depth 40),[Text.UTF8Encoding]::new($false));$receipt.receiptPath=$out}
-$receipt|ConvertTo-Json -Depth 40
+$receipt|ConvertTo-Json -Depth 40 

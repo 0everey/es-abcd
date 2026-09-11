@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$SkillPath,
     [Parameter(Mandatory=$true)][string]$EvidencePath,
@@ -15,4 +15,4 @@ $root = if ($ProjectRoot) {
 $strict = Join-Path $root '.agents/skills/es-skill-governance/scripts/Test-ESStrictEvidenceReceipt.ps1'
 if (-not (Test-Path -LiteralPath $strict -PathType Leaf)) { throw 'Shared strict evidence validator is missing' }
 & powershell -NoProfile -File $strict -SkillPath $SkillPath -EvidencePath $EvidencePath -ProjectRoot $root -MaxEvidenceAgeHours $MaxEvidenceAgeHours
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } 

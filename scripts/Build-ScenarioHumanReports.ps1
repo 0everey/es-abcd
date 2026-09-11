@@ -1,4 +1,4 @@
-# Build Chinese full-chain MD for each live scenario receipt.
+﻿# Build Chinese full-chain MD for each live scenario receipt.
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
@@ -319,4 +319,4 @@ $index = @(
     ''
 ) -join "`r`n"
 [IO.File]::WriteAllText((Join-Path $OutDir 'README.md'), $index, $utf8)
-Write-Host 'ALL_DONE'
+Write-Host 'ALL_DONE' 

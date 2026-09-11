@@ -1,4 +1,4 @@
-[CmdletBinding()]param()
+﻿[CmdletBinding()]param()
 $ErrorActionPreference='Stop'
 Import-Module (Join-Path $PSScriptRoot 'ESABCDCapabilityDispatcher.psm1') -Force
 $h=('b'*64);$plan=New-ESABCDCapabilityExecutionPlan -RunId 'cap-test' -Mode 'core-high-risk' -SourceHash $h
@@ -22,4 +22,4 @@ $transitionValid=(Test-ESABCDStateTransition -CurrentStage 'tree-expansion' -Nex
 $responseQueue=@([pscustomobject]@{phase='seed-selection';generationMode='creative-divergence';round=0;outputs=@([pscustomobject]@{content='seed'})},[pscustomobject]@{phase='tree-expansion';generationMode='creative-divergence';round=1;outputs=@([pscustomobject]@{content='branch'})});$responseInvoker=New-ESABCDModelResponseInvoker -Responses $responseQueue;$responseSeed=@(& $responseInvoker ([pscustomobject]@{phase='seed-selection';generationMode='creative-divergence';round=0}));$responseBranch=@(& $responseInvoker ([pscustomobject]@{phase='tree-expansion';generationMode='creative-divergence';round=1}));$responseAdapterPassed=([string]$responseSeed[0].content -ceq 'seed' -and [string]$responseBranch[0].content -ceq 'branch')
 $all=$valid -and $recoveryObserved -and $unknownRejected -and $tamperRejected -and $boundedActionPassed -and $recoveryReplayPassed -and $transitionGuardPassed -and $responseAdapterPassed
 [pscustomobject]@{status=if($all){'passed'}else{'failed'};receiptCount=$run.receiptCount;validReceipts=$valid;failureRecoveryObserved=$recoveryObserved;unknownCapabilityRejected=$unknownRejected;tamperedReceiptRejected=$tamperRejected;boundedPatchActionCandidateOnly=$boundedActionPassed;recoveryCrossProcessReplay=$recoveryReplayPassed;stateTransitionGuard=$transitionGuardPassed;providerResponseAdapter=$responseAdapterPassed;planHash=$plan.planHash}
-if(-not $all){exit 1}
+if(-not $all){exit 1} 

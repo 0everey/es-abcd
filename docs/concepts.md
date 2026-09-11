@@ -75,4 +75,4 @@
 | 静态 / 合同 | 脚本、Schema、Smoke 回执 |
 | 运行时 | Unity / PlayMode / Profiler / Player — **必须有新鲜回执** |
 
-`runtime-not-run` = **缺少运行时证据**，不是静态失败，也不能拿来冒充运行时通过。
+`runtime-not-run` = **缺少运行时证据**，不是静态失败，也不能拿来冒充运行时通过。 

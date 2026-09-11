@@ -162,4 +162,4 @@
     "runtimeBoundary": "Runtime is not proven by this Skill. RuntimeAcceptance requires explicit authorization and fresh external receipts."
   },
   "specializedGuidanceRef": "references/static-specialized-acceptance.md"
-}
+} 

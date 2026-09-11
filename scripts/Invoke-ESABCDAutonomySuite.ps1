@@ -1,4 +1,4 @@
-# Strong autonomy suite: prove es-abcd Core works without native ESFramework host.
+﻿# Strong autonomy suite: prove es-abcd Core works without native ESFramework host.
 # Encoding: ASCII-primary for Windows PowerShell 5.1 parser safety.
 # Chinese docs: docs/independence.md and README.md
 [CmdletBinding()]
@@ -210,4 +210,4 @@ if ($failed.Count) {
     }
 }
 $receipt | ConvertTo-Json -Depth 6
-if ($status -ne 'passed') { exit 1 }
+if ($status -ne 'passed') { exit 1 } 

@@ -12,4 +12,4 @@
 
 Responsibility profile: governance
 
-专用检查：`authority-routing`、`permission-boundary`、`deterministic-replay`、`evidence-contract`、`knowledge-boundary`、`lifecycle-boundary`、`change-boundary`、`external-data-boundary`、`operation-allowlist`。
+专用检查：`authority-routing`、`permission-boundary`、`deterministic-replay`、`evidence-contract`、`knowledge-boundary`、`lifecycle-boundary`、`change-boundary`、`external-data-boundary`、`operation-allowlist`。 

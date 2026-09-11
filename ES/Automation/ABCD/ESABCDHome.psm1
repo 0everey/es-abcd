@@ -90,4 +90,4 @@ function Get-ESABCDIdentity {
     }
 }
 
-Export-ModuleMember -Function Get-ESABCDPackageRoot,Get-ESABCDGovernanceMode,Get-ESABCDContractsRoot,Resolve-ESABCDContractPath,Get-ESABCDIdentity
+Export-ModuleMember -Function Get-ESABCDPackageRoot,Get-ESABCDGovernanceMode,Get-ESABCDContractsRoot,Resolve-ESABCDContractPath,Get-ESABCDIdentity 

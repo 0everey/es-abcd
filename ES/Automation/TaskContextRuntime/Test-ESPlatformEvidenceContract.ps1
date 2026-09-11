@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$SchemaPath,
     [string]$SchemaModulePath,
@@ -92,4 +92,4 @@ Invoke-Case 'frozen-contract-drift-limits-completion' {
 
 $failed=@($results|Where-Object { $_.status -eq 'failed' })
 [pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESPlatformEvidenceContract';status=if($failed.Count){'failed'}else{'passed'};caseCount=$results.Count;passedCount=@($results|Where-Object { $_.status -eq 'passed' }).Count;failedCount=$failed.Count;cases=@($results);contractId=$contractId;contractHash=$contractHash;runtimeStatus='runtime-not-run';claimsNotProven=@('Production route integration','Unity or Worker Runtime','release acceptance')}|ConvertTo-Json -Depth 12
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

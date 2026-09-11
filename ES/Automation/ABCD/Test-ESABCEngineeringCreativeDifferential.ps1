@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ProjectRoot)
 $ErrorActionPreference='Stop'
 if([string]::IsNullOrWhiteSpace($ProjectRoot)){$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path}
@@ -8,4 +8,4 @@ $invalid=[pscustomobject]@{innovationDifferentialLevel=4;innovationDifferentialA
 $a=Test-ESABCEngineeringCreativeDifferential -Architecture $valid;$b=Test-ESABCEngineeringCreativeDifferential -Architecture $valid;$c=Test-ESABCEngineeringCreativeDifferential -Architecture $invalid
 $stable=(($a|ConvertTo-Json -Compress -Depth 8) -ceq ($b|ConvertTo-Json -Compress -Depth 8));$pass=($a.status -eq "passed" -and $c.status -eq "failed" -and $stable);$state="failed";if($pass){$state="passed"}
 [pscustomobject]@{status=$state;valid=$a.status;invalid=$c.status;deterministic=$stable;requiredCounterfactualRounds=$a.counterfactualRounds}
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

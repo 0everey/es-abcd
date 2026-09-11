@@ -25,4 +25,4 @@
 
 ## 裁决
 
-全项有静态证据才能说“静态合同闭环”。`SOURCE_HASH_DRIFT`、正文哈希漂移、requiredReads 漂移或 Top3 竞争仍须按对象/字段报告；不能因新探针零 finding 或整体计数而压平。缺 Runtime 收据时交付最多为 `Implemented-Unverified`/`S2`。
+全项有静态证据才能说“静态合同闭环”。`SOURCE_HASH_DRIFT`、正文哈希漂移、requiredReads 漂移或 Top3 竞争仍须按对象/字段报告；不能因新探针零 finding 或整体计数而压平。缺 Runtime 收据时交付最多为 `Implemented-Unverified`/`S2`。 

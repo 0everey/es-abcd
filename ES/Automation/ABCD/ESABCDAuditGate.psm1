@@ -139,4 +139,4 @@ function New-ESABCDFinalGateReceipt {
     }
 }
 
-Export-ModuleMember -Function New-ESABCDAuditPlan,Test-ESABCDAuditPlan,Test-ESABCDAuditSourceRegistry,New-ESABCDAuthorityGraph,Test-ESABCDAuthorityGraph,New-ESABCDFinalGateReceipt,Get-ESABCDAuditHash,Get-ESABCDValidationProfile,Get-ESABCDAuditWarningsSummary
+Export-ModuleMember -Function New-ESABCDAuditPlan,Test-ESABCDAuditPlan,Test-ESABCDAuditSourceRegistry,New-ESABCDAuthorityGraph,Test-ESABCDAuthorityGraph,New-ESABCDFinalGateReceipt,Get-ESABCDAuditHash,Get-ESABCDValidationProfile,Get-ESABCDAuditWarningsSummary 

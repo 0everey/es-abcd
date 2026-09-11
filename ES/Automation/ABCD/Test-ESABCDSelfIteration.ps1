@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,
     [string]$ReportPath = 'ES/Output/StaticReplay/es-abcd-self-iteration.json'
@@ -117,4 +117,4 @@ $parent = Split-Path -Parent $full
 if (-not (Test-Path -LiteralPath $parent)) { New-Item -ItemType Directory -Path $parent -Force | Out-Null }
 [IO.File]::WriteAllText($full, ($report | ConvertTo-Json -Depth 40), [Text.UTF8Encoding]::new($false))
 $report | ConvertTo-Json -Depth 40
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

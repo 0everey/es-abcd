@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string]$PromptText,
@@ -202,4 +202,4 @@ $engineeringFourLetter = [ordered]@{
         'Does not grant write authority',
         'Engineering four-letter checklist is never a correct ABCD semantic'
     )
-} | ConvertTo-Json -Depth 8
+} | ConvertTo-Json -Depth 8 

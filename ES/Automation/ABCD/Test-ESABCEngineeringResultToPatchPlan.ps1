@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ProjectRoot)
 $ErrorActionPreference='Stop'
 if([string]::IsNullOrWhiteSpace($ProjectRoot)){$ProjectRoot=(Get-Location).Path}
@@ -17,4 +17,4 @@ try {
  $pass=($out.status -eq 'candidate-only' -and $out.patchPlan.planStatus -eq 'awaiting-abcd-audit' -and $blocked)
  [pscustomobject]@{status=if($pass){'passed'}else{'failed'};convertedStatus=$out.status;planStatus=$out.patchPlan.planStatus;reviewBlocked=$blocked}
 } finally {Pop-Location}
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

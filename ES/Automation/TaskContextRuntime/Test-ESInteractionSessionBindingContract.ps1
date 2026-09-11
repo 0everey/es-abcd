@@ -1,4 +1,4 @@
-param()
+﻿param()
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
@@ -197,4 +197,4 @@ Invoke-Case 'proof-issued-after-receipt-is-rejected' {
 }
 
 Write-Host "RESULT passed=$script:passed failed=$script:failed"
-if ($script:failed -gt 0) { exit 1 }
+if ($script:failed -gt 0) { exit 1 } 

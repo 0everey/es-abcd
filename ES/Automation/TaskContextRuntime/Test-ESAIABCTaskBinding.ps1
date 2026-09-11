@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,
     [string]$SchemaPath = ''
@@ -62,4 +62,4 @@ Invoke-Case 'abcd-orchestration-uses-platform-event-chain' {
 }
 
 $failed=@($cases|Where-Object status -eq 'failed')
-[pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESAIABCTaskBinding';status=if($failed.Count){'failed'}else{'passed'};caseCount=$cases.Count;passedCount=@($cases|Where-Object status -eq 'passed').Count;failedCount=$failed.Count;cases=@($cases);runtimeStatus='static-task-api-event-store';claimsNotProven=@('Unity/Worker/host Runtime','joint StaticDeepReplay receipt freshness')}|ConvertTo-Json -Depth 12
+[pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESAIABCTaskBinding';status=if($failed.Count){'failed'}else{'passed'};caseCount=$cases.Count;passedCount=@($cases|Where-Object status -eq 'passed').Count;failedCount=$failed.Count;cases=@($cases);runtimeStatus='static-task-api-event-store';claimsNotProven=@('Unity/Worker/host Runtime','joint StaticDeepReplay receipt freshness')}|ConvertTo-Json -Depth 12 

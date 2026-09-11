@@ -126,4 +126,4 @@ Static assertions: six mechanism identities; GoalRevision and RoutePlan; four Ro
 - `references/static-specialized-acceptance.md`：专用静态验收案例与非声明边界。
 - `references/static-replay-adapter.md`：七个通用回放案例与治理检查映射。
 - `references/open-source-mechanism-mapping.md`：六类公开机制到 ABCD 发散/审计/迭代闭环的映射与场景覆盖。
-- `scripts/Test-es-agent-mechanism-replication-StaticReplay.ps1`：只读调用共享 StaticDeepReplay 引擎。
+- `scripts/Test-es-agent-mechanism-replication-StaticReplay.ps1`：只读调用共享 StaticDeepReplay 引擎。 

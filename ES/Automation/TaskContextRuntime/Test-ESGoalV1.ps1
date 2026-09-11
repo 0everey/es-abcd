@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$SchemaPath,
     [string]$ModulePath
@@ -124,4 +124,4 @@ $failed = @($cases | Where-Object status -eq 'failed')
     runtimeStatus='runtime-not-run'
     claimsNotProven=@('production route integration','Unity or Worker Runtime','release acceptance')
 } | ConvertTo-Json -Depth 12
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

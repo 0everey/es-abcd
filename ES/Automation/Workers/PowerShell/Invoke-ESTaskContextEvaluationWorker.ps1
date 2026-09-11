@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string]$InputPath,
@@ -192,4 +192,4 @@ catch {
     }
     [Console]::Error.WriteLine($message)
     exit 1
-}
+} 

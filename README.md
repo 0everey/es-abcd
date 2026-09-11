@@ -416,4 +416,4 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 | T-STA-03 | [T-STA-03.md](./docs/scenario-run-reports/T-STA-03.md) | [json](./docs/scenario-run-reports/receipts/T-STA-03.json) | `cand-17070a1c467afb7c4ec4` | `98baf5c176f312f37b8420dc3a93e6a311455cd901750b201665bd0c4041ac07` |
 | T-STA-04 | [T-STA-04.md](./docs/scenario-run-reports/T-STA-04.md) | [json](./docs/scenario-run-reports/receipts/T-STA-04.json) | `cand-4bba0192d92567aedf6b` | `f477679d8d86e0ca084b722f5563946402cfcc8457b26c80b85ac9b00897ac4b` |
 
-其它：[开始试用](./开始试用.md) · [流程细文](./docs/真实流程与结果解说.md) · [AI 安装剧本](./docs/ai-install-playbook.md)
+其它：[开始试用](./开始试用.md) · [流程细文](./docs/真实流程与结果解说.md) · [AI 安装剧本](./docs/ai-install-playbook.md) 

@@ -175,4 +175,4 @@ function Test-ESABCDHostWarningsAvailable {
     return ($null -ne $catalog)
 }
 
-Export-ModuleMember -Function Get-ESABCDPortableGovernanceContract,Resolve-ESABCDPortableGovernancePolicy,Add-ESABCDPortableGovernanceProjection,Test-ESABCDHostWarningsAvailable
+Export-ModuleMember -Function Get-ESABCDPortableGovernanceContract,Resolve-ESABCDPortableGovernancePolicy,Add-ESABCDPortableGovernanceProjection,Test-ESABCDHostWarningsAvailable 

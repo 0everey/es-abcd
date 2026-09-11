@@ -7,4 +7,4 @@
 - 一键接入：仓库根 `get.ps1`  
 - 用户说明：仓库根 `README.md`  
 
-**静态/合同通过 ≠ 运行时验收。** PlayMode、Profiler、发版须另有新鲜证据。
+**静态/合同通过 ≠ 运行时验收。** PlayMode、Profiler、发版须另有新鲜证据。 

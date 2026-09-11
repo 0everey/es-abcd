@@ -51,4 +51,4 @@ function Invoke-ESABCDFrameworkCapability {
  $sha=[Security.Cryptography.SHA256]::Create();try{$hash=([BitConverter]::ToString($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes(($Payload|ConvertTo-Json -Compress -Depth 20))))).Replace('-','').ToLowerInvariant()}finally{$sha.Dispose()}
  [pscustomobject][ordered]@{schemaVersion=1;receiptType='ABCDFrameworkCapabilityReceipt';frameworkId=$FrameworkId;capabilityId=$CapabilityId;status=if($result.accepted){'adapted'}else{'review'};parityLevel='es-native-core';inputHash=$hash;result=[pscustomobject]$result;evidenceRef=$EvidenceRef;runtimeStatus='runtime-not-run';claimsNotProven=@('external framework runtime behavior','third-party benchmark parity')}
 }
-Export-ModuleMember -Function Get-ESABCDFrameworkCoverage,Invoke-ESABCDFrameworkCapability
+Export-ModuleMember -Function Get-ESABCDFrameworkCoverage,Invoke-ESABCDFrameworkCapability 

@@ -49,4 +49,4 @@ function Get-ESAIWarningsPolicySources {
     return [pscustomobject][ordered]@{cacheHit=$false;generationId=[string]$entry.generationId;data=$data}
 }
 
-Export-ModuleMember -Function Get-ESAIWarningsPolicySources
+Export-ModuleMember -Function Get-ESAIWarningsPolicySources 

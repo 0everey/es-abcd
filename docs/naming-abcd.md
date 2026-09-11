@@ -34,4 +34,4 @@
 ## 合同路径
 
 - `ES/Automation/Contracts/es-ai-abc-mode.registry.json`
-- `ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json`
+- `ES/Automation/Contracts/es-ai-abc-generation-mode-v1.json` 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path)
 $ErrorActionPreference='Stop'
 Import-Module (Join-Path $ProjectRoot 'ES/Automation/ABCD/ESABCInnovationRun.psm1') -Force
@@ -16,4 +16,4 @@ $badMissing=Test-ESABCEngineeringImplementationEvidence -Architecture ([pscustom
 $pass=($valid.status -eq 'passed' -and $badHash.status -eq 'failed' -and @($badHash.missing|Where-Object{$_ -like 'afterHash-mismatch:*'}).Count -eq 1 -and $badMissing.status -eq 'failed' -and @($badMissing.missing|Where-Object{$_ -like 'beforeHash-missing-or-invalid:*'}).Count -eq 1)
 $state=if($pass){'passed'}else{'failed'}
 [pscustomobject]@{status=$state;valid=$valid.status;tampered=$badHash.status;tamperedReason=$badHash.missing;missingBefore=$badMissing.status;missingBeforeReason=$badMissing.missing}
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

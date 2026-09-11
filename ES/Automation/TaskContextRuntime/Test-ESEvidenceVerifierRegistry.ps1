@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$RegistryPath,
     [string]$SchemaPath,
@@ -117,4 +117,4 @@ Invoke-Case 'static-replay-verifier-derives-failed-regression'{
 
 $failed=@($results|Where-Object{$_.status-eq'failed'})
 [pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESEvidenceVerifierRegistry';status=if($failed.Count){'failed'}else{'passed'};caseCount=$results.Count;passedCount=@($results|Where-Object{$_.status-eq'passed'}).Count;failedCount=$failed.Count;cases=@($results);runtimeStatus='runtime-not-run';claimsNotProven=@('Production registry distribution','Unity or Worker Runtime','release acceptance')}|ConvertTo-Json -Depth 12
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

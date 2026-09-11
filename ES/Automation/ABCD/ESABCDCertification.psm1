@@ -306,4 +306,4 @@ function Test-ESABCDCertificationAssessment {
     [pscustomobject][ordered]@{ assessmentId = [string]$Assessment.assessmentId; status = $status; eligibleForCertification = $eligible; decisionStatus = if ($eligible) { 'accepted' } elseif ($status -eq 'conditional') { 'conditional' } else { 'evidence-pending' }; issueCount = $issues.Count; issues = @($issues); profile = $profile; verifierRole = $role; signatureStatus = $sig; aiWarnings=(Get-ESABCDCertificationWarningsSummary -ContextText $warningContext -Domain $warningDomain); nonClaims = @('This assessment is not an external certificate.', 'It does not prove Unity, Worker, host or release behavior without corresponding evidence.') }
 }
 
-Export-ModuleMember -Function New-ESABCDCertificationAssessment,Test-ESABCDCertificationAssessment,Get-ESABCDCertificationHash,Get-ESABCDCertificationHashInput,Get-ESABCDCurrentGitSnapshot,Get-ESABCDCertificationSignedPayloadHash
+Export-ModuleMember -Function New-ESABCDCertificationAssessment,Test-ESABCDCertificationAssessment,Get-ESABCDCertificationHash,Get-ESABCDCertificationHashInput,Get-ESABCDCurrentGitSnapshot,Get-ESABCDCertificationSignedPayloadHash 

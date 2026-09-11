@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   检查本仓库是否具备可移植 ABCD 布局（安装前自检）。
 .EXAMPLE
@@ -44,4 +44,4 @@ $status = if ($missing.Count) { 'failed' } else { 'passed' }
     missing = @($missing)
 } | ConvertTo-Json -Depth 5
 
-if ($status -ne 'passed') { exit 1 }
+if ($status -ne 'passed') { exit 1 } 

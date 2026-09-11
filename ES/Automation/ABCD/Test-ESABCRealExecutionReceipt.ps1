@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param()
 $ErrorActionPreference='Stop'
 $module=Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1'
@@ -11,4 +11,4 @@ $badProvider=[pscustomobject]@{status='passed';executionId='provider-2';executio
 if(-not (Test-ESABCRealExecutionReceipt $provider).valid){throw 'provider receipt rejected'}
 if(-not (Test-ESABCRealExecutionReceipt $script).valid){throw 'script receipt rejected'}
 if((Test-ESABCRealExecutionReceipt $badProvider).valid){throw 'missing transport status accepted'}
-[pscustomobject]@{status='passed';provider='passed';script='passed';invalidProvider='rejected'} | ConvertTo-Json -Compress
+[pscustomobject]@{status='passed';provider='passed';script='passed';invalidProvider='rejected'} | ConvertTo-Json -Compress 

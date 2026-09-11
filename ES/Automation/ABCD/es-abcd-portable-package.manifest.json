@@ -26,4 +26,4 @@
   ],
   "restoreScript": "ES/Automation/ABCD/Restore-ESABCDCapabilities.ps1",
   "verification": {"hashAlgorithm":"SHA256", "missingIsFailure":true, "hashMismatchIsReview":true, "neverClaimRuntimeWithoutFreshReceipt":true}
-}
+} 

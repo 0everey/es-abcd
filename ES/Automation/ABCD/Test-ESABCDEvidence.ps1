@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,
     [string]$ReportPath = 'ES/Output/StaticReplay/es-abcd-evidence.json'
@@ -62,4 +62,4 @@ $report = [ordered]@{
 $fullReport = Join-Path $root $ReportPath; New-Item -ItemType Directory -Force -Path (Split-Path $fullReport) | Out-Null
 [IO.File]::WriteAllText($fullReport, ($report | ConvertTo-Json -Depth 20), [Text.UTF8Encoding]::new($false))
 $report | ConvertTo-Json -Depth 20
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

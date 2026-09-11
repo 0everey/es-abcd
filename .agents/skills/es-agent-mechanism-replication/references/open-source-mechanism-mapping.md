@@ -76,4 +76,4 @@ IterationRound
 - `ES/Automation/ABCD/ESABCDCertification.psm1`：按 DesignReview、RuntimeAcceptance、ReleaseAcceptance 分层，缺独立签名时只能 `conditional`。
 - `ES/Automation/Contracts/es-abcd-learning-review-v1.schema.json`、`es-abcd-certification-assessment-v1.schema.json`：分别约束学习审查和认证资格评估。
 
-这些实现把“发散—审计—迭代”从静态声明推进为可调用的事件编排切片，但仍不替代跨进程、Unity、Worker、宿主和发布 Runtime 证据。
+这些实现把“发散—审计—迭代”从静态声明推进为可调用的事件编排切片，但仍不替代跨进程、Unity、Worker、宿主和发布 Runtime 证据。 

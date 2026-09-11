@@ -51,4 +51,4 @@ No reason in this contract creates a project-global block. Missing binding evide
 - No production TaskContext route imports this module.
 - No global P0 consumes these results.
 - Actual authority-root traversal, reparse-point checks, streaming transcript prefix hashing, PID reuse checks, registry race handling, and binding artifact persistence remain for the later read-only production probe.
-- Planned persistence is create-only under the platform task store, for example `<TaskStore>/InteractionBindings/<bindingId>/`; the two-field reference never accepts a caller-selected path.
+- Planned persistence is create-only under the platform task store, for example `<TaskStore>/InteractionBindings/<bindingId>/`; the two-field reference never accepts a caller-selected path. 

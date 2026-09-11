@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
     [string]$PromptText,
@@ -170,4 +170,4 @@ elseif ($axisHit) {
         'Does not prove Unity Runtime',
         'Does not rewrite mono-semantic architecture lock'
     )
-} | ConvertTo-Json -Depth 8
+} | ConvertTo-Json -Depth 8 

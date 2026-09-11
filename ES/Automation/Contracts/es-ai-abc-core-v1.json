@@ -43,4 +43,4 @@
   "failurePaths": { "mismatch": "replan", "missingCapability": "blocked", "missingEvidence": "claim-cap", "unauthorizedEffect": "blocked" },
   "sourceRefs": [".agents/skills/es-agent-mechanism-replication/SKILL.md", "Documentation/AIKnowledge/entries/agent-mechanism-replication.md"],
   "sourceAuthority": "This contract and interface schema own ABCC semantics; listed sources are provenance only."
-}
+} 

@@ -74,4 +74,4 @@ if (-not [string]::IsNullOrWhiteSpace($ReportPath)) {
 }
 $report | ConvertTo-Json -Depth 10
 if ($issues.Count -gt 0) { exit 1 }
-exit 0
+exit 0 

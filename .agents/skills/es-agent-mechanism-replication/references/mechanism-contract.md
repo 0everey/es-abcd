@@ -36,4 +36,4 @@
 
 ## 关闭条件与恢复
 
-闭环需要同时通过：目标冻结、路由/读取/快照一致、Verifier EvidenceSet、不可变 Receipt、权限 fail-closed、决定与交付分离、漂移失效重放。任何条件缺失时只报告对象级状态。中断恢复只能使用已经接受的不可变 Transcript/Context 和私有快照；不得用另一个 handoff 或 mutable sourceAbsolutePath 补齐证据。
+闭环需要同时通过：目标冻结、路由/读取/快照一致、Verifier EvidenceSet、不可变 Receipt、权限 fail-closed、决定与交付分离、漂移失效重放。任何条件缺失时只报告对象级状态。中断恢复只能使用已经接受的不可变 Transcript/Context 和私有快照；不得用另一个 handoff 或 mutable sourceAbsolutePath 补齐证据。 

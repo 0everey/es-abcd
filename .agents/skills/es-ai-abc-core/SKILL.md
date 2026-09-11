@@ -269,4 +269,4 @@ is the first verification path; Runtime requires fresh, explicit authorization.
 ## Skill 使用披露
 
 遵循项目根 `AGENTS.md` 和 `.agents/README.md` 的 Skill 披露规则；披露本
-Skill 不等于获得授权或产生运行时证据。
+Skill 不等于获得授权或产生运行时证据。 

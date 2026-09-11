@@ -1,4 +1,4 @@
-# 最小 engineering 发散示例（请先 Install-ESABCD 到目标项目）
+﻿# 最小 engineering 发散示例（请先 Install-ESABCD 到目标项目）
 # 用法：
 #   powershell -File examples/minimal-engineering.ps1 -ProjectRoot C:\path\to\你的项目
 
@@ -33,4 +33,4 @@ $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode enginee
 Write-Host "方向数=$($div.directionCount) 选中=$($sel.selectedDirectionId)"
 Write-Host "claimLevel=$($sel.claimLevel) selectionStatus=$($sel.selectionStatus)"
 Write-Host "candidateSetHash=$($div.candidateSetHash)"
-Write-Host "runtimeStatus=runtime-not-run（本示例预期如此）"
+Write-Host "runtimeStatus=runtime-not-run（本示例预期如此）" 

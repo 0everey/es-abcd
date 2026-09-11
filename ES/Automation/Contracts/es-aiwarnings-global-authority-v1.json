@@ -47,4 +47,4 @@
   },
   "minimumReceipt": ["authorityId", "authorityHash", "matchedRuleIds", "policyDecision", "mainWarnings", "consumedAtUtc"],
   "nonClaims": ["AIWarnings does not replace source, tests, Runtime or Release evidence", "authority rank does not grant write or Runtime permission"]
-}
+} 

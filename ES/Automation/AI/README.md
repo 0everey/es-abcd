@@ -223,4 +223,4 @@ dry-run 示例：
 
 批准后，将同一 `scenePath`、`operations` 与 `save` 保持不变，改为 `"dryRun": false` 并增加 `"approvalId": "<dry-run 返回值>"`。`save=true` 不等于允许任意资产写入，只保存当前 Active Scene。
 
-当前文档描述的是源码合同。Unity 实际导入、编译、ReloadDomain、审批交互、Undo/保存和场景运行结果仍需要单独取得 Unity 验收证据。
+当前文档描述的是源码合同。Unity 实际导入、编译、ReloadDomain、审批交互、Undo/保存和场景运行结果仍需要单独取得 Unity 验收证据。 

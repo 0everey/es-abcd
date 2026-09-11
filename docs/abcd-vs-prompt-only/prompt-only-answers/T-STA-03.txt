@@ -3,4 +3,4 @@
 
 远程配置 JSON：eventOn true/false。客户端启动拉取。关了就不显示活动入口。配错了再发一版 true/false。
 
-日志打一条 event toggle 就行。很快能做完。
+日志打一条 event toggle 就行。很快能做完。 

@@ -46,4 +46,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "<es-abcd根路径>/get.ps1"
 | 日常入口 | 项目内已生成 |
 | 冒烟 | 通过（静态） |
 | 清单 | 已生成 |
-| 身份 | 写明与 ES 独立/可选 |
+| 身份 | 写明与 ES 独立/可选 | 

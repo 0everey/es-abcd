@@ -29,4 +29,4 @@
   "staticDeepReplayRequired": true,
   "staticDeepReplayCases": ["normal-input", "invalid-input", "denied-expansion", "repeat-idempotency", "hash-change-cache-invalidation", "interruption-recovery", "deterministic-output", "innovation-run-stage-closure", "tree-branch-rejoin", "adaptive-branch-weighting", "player-first-use-gate"],
   "runtimeHardGate": "runtime-required && runtime-not-run => Blocked"
-}
+} 

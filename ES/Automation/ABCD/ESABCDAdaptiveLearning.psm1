@@ -198,4 +198,4 @@ function Test-ESABCDAdaptiveLearningReceipt {
     [pscustomobject][ordered]@{ status = if ($issues.Count) { 'failed' } else { 'passed' }; issues = @($issues); promotionAllowed = $false; runtimeStatus = 'runtime-not-run' }
 }
 
-Export-ModuleMember -Function ConvertTo-ESABCDAdaptiveCanonical,Get-ESABCDAdaptiveHash,New-ESABCDDatasetPartitionManifest,Test-ESABCDDatasetPartitionManifest,New-ESABCDAdaptiveLearningPlan,New-ESABCDPolicyCandidate,Test-ESABCDPolicyCandidate,New-ESABCDPolicyEvaluation,New-ESABCDHoldoutGate,Invoke-ESABCDAdaptiveLearningSelection,Test-ESABCDAdaptiveLearningReceipt
+Export-ModuleMember -Function ConvertTo-ESABCDAdaptiveCanonical,Get-ESABCDAdaptiveHash,New-ESABCDDatasetPartitionManifest,Test-ESABCDDatasetPartitionManifest,New-ESABCDAdaptiveLearningPlan,New-ESABCDPolicyCandidate,Test-ESABCDPolicyCandidate,New-ESABCDPolicyEvaluation,New-ESABCDHoldoutGate,Invoke-ESABCDAdaptiveLearningSelection,Test-ESABCDAdaptiveLearningReceipt 

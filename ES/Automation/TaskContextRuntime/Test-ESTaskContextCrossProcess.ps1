@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot,
     [string]$ReportPath='ES/Output/StaticReplay/es-task-context-cross-process.json'
@@ -178,4 +178,4 @@ try {
             Remove-Item -LiteralPath $resolved -Recurse -Force
         }
     }
-}
+} 

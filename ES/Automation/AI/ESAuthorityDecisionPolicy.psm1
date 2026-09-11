@@ -36,4 +36,4 @@ function Get-ESAuthorityDecisionPolicy {
     }
 }
 
-Export-ModuleMember -Function Get-ESAuthorityDecisionPolicy
+Export-ModuleMember -Function Get-ESAuthorityDecisionPolicy 

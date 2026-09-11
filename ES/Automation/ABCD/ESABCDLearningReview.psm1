@@ -36,4 +36,4 @@ function Test-ESABCDLearningReview {
     if($drift.Count){[void]$issues.Add('SOURCE_DRIFT')}
     [pscustomobject][ordered]@{reviewId=[string]$Review.reviewId;status=if($issues.Count){'stale'}else{'review'};promotionAllowed=$false;sourceStableAtEnd=($drift.Count-eq0);issueCount=$issues.Count;issues=@($issues);sourceDrift=@($drift);nonClaims=@($Review.nonClaims)}
 }
-Export-ModuleMember -Function New-ESABCDLearningReview,Test-ESABCDLearningReview,Get-ESABCDLearningReviewHash,Get-ESABCDLearningReviewHashInput
+Export-ModuleMember -Function New-ESABCDLearningReview,Test-ESABCDLearningReview,Get-ESABCDLearningReviewHash,Get-ESABCDLearningReviewHashInput 

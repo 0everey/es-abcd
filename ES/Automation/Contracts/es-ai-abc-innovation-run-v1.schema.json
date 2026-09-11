@@ -18,4 +18,4 @@
   },
   "transitionPolicy": { "ordered": true, "noSilentSkip": true, "parentContentRequired": true, "resourceBudgetRequired": true, "seedSelectionAuthority": "ABCD", "externalSeedsAreConstraintsOnly": true },
   "runtimeBoundary": "static orchestration contract only; no Unity/player claim"
-}
+} 

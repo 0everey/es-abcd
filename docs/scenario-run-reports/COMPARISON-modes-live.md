@@ -68,4 +68,4 @@
 ## 非声明
 
 - design-candidate / runtime-not-run only
-- not Unity PlayMode / release
+- not Unity PlayMode / release 

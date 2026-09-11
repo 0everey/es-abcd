@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,
     [string]$ReportPath = 'ES/Output/StaticReplay/es-abcd-authority-kernel.json'
@@ -66,4 +66,4 @@ $out = if ([IO.Path]::IsPathRooted($ReportPath)) { $ReportPath } else { Join-Pat
 New-Item -ItemType Directory -Force (Split-Path -Parent $out) | Out-Null
 [IO.File]::WriteAllText($out, ($report | ConvertTo-Json -Depth 20), [Text.UTF8Encoding]::new($false))
 $report | ConvertTo-Json -Depth 20
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

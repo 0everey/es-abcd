@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param()
 $ErrorActionPreference='Stop'
 $module=Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1'
@@ -15,4 +15,4 @@ if(-not $r.valid){throw "valid-reasoning-rejected:$([string]::Join(',',@($r.erro
 $invalid=$valid.PSObject.Copy();$invalid.modelEvidence=[pscustomobject]@{providerId='fixture-provider';requestHash=$requestHash;responseHash=(Hash 'response');analysisHash=(Hash $payload)}
 $bad=Test-ESABCModelReasoningEvidence -Result $invalid -RequestHash $requestHash
 if($bad.valid -or @($bad.errors) -notcontains 'modelEvidence.providerId-invalid'){throw 'invalid-reasoning-accepted'}
-[pscustomobject]@{status='passed';validReasoning=$r.valid;negativeRejected=(-not $bad.valid);negativeReasons=@($bad.errors)}|ConvertTo-Json -Compress
+[pscustomobject]@{status='passed';validReasoning=$r.valid;negativeRejected=(-not $bad.valid);negativeReasons=@($bad.errors)}|ConvertTo-Json -Compress 

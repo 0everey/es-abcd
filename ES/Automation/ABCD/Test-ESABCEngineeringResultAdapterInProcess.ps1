@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ProjectRoot)
 $ErrorActionPreference='Stop'
 if([string]::IsNullOrWhiteSpace($ProjectRoot)){$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path}
@@ -19,4 +19,4 @@ try {
  $pass=($converted.status -eq 'candidate-only' -and $converted.patchPlan.planStatus -eq 'awaiting-abcd-audit' -and $blocked -and $incompleteBlocked)
 [pscustomobject]@{status=if($pass){'passed'}else{'failed'};convertedStatus=$converted.status;planStatus=$converted.patchPlan.planStatus;forgedCompletionBlocked=$blocked;incompleteEvidenceBlocked=$incompleteBlocked}
 } finally { Pop-Location }
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

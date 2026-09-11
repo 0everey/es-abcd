@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$RuntimeModulePath,
     [string]$EvaluationSchemaPath,
@@ -118,4 +118,4 @@ try {
 
 $failed=@($results|Where-Object{$_.status-eq'failed'})
 [pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESOutcomeEvaluation';status=if($failed.Count){'failed'}else{'passed'};caseCount=$results.Count;passedCount=@($results|Where-Object{$_.status-eq'passed'}).Count;failedCount=$failed.Count;cases=@($results);runtimeStatus='runtime-not-run';claimsNotProven=@('Production /eval bridge integration','Unity or Worker Runtime','Release acceptance')}|ConvertTo-Json -Depth 12
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

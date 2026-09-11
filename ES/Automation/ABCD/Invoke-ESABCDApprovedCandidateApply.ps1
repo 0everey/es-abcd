@@ -1,4 +1,4 @@
-[CmdletBinding(SupportsShouldProcess)]
+﻿[CmdletBinding(SupportsShouldProcess)]
 param(
     [Parameter(Mandatory)][string]$CandidateEnvelopePath,
     [Parameter(Mandatory)][string]$CandidateId,
@@ -22,4 +22,4 @@ $ctx=[pscustomobject][ordered]@{scope=($AllowedWriteScopes -join ';');authorizat
 $planResult=Invoke-ESABCDBoundedPatchCandidateAction -Context $ctx;$approval=New-ESABCDCandidateApprovalRequest -CandidateEnvelope $envelope -Candidate $candidate[0] -FinalGate $gate -Scenario $Scenario -CurrentHead $ObservedHead.ToLowerInvariant() -AuthorizationRef $ApplyAuthorizationRef -SourceFiles $SourceFiles -AllowedWriteScopes $AllowedWriteScopes -ProjectRoot $root;$plan=$approval.plan;$operations=$approval.operations;$request=$approval.request
 $result=[ordered]@{schemaVersion=1;contractId='es://automation/contracts/abcd/approved-candidate-bridge/v1';candidateId=$CandidateId;planHash=$plan.planHash;request=$request;candidatePlanCheck=$planResult;status='awaiting-explicit-apply';nonClaims=@('not-applied','no-Git','no-Unity-runtime','no-release')}
 if($Apply){$result.apply=Invoke-ESABCDApprovedApplyRequest -ApplyRequest $request -PatchPlan $plan -Operations $operations -ObservedHead $ObservedHead.ToLowerInvariant() -ApplyAuthorizationRef $ApplyAuthorizationRef -Apply; $result.status='applied';$result.nonClaims=@('no-Git','no-Unity-runtime','no-release')}
-$result|ConvertTo-Json -Depth 50
+$result|ConvertTo-Json -Depth 50 

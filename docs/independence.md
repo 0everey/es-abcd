@@ -42,4 +42,4 @@ powershell -File .\scripts\Invoke-ESABCDAutonomySuite.ps1
 ## 与 ES 的协作（可选）
 
 ES 可以 Install 叠加本包，或在有语料时开 host 增强。  
-ES **不可以**再被说成「离开它 es-abcd 就不能用」。
+ES **不可以**再被说成「离开它 es-abcd 就不能用」。 

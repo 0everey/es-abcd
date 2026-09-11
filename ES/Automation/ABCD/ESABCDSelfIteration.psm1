@@ -340,4 +340,4 @@ function Test-ESABCDSelfIterationReceipt {
     [pscustomobject][ordered]@{ receiptId = [string]$Receipt.iterationId; status = if ($issues.Count) { 'failed' } else { 'passed' }; issueCount = $issues.Count; issues = @($issues); staticStatus = if ($issues.Count) { 'static-failed' } else { 'static-passed' }; runtimeStatus = 'runtime-not-run' }
 }
 
-Export-ModuleMember -Function ConvertTo-ESABCDSelfIterationCanonical,Get-ESABCDSelfIterationHash,New-ESABCDDeterministicCandidateProposals,Invoke-ESABCDIndependentStructuralAudit,Select-ESABCDSelfIterationCandidate,Invoke-ESABCDSelfIteration,Test-ESABCDSelfIterationReceipt
+Export-ModuleMember -Function ConvertTo-ESABCDSelfIterationCanonical,Get-ESABCDSelfIterationHash,New-ESABCDDeterministicCandidateProposals,Invoke-ESABCDIndependentStructuralAudit,Select-ESABCDSelfIterationCandidate,Invoke-ESABCDSelfIteration,Test-ESABCDSelfIterationReceipt 

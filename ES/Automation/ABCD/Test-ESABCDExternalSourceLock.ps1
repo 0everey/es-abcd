@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot,
     [string]$SourceLockPath = 'Documentation/AIKnowledge/ExternalSources/agent-mechanism-source-lock.v1.json',
@@ -269,4 +269,4 @@ $fullReport = Join-Path $root $ReportPath
 New-Item -ItemType Directory -Path (Split-Path $fullReport) -Force | Out-Null
 [IO.File]::WriteAllText($fullReport, ($report | ConvertTo-Json -Depth 20), [Text.UTF8Encoding]::new($false))
 $report | ConvertTo-Json -Depth 20
-if ($failed.Count) { exit 1 }
+if ($failed.Count) { exit 1 } 

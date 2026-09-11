@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param()
 $ErrorActionPreference='Stop';Import-Module (Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1') -Force
 $script:verifyCount=0
@@ -9,4 +9,4 @@ $bad=$false;try{Invoke-ESABCEngineeringRepairLoop -Candidate ([pscustomobject]@{
 $badResult=Invoke-ESABCEngineeringRepairLoop -Candidate ([pscustomobject]@{version=1}) -VerifyInvoker {param($ctx)[pscustomobject]@{status='failed'}} -RepairInvoker {param($ctx)[pscustomobject]@{candidate=[pscustomobject]@{version=2}}}
 $pass=($ok.status -eq 'completed' -and @($ok.attempts|Where-Object status -eq 'repaired').Count -eq 1 -and $badResult.status -eq 'blocked' -and $badResult.reasonCode -eq 'ENGINEERING_REPAIR_EVIDENCE_REQUIRED')
 [pscustomobject]@{status=if($pass){'passed'}else{'failed'};successfulRepairLoop=$ok.status;repairAttempts=@($ok.attempts).Count;invalidRepairBlocked=$badResult.status -eq 'blocked'}
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

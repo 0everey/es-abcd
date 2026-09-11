@@ -1746,4 +1746,4 @@ function Test-ESTaskContextIntegrity {
     }
 }
 
-Export-ModuleMember -Function New-ESGoalRevision,Resolve-ESGoalRevision,New-ESTaskContextTask,Get-ESTaskContextState,Confirm-ESTaskSourceScope,Submit-ESTaskEvidenceSet,New-ESTaskEvaluationRecord,Complete-ESTaskContextTask,Set-ESTaskDeliveryAcceptance,Invoke-ESTaskContextTransition,Add-ESTaskABCDOrchestrationEvent,Get-ESTaskCommercialObservation,Test-ESTaskContextIntegrity
+Export-ModuleMember -Function New-ESGoalRevision,Resolve-ESGoalRevision,New-ESTaskContextTask,Get-ESTaskContextState,Confirm-ESTaskSourceScope,Submit-ESTaskEvidenceSet,New-ESTaskEvaluationRecord,Complete-ESTaskContextTask,Set-ESTaskDeliveryAcceptance,Invoke-ESTaskContextTransition,Add-ESTaskABCDOrchestrationEvent,Get-ESTaskCommercialObservation,Test-ESTaskContextIntegrity 

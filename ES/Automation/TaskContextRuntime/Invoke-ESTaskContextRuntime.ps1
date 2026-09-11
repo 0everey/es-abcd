@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)]
     [ValidateSet('Create','Get','VerifySources','SubmitEvidence','Evaluate','Complete','SetDelivery','Transition','Integrity')]
@@ -69,4 +69,4 @@ switch($Action){
     'Transition'{$result=Invoke-ESTaskContextTransition @common -Transition ([string]$input.transition) -ExpectedTaskRevision ([int]$input.expectedTaskRevision) -ExpectedContextVersion ([int]$input.expectedContextVersion) -IdempotencyKey ([string]$input.idempotencyKey)}
     'Integrity'{$result=Test-ESTaskContextIntegrity @common}
 }
-$result|ConvertTo-Json -Depth 40
+$result|ConvertTo-Json -Depth 40 

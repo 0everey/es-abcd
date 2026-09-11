@@ -603,4 +603,4 @@ Export-ModuleMember -Function Convert-ESABCEngineeringResultToCandidatePatchPlan
 Export-ModuleMember -Function Test-ESABCEngineeringCreativeDifferential
 Export-ModuleMember -Function Invoke-ESABCIndependentCounterfactualReplay
 Export-ModuleMember -Function Compare-ESABCProviderEngineeringScores
-Export-ModuleMember -Function Test-ESABCEngineeringDimensionEvidence
+Export-ModuleMember -Function Test-ESABCEngineeringDimensionEvidence 

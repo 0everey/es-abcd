@@ -238,4 +238,4 @@ $result = [pscustomobject]@{
     mdPath   = $(if ($mdPath) { $mdPath } else { '' })
     summary  = $doc.summary
 }
-$result | ConvertTo-Json -Depth 5
+$result | ConvertTo-Json -Depth 5 

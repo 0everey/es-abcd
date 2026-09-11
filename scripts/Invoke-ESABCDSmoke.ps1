@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   在目标项目根目录对 ABCD 可移植核心做冒烟测试（仅静态）。
 
@@ -193,4 +193,4 @@ $outPath = Join-Path $outDir ("smoke-" + [DateTime]::UtcNow.ToString('yyyyMMdd-H
 Write-Host "ABCD smoke PASSED"
 Write-Host "  mode=$Mode selected=$($sel.selectedDirectionId) score=$($score.totalScore)"
 Write-Host "  receipt=$outPath"
-$receipt | ConvertTo-Json -Depth 6
+$receipt | ConvertTo-Json -Depth 6 

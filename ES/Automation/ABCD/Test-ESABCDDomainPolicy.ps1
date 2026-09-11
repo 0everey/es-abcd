@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,[string]$ReportPath='ES/Output/StaticReplay/es-abcd-domain-policy.json')
 $ErrorActionPreference='Stop';$root=(Resolve-Path $ProjectRoot).Path
 Import-Module (Join-Path $root 'ES/Automation/ABCD/ESABCDAuthorityKernel.psm1') -Force
@@ -25,4 +25,4 @@ $cases=@(
 $failed=@($cases|Where-Object {$_.status -eq 'failed'});$overall='passed';if($failed.Count){$overall='failed'}
 $refs=@('ES/Automation/ABCD/ESABCDAuthorityKernel.psm1','ES/Automation/AI/ESAuthorityDecisionPolicy.psm1','ES/Automation/ABCD/ESAuthorityDecisionPolicy.psm1','ES/Automation/ABCD/Test-ESABCDDomainPolicy.ps1','ES/Automation/Contracts/es-authority-ai-decision-policy-v1.json');$hashes=[ordered]@{};foreach($ref in $refs){$hashes[$ref]=(Get-FileHash (Join-Path $root $ref) -Algorithm SHA256).Hash.ToLowerInvariant()}
 $report=[ordered]@{schemaVersion=1;validator='Test-ESABCDDomainPolicy';status=$overall;staticStatus=if($failed.Count){'static-failed'}else{'static-passed'};runtimeStatus='runtime-not-run';evidenceLevel='S1';capturedUtc=[DateTime]::UtcNow.ToString('o');caseCount=$cases.Count;passedCount=($cases.Count-$failed.Count);failedCount=$failed.Count;cases=$cases;authorizationKind='read-only';sourceRefs=$refs;sourceRefHashes=$hashes;evidenceContractId='es.skill-evidence-receipt';evidenceContractHash=(Get-FileHash (Join-Path $root 'ES/Automation/Contracts/es-skill-evidence-receipt-v1.schema.json') -Algorithm SHA256).Hash.ToLowerInvariant();skillName='es-ai-abc-core';case='abcd-domain-policy';toolId='es-abcd-domain-policy-validator';receiptPath=$ReportPath.Replace('\','/');unityVersion='not-run';claimsNotProven=@('domain-classifier completeness','Unity runtime behavior')}
-$out=Join-Path $root $ReportPath;New-Item -ItemType Directory -Force (Split-Path $out)|Out-Null;[IO.File]::WriteAllText($out,($report|ConvertTo-Json -Depth 30),[Text.UTF8Encoding]::new($false));$report|ConvertTo-Json -Depth 30;if($failed.Count){exit 1}
+$out=Join-Path $root $ReportPath;New-Item -ItemType Directory -Force (Split-Path $out)|Out-Null;[IO.File]::WriteAllText($out,($report|ConvertTo-Json -Depth 30),[Text.UTF8Encoding]::new($false));$report|ConvertTo-Json -Depth 30;if($failed.Count){exit 1} 

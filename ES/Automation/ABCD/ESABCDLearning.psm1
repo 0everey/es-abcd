@@ -54,4 +54,4 @@ function Test-ESABCDLearningCandidate {
     [pscustomobject][ordered]@{candidateId=[string]$Candidate.candidateId;status=if($sourceDrift.Count){'stale'}else{'validated'};sourceStableAtEnd=($sourceDrift.Count-eq0);promotionAllowed=$false;sourceDrift=@($sourceDrift);claimLevel='claim-cap';nonClaims=@($Candidate.nonClaims)}
 }
 
-Export-ModuleMember -Function New-ESABCDLearningCandidate,Test-ESABCDLearningCandidate,Get-ESABCDLearningHashInput
+Export-ModuleMember -Function New-ESABCDLearningCandidate,Test-ESABCDLearningCandidate,Get-ESABCDLearningHashInput 

@@ -220,4 +220,4 @@ if ($WriteReceipt) {
     $profile | Add-Member -NotePropertyName receiptPath -NotePropertyValue $path -Force
 }
 
-$profile | ConvertTo-Json -Depth 8
+$profile | ConvertTo-Json -Depth 8 

@@ -92,4 +92,4 @@ ABCD 多出来的分，主要来自：**多方向强制发散、模式轴贴合�
 | T-STA-04 | [对比](./per-case/T-STA-04.md) | [md](../scenario-run-reports/T-STA-04.md) | [json](../scenario-run-reports/receipts/T-STA-04.json) |
 
 复跑 ABCD 场景：`scripts/Run-ESABCDScenarioReportSuite.ps1`  
-复跑本对比：`（本构建脚本在 CI/本地 scratch，对比结果已写入 docs/abcd-vs-prompt-only/）`
+复跑本对比：`（本构建脚本在 CI/本地 scratch，对比结果已写入 docs/abcd-vs-prompt-only/）` 

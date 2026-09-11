@@ -98,4 +98,4 @@ function Invoke-ESABCDDynamicIteration {
     [pscustomobject][ordered]@{ status = if ($Store.stopped) { 'stopped' } elseif ($advanced) { 'advanced' } else { 'review' }; cycleId = $cycleId; selectedBranchId = $SelectedBranchId; nextAction = $script:DecisionMap[$Decision]; advanced = $advanced; eventCount = $events.Count; events = @($events); capabilityRecovery = $capabilityRecovery; snapshot = Get-ESABCDSnapshot $Store; eligibility = Test-ESABCDCompletionEligibility $Store $cycleId }
 }
 
-Export-ModuleMember -Function Invoke-ESABCDDynamicIteration
+Export-ModuleMember -Function Invoke-ESABCDDynamicIteration 

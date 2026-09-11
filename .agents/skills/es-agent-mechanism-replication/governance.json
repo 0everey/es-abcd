@@ -84,4 +84,4 @@
   "runtimeAuthorizationContractRef": ".agents/skills/es-skill-governance/references/runtime-authorization-contract.md",
   "runtimeAuthorizationValidator": ".agents/skills/es-skill-governance/scripts/Test-ESRuntimeAuthorization.ps1",
   "runtimeHardGate": "runtime-required && runtime-not-run => Blocked"
-}
+} 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 )
@@ -89,4 +89,4 @@ $status = if ($missing.Count -eq 0 -and $forbidden.Count -eq 0 -and $engineering
     runtimeStatus = 'runtime-not-run'
     nonClaims = @('does not prove Unity/runtime behavior', 'does not alter ABCD authority')
 } | ConvertTo-Json -Depth 8
-if ($status -ne 'passed') { exit 1 }
+if ($status -ne 'passed') { exit 1 } 

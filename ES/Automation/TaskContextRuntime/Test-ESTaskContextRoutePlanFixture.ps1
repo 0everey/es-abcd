@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest
+﻿Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 function Resolve-ESTestImportedModuleInstance {
@@ -109,4 +109,4 @@ function New-ESTestRoutePlan {
     $routePlanFull = Join-Path $Root $FileName
     [IO.File]::WriteAllText($routePlanFull, ($payload | ConvertTo-Json -Depth 40), [Text.UTF8Encoding]::new($false))
     [pscustomobject]@{path=$FileName;routePlanId=$payload.routePlanId;routePlanHash=$payload.routePlanHash;fullPath=$routePlanFull}
-}
+} 

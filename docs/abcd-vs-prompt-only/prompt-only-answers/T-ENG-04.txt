@@ -3,4 +3,4 @@
 
 攻击碰撞到就 TakeDamage，血<=0 播死亡动画然后 Destroy 或回池。伤害在武器上写死 baseDamage。重复命中加个 hitCooldown 冷却 0.2s。
 
-死亡事件可以再通知任务系统。这样闭环就通了，可以直接进 PlayMode 验证。
+死亡事件可以再通知任务系统。这样闭环就通了，可以直接进 PlayMode 验证。 

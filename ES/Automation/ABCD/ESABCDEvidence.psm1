@@ -129,4 +129,4 @@ function Read-ESABCDImmutableSnapshot {
     [pscustomobject][ordered]@{ snapshotId = [string]$snapshot.snapshotId; snapshotHash = $SnapshotHash.ToLowerInvariant(); path = $resolved.path; artifactHash = $resolved.sha256; state = $snapshot.state }
 }
 
-Export-ModuleMember -Function ConvertTo-ESABCDEvidenceCanonical,Get-ESABCDEvidenceHash,Resolve-ESABCDEvidencePath,Get-ESABCDReceiptHashInput,Read-ESABCDReceipt,Assert-ESABCDEvidenceReferences,New-ESABCDImmutableSnapshot,Read-ESABCDImmutableSnapshot
+Export-ModuleMember -Function ConvertTo-ESABCDEvidenceCanonical,Get-ESABCDEvidenceHash,Resolve-ESABCDEvidencePath,Get-ESABCDReceiptHashInput,Read-ESABCDReceipt,Assert-ESABCDEvidenceReferences,New-ESABCDImmutableSnapshot,Read-ESABCDImmutableSnapshot 

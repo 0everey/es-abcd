@@ -224,4 +224,4 @@ function Convert-ESABCDApplyReceiptToVerificationInput {
     }
 }
 
-Export-ModuleMember -Function New-ESABCDCandidatePatchPlan,Convert-ESABCDCandidateToPatchOperations,Test-ESABCDCandidatePatchPlan,New-ESABCDApprovedApplyRequest,Test-ESABCDApprovedApplyRequest,Invoke-ESABCDApprovedApplyRequest,Test-ESABCDApplyReceipt,Convert-ESABCDApplyReceiptToVerificationInput,Get-ESABCDPatchHash
+Export-ModuleMember -Function New-ESABCDCandidatePatchPlan,Convert-ESABCDCandidateToPatchOperations,Test-ESABCDCandidatePatchPlan,New-ESABCDApprovedApplyRequest,Test-ESABCDApprovedApplyRequest,Invoke-ESABCDApprovedApplyRequest,Test-ESABCDApplyReceipt,Convert-ESABCDApplyReceiptToVerificationInput,Get-ESABCDPatchHash 

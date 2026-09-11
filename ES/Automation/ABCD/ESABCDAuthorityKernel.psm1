@@ -254,4 +254,4 @@ function Resolve-ESABCDAuthorityDecision {
     }
 }
 
-Export-ModuleMember -Function Get-ESABCDCoreCapabilities, Resolve-ESABCDAuthorityDecision
+Export-ModuleMember -Function Get-ESABCDCoreCapabilities, Resolve-ESABCDAuthorityDecision 

@@ -30,4 +30,4 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析再�
 
 - 控制台出现完成提示  
 - 存在 `project-profile.json`、`adapt-checklist-*.md`、`oneclick-*.json`  
-- 画像里 `requiresESFramework` 语义为不依赖宿主  
+- 画像里 `requiresESFramework` 语义为不依赖宿主 

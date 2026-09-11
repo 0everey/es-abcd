@@ -290,4 +290,4 @@ function Test-ESInteractionSessionBindingContract {
     return New-ESInteractionBindingValidationResult $true 'INTERACTION_BINDING.VALID' 'InteractionSessionBinding' 'bindingHash' $null 'binding-verified' 'No recovery is required.' @([string]$Receipt.bindingHash, [string]$AuthorityProof.proofHash)
 }
 
-Export-ModuleMember -Function ConvertTo-ESInteractionBindingCanonicalJson,Get-ESInteractionBindingCanonicalHash,Get-ESInteractionAuthorityProofHashInput,Get-ESInteractionBindingReceiptHashInput,New-ESInteractionAuthorityProofDocument,New-ESInteractionSessionBindingReceiptDocument,New-ESInteractionBindingReference,Test-ESInteractionSessionBindingContract
+Export-ModuleMember -Function ConvertTo-ESInteractionBindingCanonicalJson,Get-ESInteractionBindingCanonicalHash,Get-ESInteractionAuthorityProofHashInput,Get-ESInteractionBindingReceiptHashInput,New-ESInteractionAuthorityProofDocument,New-ESInteractionSessionBindingReceiptDocument,New-ESInteractionBindingReference,Test-ESInteractionSessionBindingContract 

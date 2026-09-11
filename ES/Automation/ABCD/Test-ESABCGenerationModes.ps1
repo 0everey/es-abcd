@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path,
     [string]$ReportPath = 'ES/Output/StaticReplay/es-abc-generation-modes.json'
@@ -203,4 +203,4 @@ try {
     if(@($observed|Where-Object matchesTarget).Count -gt 0){$runtimeAdmission.status='target-project-process-present';$runtimeAdmission.reason='target-project-matched'}
 } catch { $runtimeAdmission.reason='process-inspection-failed';$runtimeAdmission.error=$_.Exception.Message }
 $report=[ordered]@{schemaVersion=1;validator='Test-ESABCGenerationModes';skillName='es-ai-abc-core';case='generation-modes';toolId='es-abc-generation-modes-validator';unityVersion='not-run';status=if($failed.Count){'failed'}else{'passed'};staticStatus=if($failed.Count){'static-failed'}else{'static-passed'};runtimeStatus='runtime-not-run';runtimeAdmission=$runtimeAdmission;evidenceLevel='S1';capturedUtc=[DateTime]::UtcNow.ToString('o');caseCount=$cases.Count;passedCount=($cases.Count-$failed.Count);failedCount=$failed.Count;cases=$cases;modeCount=$profiles.Count;modeIds=@($profiles.modeId);modeReplay=$modeReplay;authorizationKind='read-only';evidenceContractId='es.skill-evidence-receipt';evidenceContractHash=(Get-FileHash -LiteralPath $evidenceContractPath -Algorithm SHA256).Hash.ToLowerInvariant();sourceRefs=$refs;sourceRefHashes=$hashes;claimsNotProven=@('creative-quality','player-fun','Unity-runtime','balance')}
-$full=if([IO.Path]::IsPathRooted($ReportPath)){$ReportPath}else{Join-Path $root $ReportPath};New-Item -ItemType Directory -Force (Split-Path $full)|Out-Null;[IO.File]::WriteAllText($full,($report|ConvertTo-Json -Depth 30),[Text.UTF8Encoding]::new($false));$report|ConvertTo-Json -Depth 30;if($failed.Count){exit 1}
+$full=if([IO.Path]::IsPathRooted($ReportPath)){$ReportPath}else{Join-Path $root $ReportPath};New-Item -ItemType Directory -Force (Split-Path $full)|Out-Null;[IO.File]::WriteAllText($full,($report|ConvertTo-Json -Depth 30),[Text.UTF8Encoding]::new($false));$report|ConvertTo-Json -Depth 30;if($failed.Count){exit 1} 

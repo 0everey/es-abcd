@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$PolicyPath,
     [string]$IntentPath
@@ -158,4 +158,4 @@ $failed=@($results|Where-Object{$_.status-eq'failed'})
     runtimeStatus='runtime-not-run'
     claimsNotProven=@('Any conditional adapter Runtime behavior','AIBrain runTask availability','Release acceptance')
 }|ConvertTo-Json -Depth 10
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

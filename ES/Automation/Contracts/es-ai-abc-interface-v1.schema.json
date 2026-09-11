@@ -58,4 +58,4 @@
       "properties": { "collaboratorId": { "$ref": "#/$defs/id" }, "kind": { "enum": ["human", "ai"] }, "goal": { "type": "string", "minLength": 1 }, "authorization": { "type": "string", "minLength": 1 }, "choices": { "type": "array", "items": { "type": "string", "minLength": 1 } }, "acceptance": { "enum": ["pending", "accepted", "rejected"] } }
     }
   }
-}
+} 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..\..')).Path,
     [string]$ReplayReportPath = 'ES/Output/StaticReplay/es-agent-mechanism-replication.json'
@@ -84,4 +84,4 @@ foreach ($item in $cases) {
     $target = Resolve-ProjectPath $relativeReceipt
     [IO.File]::WriteAllText($target, ($receipt | ConvertTo-Json -Depth 12), $utf8NoBom)
     Write-Output "WROTE: $relativeReceipt"
-}
+} 

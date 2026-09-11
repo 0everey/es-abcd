@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   将 ES ABCD 可移植核心安装（叠加）到目标项目根目录。
 
@@ -127,4 +127,4 @@ $markerPath = Join-Path $markerDir 'es-abcd-install.receipt.json'
     receipt = $markerPath
     nextStep = 'powershell -File <package>/scripts/Invoke-ESABCDSmoke.ps1 -ProjectRoot <target>'
     nonClaims = @($manifest.nonClaims)
-} | ConvertTo-Json -Depth 6
+} | ConvertTo-Json -Depth 6 

@@ -40,4 +40,4 @@
 | **合计 /100** | **82** | **46** | **36** |
 
 ## 读法
-本场 ABCD 在统一量表上 **+36**（相对仅提示词）。主要强在结构、多方向、诚实边界（design-candidate / runtime-not-run）。
+本场 ABCD 在统一量表上 **+36**（相对仅提示词）。主要强在结构、多方向、诚实边界（design-candidate / runtime-not-run）。 

@@ -79,4 +79,4 @@ function ConvertTo-ESAIWarningsDisplay {
     }
 }
 
-Export-ModuleMember -Function Get-ESAIWarningsDisplayRuleId, Get-ESAIWarningsDisplayDecision, Get-ESAIWarningsDisplayPurpose, ConvertTo-ESAIWarningsDisplay
+Export-ModuleMember -Function Get-ESAIWarningsDisplayRuleId, Get-ESAIWarningsDisplayDecision, Get-ESAIWarningsDisplayPurpose, ConvertTo-ESAIWarningsDisplay 

@@ -102,4 +102,4 @@ Write-Host ''
     checklistPath    = $(if ($checklist) { $checklist.FullName } else { $null })
     profilePath      = $profilePath
     runtimeStatus    = 'runtime-not-run'
-} | ConvertTo-Json -Depth 5
+} | ConvertTo-Json -Depth 5 

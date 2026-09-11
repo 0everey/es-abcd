@@ -1,4 +1,4 @@
-[CmdletBinding()]param()
+﻿[CmdletBinding()]param()
 $ErrorActionPreference='Stop';Import-Module (Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1') -Force
 $h=('b'*64)
 $generator={param($ctx)
@@ -11,4 +11,4 @@ $engineeringRun=@($runs|Where-Object generationMode -eq 'engineering'|Select-Obj
 $engineeringClaimCap=($engineeringRun.status -eq 'review-required' -and $engineeringRun.claimLevel -eq 'claim-cap' -and $engineeringRun.engineeringCompletionBlock.reasonCode -eq 'ENGINEERING_ARCHITECTURE_EVIDENCE_INCOMPLETE')
 $pass=(@($runs|ForEach-Object generationMode|Sort-Object -Unique).Count -eq 3 -and @($runs|Where-Object{$_.finalDecision.challengeLensCount -lt 10}).Count -eq 0 -and @($runs|Where-Object{$_.finalDecision.challengeScore -lt 0 -or $_.finalDecision.challengeScore -gt 100}).Count -eq 0 -and $engineeringClaimCap)
 [pscustomobject]@{status=if($pass){'passed'}else{'failed'};modeCount=@($runs).Count;distinctModeScores=@($runs|ForEach-Object{$_.finalDecision.modeScore}|Sort-Object -Unique).Count;minChallengeLenses=(@($runs|ForEach-Object{$_.finalDecision.challengeLensCount}|Measure-Object -Minimum).Minimum);engineeringScore=$engineeringRun.finalDecision.modeScore;engineeringClaimCap=$engineeringClaimCap}
-if(-not $pass){exit 1}
+if(-not $pass){exit 1} 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$ModulePath,[string]$ProgressPath)
 $ErrorActionPreference='Stop'
 if([string]::IsNullOrWhiteSpace($ModulePath)){$ModulePath=Join-Path $PSScriptRoot 'ESTaskContextRuntime.psm1'}
@@ -349,4 +349,4 @@ Invoke-Case 'strict-authority-domain-blocks-without-abcd-event' {
 $failed=@($results|Where-Object status -eq 'failed')
 $report=[pscustomobject][ordered]@{schemaVersion=1;validator='Test-ESTaskContextRuntime';status=if($failed.Count){'failed'}else{'passed'};testRoot=$testRoot;caseCount=$results.Count;passedCount=@($results|Where-Object status -eq 'passed').Count;failedCount=$failed.Count;cases=$results;runtimeStatus='runtime-not-run';claimsNotProven=@('Unity Runtime','Worker Runtime','adapter integration Runtime','release acceptance')}
 $report|ConvertTo-Json -Depth 12
-if($failed.Count){exit 1}
+if($failed.Count){exit 1} 

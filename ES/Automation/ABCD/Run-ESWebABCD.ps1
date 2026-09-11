@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
   [Parameter(Mandatory=$true)][string]$TaskPath,
   [Parameter(Mandatory=$true)][string]$RoutePath,
@@ -18,4 +18,4 @@ param(
 )
 $ErrorActionPreference='Stop'
 $runner=Join-Path $PSScriptRoot 'Run-GitHubWebABCD.ps1'
-& $runner -OutputPath $OutputPath -TaskPath $TaskPath -RoutePath $RoutePath -RoutePlanPath $RoutePlanPath -BindingPath $BindingPath -ArtifactPath $ArtifactPath -ModelResponsePath $ModelResponsePath -GenerationProfile $GenerationProfile -RequireFullAbcd:$RequireFullAbcd -Round01Path $Round01Path -Round02Path $Round02Path -Round03Path $Round03Path -Round04Path $Round04Path -Round05Path $Round05Path -AiDesignTaskOutputPath $AiDesignTaskOutputPath
+& $runner -OutputPath $OutputPath -TaskPath $TaskPath -RoutePath $RoutePath -RoutePlanPath $RoutePlanPath -BindingPath $BindingPath -ArtifactPath $ArtifactPath -ModelResponsePath $ModelResponsePath -GenerationProfile $GenerationProfile -RequireFullAbcd:$RequireFullAbcd -Round01Path $Round01Path -Round02Path $Round02Path -Round03Path $Round03Path -Round04Path $Round04Path -Round05Path $Round05Path -AiDesignTaskOutputPath $AiDesignTaskOutputPath 

@@ -25,4 +25,4 @@ function Apply-ESABCDSourcePatch {
  if($PSCmdlet.ShouldProcess($TargetPath,'apply exact source patch')){$tmp="$full.tmp-$([guid]::NewGuid().ToString('N'))";[IO.File]::WriteAllText($tmp,$updated,[Text.UTF8Encoding]::new($false));Move-Item -LiteralPath $tmp -Destination $full -Force;$verify=(Get-FileHash -LiteralPath $full -Algorithm SHA256).Hash.ToLowerInvariant();if($verify -cne $newHash){[IO.File]::WriteAllText($full,$text,[Text.UTF8Encoding]::new($false));throw 'PATCH_POSTWRITE_HASH_MISMATCH'};[pscustomobject]@{status='applied';targetPath=$TargetPath;beforeHash=$actual;afterHash=$verify;rollbackAvailable=$true}}
  else {[pscustomobject]@{status='planned';targetPath=$TargetPath;beforeHash=$actual;afterHash=$newHash;rollbackAvailable=$false}}
 }
-Export-ModuleMember -Function Invoke-ESABCDIterationFeedback,Apply-ESABCDSourcePatch,Get-ESABCDIterationFeedbackHash
+Export-ModuleMember -Function Invoke-ESABCDIterationFeedback,Apply-ESABCDSourcePatch,Get-ESABCDIterationFeedbackHash 

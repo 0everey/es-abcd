@@ -160,4 +160,4 @@ function Invoke-ESABCDCapabilityPlan {
     [pscustomobject][ordered]@{ status = 'executed'; planHash = $Plan.planHash; runId = $Plan.runId; receipts = @($receipts); executedCapabilities = @($receipts | ForEach-Object capabilityId); receiptCount = $receipts.Count }
 }
 
-Export-ModuleMember -Function Get-ESABCDCapabilityCatalog,Test-ESABCDStateTransition,New-ESABCDModelResponseInvoker,New-ESABCDCapabilityExecutionPlan,Invoke-ESABCDCapabilityPlan,Test-ESABCDCapabilityReceipt,Invoke-ESABCDBoundedPatchCandidateAction,New-ESABCDCandidateApprovalRequest,Save-ESABCDCapabilityRecoveryReceipt,Restore-ESABCDCapabilityRecoveryReceipt
+Export-ModuleMember -Function Get-ESABCDCapabilityCatalog,Test-ESABCDStateTransition,New-ESABCDModelResponseInvoker,New-ESABCDCapabilityExecutionPlan,Invoke-ESABCDCapabilityPlan,Test-ESABCDCapabilityReceipt,Invoke-ESABCDBoundedPatchCandidateAction,New-ESABCDCandidateApprovalRequest,Save-ESABCDCapabilityRecoveryReceipt,Restore-ESABCDCapabilityRecoveryReceipt 

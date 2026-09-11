@@ -173,4 +173,4 @@ function Test-ESAIWarningsTextTerm {
     return $Text.IndexOf($Term, [StringComparison]::OrdinalIgnoreCase) -ge 0
 }
 
-Export-ModuleMember -Function Get-ESAIWarningsMetadataIndex, Find-ESAIWarningsMetadataRoutes, Test-ESAIWarningsTextTerm
+Export-ModuleMember -Function Get-ESAIWarningsMetadataIndex, Find-ESAIWarningsMetadataRoutes, Test-ESAIWarningsTextTerm 

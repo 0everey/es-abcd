@@ -12,4 +12,4 @@ The replay is project-relative, strict UTF-8 and read-only. It covers:
 
 The adapter verifies that the independent Core contract owns the six ABCD
 capability IDs, that A↔B mappings are explicit, and that missing evidence or
-semantic mismatch cannot silently execute. Runtime remains `runtime-not-run`.
+semantic mismatch cannot silently execute. Runtime remains `runtime-not-run`. 

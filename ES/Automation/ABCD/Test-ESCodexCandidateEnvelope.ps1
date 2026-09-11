@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 )
@@ -135,4 +135,4 @@ if ($issues.Count -eq 0) {
         'completion-decision-present'
     )
     issues = @($issues)
-}
+} 

@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [Parameter(Mandatory=$true)][string]$TaskPath,
     [Parameter(Mandatory=$true)][string]$RoutePlanPath,
@@ -47,4 +47,4 @@ $binding.bindingHash=Hash (& $runtime { param($v) Get-ESABCTaskBindingHashInput 
 $outFull=[IO.Path]::GetFullPath((Join-Path $root $OutputPath));if(-not $outFull.StartsWith($root+'\',[StringComparison]::OrdinalIgnoreCase)){throw 'OutputPath outside project root.'}
 $parent=Split-Path -Parent $outFull;if(-not(Test-Path $parent)){New-Item -ItemType Directory -Path $parent -Force|Out-Null}
 [IO.File]::WriteAllText($outFull,($binding|ConvertTo-Json -Depth 40),[Text.UTF8Encoding]::new($false))
-[pscustomobject]@{status='created';bindingId=$binding.bindingId;taskId=$taskId;bindingHash=$binding.bindingHash;outputPath=$outFull}
+[pscustomobject]@{status='created';bindingId=$binding.bindingId;taskId=$taskId;bindingHash=$binding.bindingHash;outputPath=$outFull} 
