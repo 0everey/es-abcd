@@ -4,79 +4,72 @@
 
 **版本：** 1.0.0 正式版 · [GitHub](https://github.com/0everey/es-abcd) · [Release](https://github.com/0everey/es-abcd/releases/tag/v1.0.0) · MIT  
 
-文档默认**中文**；模式 id（如 `engineering`）可与中文并用。
+---
+
+## 你先看这里（用户入口）
+
+| 顺序 | 去哪 | 干什么 |
+|------|------|--------|
+| **1** | **[真实流程与结果解说](./docs/真实流程与结果解说.md)** | **中文讲清：怎么走、会得到什么、结果怎么读**（主说明） |
+| **2** | **[开始试用](./开始试用.md)** | 约 5 分钟试接入 |
+| **3** | 下文「可复制场景」 | 工程 / 创意 / 稳定模板，发给 AI |
+| **4** | 文末「证据附录」 | 需要较真时再点 `T-*.md` / 对照表 |
+
+> **不要**一上来只钻编号回执文件。那是审计证据，不是产品说明书；先读「真实流程与结果解说」。
 
 ---
 
-## 目录（GitHub 可点）
+## 30 秒流程
 
-| 我想… | 点这里 |
-|--------|--------|
-| **5 分钟试用** | [开始试用.md](./开始试用.md) |
-| **一键试验沙箱脚本** | [scripts/Start-ESABCDTrial.ps1](./scripts/Start-ESABCDTrial.ps1) |
-| **看 live 实测对比（最醒目）** | [docs/scenario-run-reports/COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md) |
-| **12 场报告总索引** | [docs/scenario-run-reports/README.md](./docs/scenario-run-reports/README.md) |
-| 工程 T-ENG-01 技能系统 | [docs/scenario-run-reports/T-ENG-01.md](./docs/scenario-run-reports/T-ENG-01.md) |
-| 创意 T-CRE-01 近战手感 | [docs/scenario-run-reports/T-CRE-01.md](./docs/scenario-run-reports/T-CRE-01.md) |
-| 稳定 T-STA-01 技能表扩展 | [docs/scenario-run-reports/T-STA-01.md](./docs/scenario-run-reports/T-STA-01.md) |
-| AI 安装剧本 | [docs/ai-install-playbook.md](./docs/ai-install-playbook.md) |
-| 与 ES 独立性 | [docs/independence.md](./docs/independence.md) |
-| 复跑实测套件 | [scripts/Run-ESABCDScenarioReportSuite.ps1](./scripts/Run-ESABCDScenarioReportSuite.ps1) |
+```text
+两个真实路径 → 安装（AI 或试验脚本）→ 看清单
+        → 复制一条场景给 AI → 听人话方案
+        → （可选）对照文末 live 证据
+```
 
-### 12 场报告直达
+**安装话术：**
 
-**工程** · [01](./docs/scenario-run-reports/T-ENG-01.md) · [02](./docs/scenario-run-reports/T-ENG-02.md) · [03](./docs/scenario-run-reports/T-ENG-03.md) · [04](./docs/scenario-run-reports/T-ENG-04.md)  
+```text
+es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，
+先分析项目再按情况接入，出适配清单，用人话汇报。
+```
 
-**创意** · [01](./docs/scenario-run-reports/T-CRE-01.md) · [02](./docs/scenario-run-reports/T-CRE-02.md) · [03](./docs/scenario-run-reports/T-CRE-03.md) · [04](./docs/scenario-run-reports/T-CRE-04.md)  
-
-**稳定** · [01](./docs/scenario-run-reports/T-STA-01.md) · [02](./docs/scenario-run-reports/T-STA-02.md) · [03](./docs/scenario-run-reports/T-STA-03.md) · [04](./docs/scenario-run-reports/T-STA-04.md)
-
----
-
-## 试用（约 5 分钟）
-
-1. 克隆本仓库  
-2. 在仓库根目录运行：
+**本机试验：**
 
 ```powershell
 powershell -File .\scripts\Start-ESABCDTrial.ps1
 ```
 
-3. 把运行结束打印的整段话复制给 AI  
-4. 再从下文复制创意/稳定场景，对比三种模式  
-
-说明 → **[开始试用.md](./开始试用.md)**  
-看别人已经跑过的 live 结果 → **[实测对比](./docs/scenario-run-reports/COMPARISON-modes-live.md)**
+路径必须是你自己的绝对路径。
 
 ---
 
-## 接到你自己的项目
+## 三种模式你会得到什么（人话）
 
-1. 准备 **es-abcd 根路径** + **项目根路径**（真实绝对路径）。  
-2. 对 AI 说：
+| 模式 | 你在干什么 | 系统侧常见表现（已有 live 批） |
+|------|------------|--------------------------------|
+| **工程** | 把技能/经济/管线/战斗**做对** | 约 **5** 个方向，**定一个**主推荐 |
+| **创意** | 要**多方案、敢分歧** | 约 **7** 个方向，**排序推荐**第一 |
+| **稳定** | 老表/导入/活动/**别翻车** | 约 **5** 个方向，**定一个**偏兼容/回滚 |
 
-```text
-es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项目再按情况接入，出适配清单，用人话汇报。
-```
+**读结果时记住：**
 
-会**自动识别**项目类型再决定全新装或刷新。  
-**禁止**使用文档假路径。
+- **通过** = 这场编排跑通了，能选出主推荐 —— **不是**游戏已可玩  
+- **设计候选** = 只能当方案讨论，不是定案/上线  
+- **运行时未验** = 没做编辑器/真机验收  
+- 其它方向在排名里 = **落选推荐**，不是被判死刑  
+
+完整中文解说（含三场真实例子怎么读）→ **[docs/真实流程与结果解说.md](./docs/真实流程与结果解说.md)**
 
 ---
 
 ## 三种模式 · 真实场景（可复制）
 
-- **工程模式** `engineering`：做对、边界清、能落地  
-- **创意模式** `creative-divergence`：多方案、差异大  
-- **稳定模式** `stable`：贴现状、少翻车、能收口  
+复制后只改 `<项目根路径>`。跑完用「结果解说」读 AI 回复；需要核对再点证据。
 
-每条复制后只改 `<项目根路径>`。跑完可对照 [实测报告](./docs/scenario-run-reports/README.md)。
+### 工程模式
 
----
-
-### 工程模式 — 5 组
-
-**1. 设计技能系统** · live 样例 → [T-ENG-01](./docs/scenario-run-reports/T-ENG-01.md)
+**1. 设计技能系统**
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -85,7 +78,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：方案要点 + 风险 + 还不能宣称已实装/已平衡。
 ```
 
-**2. 设计成长与经济** · [T-ENG-02](./docs/scenario-run-reports/T-ENG-02.md)
+**2. 设计成长与经济**
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -94,7 +87,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：结构图（文字即可）+ 失败案例 + 未验证项。
 ```
 
-**3. 批量道具管线** · [T-ENG-03](./docs/scenario-run-reports/T-ENG-03.md)
+**3. 批量道具管线**
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -112,7 +105,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：状态与边界 + 风险清单。
 ```
 
-**5. 战斗结算闭环** · [T-ENG-04](./docs/scenario-run-reports/T-ENG-04.md)
+**5. 战斗结算闭环**
 
 ```text
 项目 <项目根路径>。用工程模式。
@@ -121,11 +114,9 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：链路说明 + 已知缺口 + 运行时未验声明。
 ```
 
----
+### 创意模式
 
-### 创意模式 — 5 组
-
-**1. 技能手感与表现发散** · [T-CRE-01](./docs/scenario-run-reports/T-CRE-01.md)
+**1. 技能手感与表现发散**
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -134,7 +125,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：多方案列表 + 推荐尝试顺序（非最终定案）。
 ```
 
-**2. 新玩法循环** · [T-CRE-02](./docs/scenario-run-reports/T-CRE-02.md)
+**2. 新玩法循环**
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -143,7 +134,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：5 循环 + 放弃理由示例。
 ```
 
-**3. 大量道具的品类创意** · [T-CRE-03](./docs/scenario-run-reports/T-CRE-03.md)
+**3. 大量道具的品类创意**
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -152,7 +143,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：5 套矩阵要点 + 哪套最适合先做 20 个样例。
 ```
 
-**4. Boss 战花样** · [T-CRE-04](./docs/scenario-run-reports/T-CRE-04.md)
+**4. Boss 战花样**
 
 ```text
 项目 <项目根路径>。用创意模式。
@@ -170,11 +161,9 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：5 架构 + 首选原型建议。
 ```
 
----
+### 稳定模式
 
-### 稳定模式 — 5 组
-
-**1. 现有技能表不翻车扩展** · [T-STA-01](./docs/scenario-run-reports/T-STA-01.md)
+**1. 现有技能表不翻车扩展**
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -183,7 +172,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：扩展步骤 + 回归检查表 + 禁止事项。
 ```
 
-**2. 道具批量导入不炸服** · [T-STA-02](./docs/scenario-run-reports/T-STA-02.md)
+**2. 道具批量导入不炸服**
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -192,7 +181,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：导入规程 + 失败样例处理 + 未测环境声明。
 ```
 
-**3. 活动开关与配置热更** · [T-STA-03](./docs/scenario-run-reports/T-STA-03.md)
+**3. 活动开关与配置热更**
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -201,7 +190,7 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 交付：开关方案 + 事故预案。
 ```
 
-**4. 老关卡修 bug 不毁档** · [T-STA-04](./docs/scenario-run-reports/T-STA-04.md)
+**4. 老关卡修 bug 不毁档**
 
 ```text
 项目 <项目根路径>。用稳定模式。
@@ -221,22 +210,26 @@ es-abcd 在 <es-abcd根路径>，装到项目 <项目根路径>，先分析项�
 
 ---
 
-## 装好后
+## 装好后 · 边界 · 给 AI
 
-- 适配清单：`<项目根路径>/ES/Automation/ABCD/out/adapt-checklist-*.md`  
-- 日常由 AI 使用项目内入口；你提供路径与目标即可  
-
----
-
-## 边界
-
-跑通场景 ≠ 编辑器已验收 ≠ 可发版。运行时未验必须写明。  
-live 报告均为 `design-candidate` / `runtime-not-run`。
+- 清单：`<项目根>/ES/Automation/ABCD/out/adapt-checklist-*.md`  
+- 跑通场景 ≠ 编辑器验收 ≠ 可发版；运行时未验必须写明  
+- AI 安装步骤：[docs/ai-install-playbook.md](./docs/ai-install-playbook.md)  
+- 回报用**人话**；用户主读 [真实流程与结果解说](./docs/真实流程与结果解说.md)
 
 ---
 
-## 给 AI
+## 附录 · 证据（审计用，不是产品首页）
 
-- 「场景」= 上表模板；路径只用用户给出的绝对路径。  
-- 安装：[docs/ai-install-playbook.md](./docs/ai-install-playbook.md)  
-- 回报说人话；需要对照时打开 [实测索引](./docs/scenario-run-reports/README.md)
+下列为 **live 机器回执**，供核对 cand-* / 方向数 / 选择状态；**普通用户可跳过。**
+
+| 证据 | 链接 |
+|------|------|
+| 证据目录说明 | [docs/scenario-run-reports/README.md](./docs/scenario-run-reports/README.md) |
+| 12 场对照表 | [COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md) |
+| 工程 01–04 | [01](./docs/scenario-run-reports/T-ENG-01.md) · [02](./docs/scenario-run-reports/T-ENG-02.md) · [03](./docs/scenario-run-reports/T-ENG-03.md) · [04](./docs/scenario-run-reports/T-ENG-04.md) |
+| 创意 01–04 | [01](./docs/scenario-run-reports/T-CRE-01.md) · [02](./docs/scenario-run-reports/T-CRE-02.md) · [03](./docs/scenario-run-reports/T-CRE-03.md) · [04](./docs/scenario-run-reports/T-CRE-04.md) |
+| 稳定 01–04 | [01](./docs/scenario-run-reports/T-STA-01.md) · [02](./docs/scenario-run-reports/T-STA-02.md) · [03](./docs/scenario-run-reports/T-STA-03.md) · [04](./docs/scenario-run-reports/T-STA-04.md) |
+| 复跑套件 | [scripts/Run-ESABCDScenarioReportSuite.ps1](./scripts/Run-ESABCDScenarioReportSuite.ps1) |
+
+独立性说明（可选）：[docs/independence.md](./docs/independence.md)

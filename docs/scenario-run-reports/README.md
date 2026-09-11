@@ -1,13 +1,14 @@
-# 场景实测报告（live 索引）
+# 场景实测报告（证据附录）
 
-> 本目录全部由真实 `Invoke-ESABCModeDivergence` + `Select-ESABCGenerationCandidate` 回执生成，禁止手填 cand-*。  
-> 非 Unity PlayMode / 发版验收。
+> **普通用户请先看：** [真实流程与结果解说.md](../真实流程与结果解说.md)  
+> 本目录是 **live 机器回执**，供审计核对 cand-* / 方向数；**不是**产品首页。  
+> 由真实 Divergence+Select 生成，禁止手填。非 PlayMode / 发版验收。
 
-## 先看对比
+## 对照表
 
 | 文档 | 说明 |
 |------|------|
-| [COMPARISON-modes-live.md](COMPARISON-modes-live.md) | 12 场跨模式对照表 |
+| [COMPARISON-modes-live.md](COMPARISON-modes-live.md) | 12 场跨模式对照（证据） |
 
 ## 工程模式 `engineering`（4 场）
 
