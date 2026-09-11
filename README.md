@@ -66,18 +66,18 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 | 编号 | 模式 | 场景 | 方向数 | 主推荐（人话） | 怎么选的 | 级别 |
 |------|------|------|--------|----------------|----------|------|
-| [T-ENG-01](./docs/scenario-run-reports/T-ENG-01.md) | 工程 | 设计技能系统 | **5** | **状态机/流程严谨性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-ENG-02](./docs/scenario-run-reports/T-ENG-02.md) | 工程 | 成长与经济 | **5** | **状态机/流程严谨性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-ENG-03](./docs/scenario-run-reports/T-ENG-03.md) | 工程 | 批量道具管线 | **5** | **性能峰值预算** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-ENG-04](./docs/scenario-run-reports/T-ENG-04.md) | 工程 | 战斗结算闭环 | **5** | **失败恢复** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-CRE-01](./docs/scenario-run-reports/T-CRE-01.md) | 创意 | 近战技能手感发散 | **7** | **表现与节拍** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
-| [T-CRE-02](./docs/scenario-run-reports/T-CRE-02.md) | 创意 | 日活玩法循环 | **7** | **技巧上限** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
-| [T-CRE-03](./docs/scenario-run-reports/T-CRE-03.md) | 创意 | 道具品类矩阵 | **7** | **心流连贯** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
-| [T-CRE-04](./docs/scenario-run-reports/T-CRE-04.md) | 创意 | Boss 战花样 | **7** | **心流连贯** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
-| [T-STA-01](./docs/scenario-run-reports/T-STA-01.md) | 稳定 | 技能表安全扩展 | **5** | **可回滚** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-STA-02](./docs/scenario-run-reports/T-STA-02.md) | 稳定 | 道具批量导入 | **5** | **可回滚** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-STA-03](./docs/scenario-run-reports/T-STA-03.md) | 稳定 | 活动开关配置 | **5** | **贴合现有集成** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
-| [T-STA-04](./docs/scenario-run-reports/T-STA-04.md) | 稳定 | 老关卡修 bug 不毁档 | **5** | **兼容性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-ENG-01 完整解说](./docs/scenario-run-reports/T-ENG-01.md) | 工程 | 设计技能系统 | **5** | **状态机/流程严谨性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-ENG-02 完整解说](./docs/scenario-run-reports/T-ENG-02.md) | 工程 | 成长与经济 | **5** | **状态机/流程严谨性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-ENG-03 完整解说](./docs/scenario-run-reports/T-ENG-03.md) | 工程 | 批量道具管线 | **5** | **性能峰值预算** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-ENG-04 完整解说](./docs/scenario-run-reports/T-ENG-04.md) | 工程 | 战斗结算闭环 | **5** | **失败恢复** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-CRE-01 完整解说](./docs/scenario-run-reports/T-CRE-01.md) | 创意 | 近战技能手感发散 | **7** | **表现与节拍** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
+| [T-CRE-02 完整解说](./docs/scenario-run-reports/T-CRE-02.md) | 创意 | 日活玩法循环 | **7** | **技巧上限** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
+| [T-CRE-03 完整解说](./docs/scenario-run-reports/T-CRE-03.md) | 创意 | 道具品类矩阵 | **7** | **心流连贯** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
+| [T-CRE-04 完整解说](./docs/scenario-run-reports/T-CRE-04.md) | 创意 | Boss 战花样 | **7** | **心流连贯** | 排序后推荐第一（其余仍可看） | 设计候选 · 运行时未验 |
+| [T-STA-01 完整解说](./docs/scenario-run-reports/T-STA-01.md) | 稳定 | 技能表安全扩展 | **5** | **可回滚** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-STA-02 完整解说](./docs/scenario-run-reports/T-STA-02.md) | 稳定 | 道具批量导入 | **5** | **可回滚** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-STA-03 完整解说](./docs/scenario-run-reports/T-STA-03.md) | 稳定 | 活动开关配置 | **5** | **贴合现有集成** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
+| [T-STA-04 完整解说](./docs/scenario-run-reports/T-STA-04.md) | 稳定 | 老关卡修 bug 不毁档 | **5** | **兼容性** | 按规则定一个主推荐 | 设计候选 · 运行时未验 |
 
 同一批 12 场 **全部通过**。证据对照表：[COMPARISON-modes-live.md](./docs/scenario-run-reports/COMPARISON-modes-live.md)
 
@@ -140,7 +140,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 1 · 设计技能系统
 
-**本场实测（live）** · 证据 [T-ENG-01](./docs/scenario-run-reports/T-ENG-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-01.json)
+**本场实测（live）** · 证据 [T-ENG-01 完整解说](./docs/scenario-run-reports/T-ENG-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-01.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -158,7 +158,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 2 · 成长与经济
 
-**本场实测（live）** · 证据 [T-ENG-02](./docs/scenario-run-reports/T-ENG-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-02.json)
+**本场实测（live）** · 证据 [T-ENG-02 完整解说](./docs/scenario-run-reports/T-ENG-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-02.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -176,7 +176,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 3 · 批量道具管线
 
-**本场实测（live）** · 证据 [T-ENG-03](./docs/scenario-run-reports/T-ENG-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-03.json)
+**本场实测（live）** · 证据 [T-ENG-03 完整解说](./docs/scenario-run-reports/T-ENG-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-03.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -194,7 +194,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 4 · 战斗结算闭环
 
-**本场实测（live）** · 证据 [T-ENG-04](./docs/scenario-run-reports/T-ENG-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-04.json)
+**本场实测（live）** · 证据 [T-ENG-04 完整解说](./docs/scenario-run-reports/T-ENG-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-ENG-04.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -218,7 +218,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 1 · 近战技能手感发散
 
-**本场实测（live）** · 证据 [T-CRE-01](./docs/scenario-run-reports/T-CRE-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-01.json)
+**本场实测（live）** · 证据 [T-CRE-01 完整解说](./docs/scenario-run-reports/T-CRE-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-01.json)
 
 - 状态：**通过**
 - 方向数：**7**
@@ -236,7 +236,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 2 · 日活玩法循环
 
-**本场实测（live）** · 证据 [T-CRE-02](./docs/scenario-run-reports/T-CRE-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-02.json)
+**本场实测（live）** · 证据 [T-CRE-02 完整解说](./docs/scenario-run-reports/T-CRE-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-02.json)
 
 - 状态：**通过**
 - 方向数：**7**
@@ -254,7 +254,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 3 · 道具品类矩阵
 
-**本场实测（live）** · 证据 [T-CRE-03](./docs/scenario-run-reports/T-CRE-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-03.json)
+**本场实测（live）** · 证据 [T-CRE-03 完整解说](./docs/scenario-run-reports/T-CRE-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-03.json)
 
 - 状态：**通过**
 - 方向数：**7**
@@ -272,7 +272,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 4 · Boss 战花样
 
-**本场实测（live）** · 证据 [T-CRE-04](./docs/scenario-run-reports/T-CRE-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-04.json)
+**本场实测（live）** · 证据 [T-CRE-04 完整解说](./docs/scenario-run-reports/T-CRE-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-CRE-04.json)
 
 - 状态：**通过**
 - 方向数：**7**
@@ -296,7 +296,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 1 · 技能表安全扩展
 
-**本场实测（live）** · 证据 [T-STA-01](./docs/scenario-run-reports/T-STA-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-01.json)
+**本场实测（live）** · 证据 [T-STA-01 完整解说](./docs/scenario-run-reports/T-STA-01.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-01.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -314,7 +314,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 2 · 道具批量导入
 
-**本场实测（live）** · 证据 [T-STA-02](./docs/scenario-run-reports/T-STA-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-02.json)
+**本场实测（live）** · 证据 [T-STA-02 完整解说](./docs/scenario-run-reports/T-STA-02.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-02.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -332,7 +332,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 3 · 活动开关配置
 
-**本场实测（live）** · 证据 [T-STA-03](./docs/scenario-run-reports/T-STA-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-03.json)
+**本场实测（live）** · 证据 [T-STA-03 完整解说](./docs/scenario-run-reports/T-STA-03.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-03.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -350,7 +350,7 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ### 场景 4 · 老关卡修 bug 不毁档
 
-**本场实测（live）** · 证据 [T-STA-04](./docs/scenario-run-reports/T-STA-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-04.json)
+**本场实测（live）** · 证据 [T-STA-04 完整解说](./docs/scenario-run-reports/T-STA-04.md) · 回执 [json](./docs/scenario-run-reports/receipts/T-STA-04.json)
 
 - 状态：**通过**
 - 方向数：**5**
@@ -382,7 +382,9 @@ powershell -File .\scripts\Start-ESABCDTrial.ps1
 
 ---
 
-## 8. 证据链（文末 · 审计用）
+## 8. 完整解说与证据链（文末）
+
+每场单独一篇长文：问题是什么、ABCD 怎么走、主推为何、方向表、分数、对照仅提示词、你可继续对 AI 说的话、审计字段。
 
 本批 ABCD 入口：真实 `Invoke-ESABCModeDivergence` + `Select-ESABCGenerationCandidate`。  
 复跑场景：`powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1`  
