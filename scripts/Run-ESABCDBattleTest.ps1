@@ -37,10 +37,10 @@ $installOut = & powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $
 $sw.Stop()
 if ($LASTEXITCODE -ne 0) { throw ('install failed: ' + $installOut) }
 $hasUse = Test-Path (Join-Path $trial 'ES\Automation\ABCD\Use-ESABCD.ps1')
-$hasReal = Test-Path (Join-Path $trial 'ES\Automation\ABCD\ESABCDRealDivergence.psm1')
+$hasReal = Test-Path (Join-Path $trial 'ES\Automation\ABCD\ESABCDModelDivergence.psm1')
 $testCount = @(Get-ChildItem (Join-Path $trial 'ES\Automation\ABCD') -Filter 'Test-*.ps1' -File -ErrorAction SilentlyContinue).Count
 L ('- status: PASS (' + $sw.ElapsedMilliseconds + ' ms)')
-L ('- Use-ESABCD=' + $hasUse + ' RealDivergence=' + $hasReal + ' TestCount=' + $testCount)
+L ('- Use-ESABCD=' + $hasUse + ' ModelDivergence=' + $hasReal + ' TestCount=' + $testCount)
 if (-not ($hasUse -and $hasReal)) { throw 'core files missing after install' }
 
 $cases = @(
@@ -89,7 +89,7 @@ foreach ($c in $cases) {
     if ($null -eq $top) { $top = $dirs[0] }
     $keeps = @(Prop $top '真实分支保留摘要')
     $fails = New-Object System.Collections.Generic.List[string]
-    if ($engine -cne 'real-axis-branch-v1') { [void]$fails.Add('engine='+$engine) }
+    if ($engine -cne 'llm-axis-divergence-v1') { [void]$fails.Add('engine='+$engine) }
     if ([string](Prop $zh '记录类型') -cne 'ESABCD中文回执') { [void]$fails.Add('record') }
     if ($dirs.Count -lt 5) { [void]$fails.Add('dirs='+$dirs.Count) }
     if ($keeps.Count -lt 2) { [void]$fails.Add('keeps='+$keeps.Count) }

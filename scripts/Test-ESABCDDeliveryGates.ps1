@@ -30,6 +30,19 @@ Import-Module $divMod -Force -Global
 
 $contract = Join-Path $PackageRoot 'ES\Automation\Contracts\es-ai-abc-generation-mode-v1.json'
 $hash = Get-ESABCDFileSha256 -LiteralPath $contract
+
+# P0: card-pack removed; missing model must fail
+$oldKey = $env:ES_ABCD_MODEL_API_KEY; $oldX=$env:XAI_API_KEY; $oldO=$env:OPENAI_API_KEY
+$env:ES_ABCD_MODEL_API_KEY=''; $env:XAI_API_KEY=''; $env:OPENAI_API_KEY=''
+# hide grok config by temp rename is too invasive; instead call Get-ESABCDModelConfig with empty and mock by removing path - skip if config exists
+# Structural tombstone check:
+Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDRealDivergence.psm1') -Force
+$threwPack = $false
+try { New-ESABCDRealDirectionCandidate } catch { if ($_.Exception.Message -match 'CARD_PACK_REMOVED') { $threwPack = $true } }
+if (-not $threwPack) { throw 'card pack tombstone not armed' }
+Log 'card-pack-tombstone-ok'
+$env:ES_ABCD_MODEL_API_KEY=$oldKey; $env:XAI_API_KEY=$oldX; $env:OPENAI_API_KEY=$oldO
+
 Log "hash-ok $hash"
 
 # --- 1 deliveryKind on default creative short run (axis-grounded content) ---
@@ -44,7 +57,7 @@ $s1 = [string]$div.directions[1].concretePlayerScenario
 if ($s0 -ceq $s1) { throw 'axis bodies still identical - content pack not wired' }
 if ([string]::IsNullOrWhiteSpace([string]$div.directions[0].axisZh)) { throw 'axisZh missing' }
 if ([bool]$sel.templateCollision.hasCollision) { throw 'differentiated axis bodies should not template-collide' }
-if ([string]$div.iterationTraceKind -ne 'real-axis-branch-v1') { throw "engine=$($div.iterationTraceKind)" }
+if ([string]$div.iterationTraceKind -ne 'llm-axis-divergence-v1') { throw "engine=$($div.iterationTraceKind)" }
 $tr = @($div.directions[0].iterationTrace | Where-Object { $_.decision -eq 'keep' })
 if ($tr.Count -lt 2) { throw 'real keep traces missing' }
 if ([string]::IsNullOrWhiteSpace([string]$tr[0].concreteChange)) { throw 'keep concreteChange empty' }
@@ -175,7 +188,7 @@ $zhP = if ($comm.chineseReceiptPath) { $comm.chineseReceiptPath } else { $comm.'
 if (-not (Test-Path -LiteralPath $zhP)) { throw 'chinese receipt file missing' }
 $zhObj = Get-Content -LiteralPath $zhP -Raw -Encoding UTF8 | ConvertFrom-Json
 if ([string]$zhObj.'记录类型' -ne 'ESABCD中文回执') { throw 'zh record type' }
-if ([string]$zhObj.'发散引擎' -ne 'real-axis-branch-v1') { throw 'zh engine' }
+if ([string]$zhObj.'发散引擎' -ne 'llm-axis-divergence-v1') { throw 'zh engine' }
 if (@($zhObj.'方向列表').Count -lt 5) { throw 'zh directions' }
 if ([string]$zhObj.'发散引擎中文' -notmatch '真实') { throw 'zh engine label' }
 Log "commercial-brief-ok md=$($comm.markdownPath) bytes=$($mdText.Length)"

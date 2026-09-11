@@ -31,32 +31,19 @@ function Resolve-ESABCGenerationSelection {
 }
 
 function Invoke-ESABCModeDivergence {
- [CmdletBinding()]param([Parameter(Mandatory)][string]$Requirement,[Parameter(Mandatory)][string]$SourceHash,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[int]$MinimumDirections=0,[string]$ProjectRoot='')
- if([string]::IsNullOrWhiteSpace($ProjectRoot)){ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global; $ProjectRoot = Get-ESABCDPackageRoot }
- if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'};if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
- $profile=Get-ESABCGenerationMode -Mode $Mode -ProjectRoot $ProjectRoot;$count=if($MinimumDirections -gt 0){$MinimumDirections}else{$profile.minimumDirections};if($count -lt $profile.minimumDirections -or $count -gt $profile.maximumDirections){throw 'ABC_GENERATION_DIRECTION_BUDGET_INVALID'}
- Import-Module (Join-Path $PSScriptRoot 'ESABCDRealDivergence.psm1') -Force -Global
- $axes=@($profile.requiredAxes);$directions=[Collections.Generic.List[object]]::new();$allRounds=[Collections.Generic.List[object]]::new()
- $realRounds=6
- for($i=0;$i -lt $count;$i++){
-   $axis=[string]$axes[$i % $axes.Count]
-   $candidate=New-ESABCDRealDirectionCandidate -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -Axis $axis -Ordinal ($i+1) -Profile $profile -RealRounds $realRounds
-   [void]$allRounds.AddRange(@($candidate.iterationTrace));[void]$directions.Add($candidate)
- }
- $canonical=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;directions=@($directions);rounds=@($allRounds);engine='real-axis-branch-v1'}
- [pscustomobject][ordered]@{
-   schemaVersion=1;contractId='es://automation/contracts/ai-abc/generation-modes/v1';mode=$Mode;profile=$profile
-   requirement=$Requirement;sourceHash=$SourceHash;directionCount=$directions.Count;directions=@($directions)
-   iterationPolicy=[ordered]@{minimumRounds=$realRounds;branchingPerRound=@(2,2);selection='content-fit-keep-discard';lineageRequired=$true;engine='real-axis-branch-v1'}
-   roundCount=$realRounds;branchCount=$allRounds.Count;hiddenDirectionCount=0
-   selectionPolicy=if($Mode -eq 'creative-divergence'){'rank-after-real-axis-branch'}else{'deterministic-ranked-after-real-axis-branch'}
-   status=$profile.outputStatus;claimLevel='candidate';auditDeferred=$true
-   candidateSetHash=(Get-ESABCDDivergenceHash $canonical);graphAuthority='candidate-only'
-   deliveryKind='lens-pending';pipelineLevel='L0';runtimeStatus='runtime-not-run'
-   iterationTraceKind='real-axis-branch-v1'
-   divergenceEngine='real-axis-branch-v1'
-   language='zh-CN'
- }
+ [CmdletBinding()]param(
+   [Parameter(Mandatory)][string]$Requirement,
+   [Parameter(Mandatory)][string]$SourceHash,
+   [ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',
+   [int]$MinimumDirections=0,
+   [string]$ProjectRoot='',
+   [scriptblock]$ModelInvoker=$null
+ )
+ # P0: LLM-only divergence. Card-pack / mutation-catalog engines are removed.
+ if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'}
+ if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDModelDivergence.psm1') -Force -Global
+ return Invoke-ESABCDModelModeDivergence -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -MinimumDirections $MinimumDirections -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
 }
 
 function Get-ESABCAmplificationAssessment {

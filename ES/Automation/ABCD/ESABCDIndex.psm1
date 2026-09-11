@@ -159,18 +159,23 @@ function Invoke-ESABCD {
         [ValidateSet('engineering', 'creative-divergence', 'stable')][string]$Mode = 'creative-divergence',
         [ValidateSet('brief', 'select', 'diverge')][string]$Output = 'brief',
         [string]$ProjectRoot = '',
-        [string]$OutDir = ''
+        [string]$OutDir = '',
+        [scriptblock]$ModelInvoker = $null
     )
 
     $ProjectRoot = Resolve-ESABCDProjectRoot -ProjectRoot $ProjectRoot
     $profileName = if ($Output -eq 'brief') { 'brief' } else { 'select' }
     Import-ESABCDProfile -Name $profileName | Out-Null
-    Import-ESABCDCapability -Id @('content') -WithDeps | Out-Null
-    Import-Module (Join-Path $PSScriptRoot 'ESABCDRealDivergence.psm1') -Force -Global
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDModelClient.psm1') -Force -Global
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDModelDivergence.psm1') -Force -Global
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDReceiptZh.psm1') -Force -Global
+    Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
+    # Fail fast if no model and no invoker (card-pack forbidden)
+    if ($null -eq $ModelInvoker) { $null = Get-ESABCDModelConfig }
 
     $contract = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
     $hash = Get-ESABCDFileSha256 -LiteralPath $contract
-    $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $hash -Mode $Mode -ProjectRoot $ProjectRoot
+    $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $hash -Mode $Mode -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
 
     if ([string]::IsNullOrWhiteSpace($OutDir)) {
         $OutDir = Join-Path $ProjectRoot 'ES\Automation\ABCD\out'
@@ -292,10 +297,11 @@ function Invoke-ESABCDQuick {
         [Parameter(Mandatory)][string]$Requirement,
         [ValidateSet('engineering', 'creative-divergence', 'stable')][string]$Mode = 'engineering',
         [string]$ProjectRoot = '',
-        [switch]$Commercial
+        [switch]$Commercial,
+        [scriptblock]$ModelInvoker = $null
     )
     $out = if ($Commercial) { 'brief' } else { 'select' }
-    return Invoke-ESABCD -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -Output $out
+    return Invoke-ESABCD -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -Output $out -ModelInvoker $ModelInvoker
 }
 
 function Invoke-ESABCDCommercialBrief {
@@ -304,9 +310,10 @@ function Invoke-ESABCDCommercialBrief {
         [Parameter(Mandatory)][string]$Requirement,
         [ValidateSet('engineering', 'creative-divergence', 'stable')][string]$Mode = 'creative-divergence',
         [string]$ProjectRoot = '',
-        [string]$OutDir = ''
+        [string]$OutDir = '',
+        [scriptblock]$ModelInvoker = $null
     )
-    return Invoke-ESABCD -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -OutDir $OutDir -Output brief
+    return Invoke-ESABCD -Requirement $Requirement -Mode $Mode -ProjectRoot $ProjectRoot -OutDir $OutDir -Output brief -ModelInvoker $ModelInvoker
 }
 
 Export-ModuleMember -Function @(

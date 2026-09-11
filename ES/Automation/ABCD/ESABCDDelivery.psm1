@@ -142,42 +142,76 @@ function New-ESABCDDomainBrief {
     $deliveryStatus = 'DELIVERY_LENS_ONLY'
 
     if ($domainInfo.domain -eq 'live-ops-loop') {
-                $loopNames = @(
-            [ordered]@{ name = '晨采急袭环'; tilt = '硬核'; attract = '追求效率的肝党'; annoy = '休闲玩家（时间压迫）'; gather = '限时采集高风险点'; craft = '战场边角急合成'; prep = '战备轻装速配'; sortie = '短线出击清日常' }
-            [ordered]@{ name = '稳产工坊环'; tilt = '休闲'; attract = '碎片时间玩家'; annoy = '硬核竞速党（节奏慢）'; gather = '安全区挂机采集'; craft = '工坊批量合成'; prep = '战备一键套装'; sortie = '低压力出击领奖' }
-            [ordered]@{ name = '社交拼单环'; tilt = '社交'; attract = '公会/组队玩家'; annoy = '独狼（等待成本）'; gather = '组队共享采集'; craft = '拼单合成分红'; prep = '战备队内配装检查'; sortie = '小队联合作战' }
-            [ordered]@{ name = '风险勘探环'; tilt = '硬核'; attract = '探索向玩家'; annoy = '怕亏资源的玩家'; gather = '未知点勘探采集'; craft = '高失败率实验合成'; prep = '战备带保险消耗品'; sortie = '高风险高回报出击' }
-            [ordered]@{ name = '赛季冲刺环'; tilt = '硬核'; attract = '冲榜党'; annoy = '追进度焦虑者'; gather = '赛季限定点'; craft = '冲榜配方'; prep = '战备极限配装'; sortie = '排行榜本' }
-        )
-        $loopList = New-Object System.Collections.Generic.List[object]
+        # P0: live-ops five loops must be LLM-authored (no fixed card table).
+        Import-Module (Join-Path $PSScriptRoot 'ESABCDModelClient.psm1') -Force -Global
+        $lensJson = ($lenses | Select-Object -First 7 | ConvertTo-Json -Compress -Depth 4)
+        $sys = '你是日活系统设计 AI。只输出严格 JSON，不要 Markdown。必须原创五条「采集-合成-战备-出击」循环，含硬核/休闲/社交倾向与吸引谁/烦谁。禁止套固定模板名。'
+        $user = @"
+需求：
+$Requirement
+
+模式：$Mode
+已排序透镜（可引用 groundedAxis，不要照抄英文空话）：
+$lensJson
+
+输出 JSON：
+{
+  "summary": "中文摘要",
+  "loops": [
+    {
+      "loopIndex": 1,
+      "name": "环名",
+      "tilt": "硬核|休闲|社交|其他",
+      "attractWho": "...",
+      "annoyWho": "...",
+      "gather": "必须含采集语义",
+      "craft": "必须含合成语义",
+      "prep": "必须含战备语义",
+      "sortie": "必须含出击语义",
+      "groundedAxis": "对应透镜 axis"
+    }
+  ]
+}
+loops 必须恰好 5 条，字段齐全，中文，彼此明显不同。
+"@
+        $chat = Invoke-ESABCDChatCompletion -SystemPrompt $sys -UserPrompt $user -Temperature 0.75 -MaxTokens 2200
+        $doc = ConvertFrom-ESABCDModelJson -Text ([string]$chat.content)
+        if ($null -eq $doc.loops) { throw 'ABCD_LLM_LIVEOPS_LOOPS_MISSING' }
+        $loopArr = @($doc.loops)
+        if ($loopArr.Count -lt 5) { throw 'ABCD_LLM_LIVEOPS_LOOP_COUNT' }
+        $norm = New-Object System.Collections.Generic.List[object]
         $li = 0
-        foreach ($ln in $loopNames) {
-            $lens = $lenses[[Math]::Min($li, $lenses.Count - 1)]
-            [void]$loopList.Add([pscustomobject]@{
-                    loopIndex      = ($li + 1)
-                    name           = [string]$ln['name']
-                    tilt           = [string]$ln['tilt']
-                    attractWho     = [string]$ln['attract']
-                    annoyWho       = [string]$ln['annoy']
-                    gather         = [string]$ln['gather']
-                    craft          = [string]$ln['craft']
-                    prep           = [string]$ln['prep']
-                    sortie         = [string]$ln['sortie']
-                    groundedAxis   = [string]$lens.axis
-                    groundedLensId = [string]$lens.directionId
-                })
+        foreach ($ln in $loopArr) {
             $li++
+            if ($li -gt 5) { break }
+            $lens = $lenses[[Math]::Min($li - 1, [Math]::Max(0, $lenses.Count - 1))]
+            $gAxis = if ($null -ne $ln.PSObject.Properties['groundedAxis'] -and [string]$ln.groundedAxis) { [string]$ln.groundedAxis } else { [string]$lens.axis }
+            [void]$norm.Add([pscustomobject]@{
+                    loopIndex      = $li
+                    name           = [string]$ln.name
+                    tilt           = [string]$ln.tilt
+                    attractWho     = [string]$ln.attractWho
+                    annoyWho       = [string]$ln.annoyWho
+                    gather         = [string]$ln.gather
+                    craft          = [string]$ln.craft
+                    prep           = [string]$ln.prep
+                    sortie         = [string]$ln.sortie
+                    groundedAxis   = $gAxis
+                    groundedLensId = [string]$lens.directionId
+                    contentSource  = 'llm-model'
+                })
         }
-        $loopArr = @($loopList.ToArray())
+        $loopArr = @($norm.ToArray())
         $checklist = Test-ESABCDLiveOpsBriefChecklist -Loops $loopArr
         $brief = [pscustomobject]@{
-            domain      = 'live-ops-loop'
-            language    = 'zh-CN'
-            summary     = '基于 ranked 透镜生成的日活五环领域简报（确定性槽位填充，非外部大模型）。'
-            loops       = $loopArr
-            lensesUsed  = $lenses
-            requirement = $Requirement
-            mode        = $Mode
+            domain        = 'live-ops-loop'
+            language      = 'zh-CN'
+            summary       = $(if ($null -ne $doc.summary) { [string]$doc.summary } else { '大模型生成的日活五环领域简报。' })
+            loops         = $loopArr
+            lensesUsed    = $lenses
+            requirement   = $Requirement
+            mode          = $Mode
+            contentSource = 'llm-model'
         }
         if ([bool]$checklist.passed) {
             $deliveryKind = 'domain-brief'
@@ -185,95 +219,99 @@ function New-ESABCDDomainBrief {
             $deliveryStatus = 'domain-brief-closed'
         }
         else {
-            $deliveryKind = 'lens-only'
-            $pipelineLevel = 'L0'
-            $deliveryStatus = 'REQUIREMENT_NOT_GROUNDED'
+            throw ('ABCD_LLM_LIVEOPS_CHECKLIST_FAILED:' + (($checklist.missing) -join ','))
         }
     }
     elseif ($domainInfo.domain -eq 'combat-feel') {
-        # L1 feel cards from ranked lenses (commercial content, still design-candidate)
-        Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
+        # L1 cards MUST come from ranked LLM candidates (no card-pack fill).
         $cards = New-Object System.Collections.Generic.List[object]
         $ci = 0
-        foreach ($lens in $lenses) {
+        foreach ($row in @($RankedLenses)) {
             $ci++
             if ($ci -gt 5) { break }
-            $axisName = if ([string]::IsNullOrWhiteSpace([string]$lens.axis)) { 'moment-to-moment-feel' } else { [string]$lens.axis }
-            $body = Get-ESABCDAxisBodyFields -Axis $axisName -Mode $Mode -Requirement $Requirement -Ordinal $ci
+            $c = $row
+            $nested = $row.PSObject.Properties | Where-Object { $_.Name -ceq 'candidate' } | Select-Object -First 1
+            if ($null -ne $nested -and $null -ne $nested.Value) { $c = $nested.Value }
+            $axisName = Get-ESABCDCandidateFieldText -Item $c -Name 'axis'
+            $axisZh = Get-ESABCDCandidateFieldText -Item $c -Name 'axisZh'
+            if ([string]::IsNullOrWhiteSpace($axisZh)) { $axisZh = $axisName }
+            $src = Get-ESABCDCandidateFieldText -Item $c -Name 'contentSource'
+            if ($src -ne 'llm-model' -and $src -ne '' -and $src -notmatch 'llm') {
+                throw "ABCD_CARD_PACK_FORBIDDEN:combat-feel candidate contentSource=$src"
+            }
             [void]$cards.Add([pscustomobject]@{
-                    title          = "手感方案 $ci · $($body.axisZh)"
-                    pitch          = [string]$body.productPitch
-                    scenario       = [string]$body.concretePlayerScenario
-                    inputSequence  = [string]$body.inputSequence
-                    visibleFeedback= [string]$body.visibleFeedback
-                    novelMechanism = [string]$body.novelMechanism
-                    risk           = [string]$body.risk
-                    hardCost       = '需实机组手感与帧数据验证；当前为设计候选'
-                    groundedAxis   = $axisName
-                    groundedLensId = [string]$lens.directionId
+                    title           = "手感方案 $ci · $axisZh"
+                    pitch           = Get-ESABCDCandidateFieldText -Item $c -Name 'productPitch'
+                    scenario        = Get-ESABCDCandidateFieldText -Item $c -Name 'concretePlayerScenario'
+                    inputSequence   = Get-ESABCDCandidateFieldText -Item $c -Name 'inputSequence'
+                    visibleFeedback = Get-ESABCDCandidateFieldText -Item $c -Name 'visibleFeedback'
+                    novelMechanism  = Get-ESABCDCandidateFieldText -Item $c -Name 'novelMechanism'
+                    risk            = Get-ESABCDCandidateFieldText -Item $c -Name 'risk'
+                    hardCost        = '需实机组手感与帧数据验证；当前为设计候选'
+                    groundedAxis    = $axisName
+                    groundedLensId  = Get-ESABCDCandidateFieldText -Item $c -Name 'directionId'
+                    contentSource   = 'llm-model'
                 })
         }
-        while ($cards.Count -lt 5) {
-            $n = $cards.Count + 1
-            $body = Get-ESABCDAxisBodyFields -Axis 'moment-to-moment-feel' -Mode $Mode -Requirement $Requirement -Ordinal $n
-            [void]$cards.Add([pscustomobject]@{
-                    title = "手感方案 $n · $($body.axisZh)"; pitch = $body.productPitch; scenario = $body.concretePlayerScenario
-                    inputSequence = $body.inputSequence; visibleFeedback = $body.visibleFeedback; novelMechanism = $body.novelMechanism
-                    risk = $body.risk; hardCost = '需实机验证'; groundedAxis = 'moment-to-moment-feel'; groundedLensId = ''
-                })
-        }
+        if ($cards.Count -lt 3) { throw 'ABCD_LLM_FEEL_CARDS_INSUFFICIENT' }
         $brief = [pscustomobject]@{
-            domain     = 'combat-feel'
-            language   = 'zh-CN'
-            summary    = '近战/手感域 L1：按透镜展开的 5 张可讨论手感方案卡（含场景/输入/反馈/机制/硬伤）。'
-            cards      = @($cards.ToArray())
-            lensesUsed = $lenses
-            requirement= $Requirement
-            mode       = $Mode
-        }
-        $deliveryKind = 'domain-brief'
-        $pipelineLevel = 'L1'
-        $deliveryStatus = 'domain-brief-closed'
-        $checklist = [pscustomobject]@{ passed = ($cards.Count -ge 5); domain = 'combat-feel'; cardCount = $cards.Count }
-    }
-    else {
-        # Generic commercial: still emit ranked axis cards as L1-lite content pack when we have grounded bodies
-        Import-Module (Join-Path $PSScriptRoot 'ESABCDCommercialContent.psm1') -Force -Global
-        $cards = New-Object System.Collections.Generic.List[object]
-        $ci = 0
-        foreach ($lens in $lenses) {
-            $ci++
-            if ($ci -gt 7) { break }
-            $axisName = if ([string]::IsNullOrWhiteSpace([string]$lens.axis)) { 'integration-fit' } else { [string]$lens.axis }
-            $body = Get-ESABCDAxisBodyFields -Axis $axisName -Mode $Mode -Requirement $Requirement -Ordinal $ci
-            [void]$cards.Add([pscustomobject]@{
-                    title          = "方案 $ci · $($body.axisZh)"
-                    pitch          = [string]$body.productPitch
-                    scenario       = [string]$body.concretePlayerScenario
-                    inputSequence  = [string]$body.inputSequence
-                    visibleFeedback= [string]$body.visibleFeedback
-                    novelMechanism = [string]$body.novelMechanism
-                    risk           = [string]$body.risk
-                    hardCost       = '设计候选；需项目上下文审阅'
-                    groundedAxis   = $axisName
-                    groundedLensId = [string]$lens.directionId
-                })
-        }
-        $hasCards = $cards.Count -ge 3
-        $brief = [pscustomobject]@{
-            domain      = 'generic'
+            domain      = 'combat-feel'
             language    = 'zh-CN'
-            summary     = if ($hasCards) { '通用题商用 L1-lite：按模式轴展开的可讨论方案卡（非特定域槽位）。' } else { '通用题 L0 透镜排序。' }
+            summary     = '近战/手感域 L1：来自大模型按轴发散的方案卡（非预制卡组）。'
             cards       = @($cards.ToArray())
             lensesUsed  = $lenses
             requirement = $Requirement
             mode        = $Mode
+            contentSource = 'llm-model'
+        }
+        $deliveryKind = 'domain-brief'
+        $pipelineLevel = 'L1'
+        $deliveryStatus = 'domain-brief-closed'
+        $checklist = [pscustomobject]@{ passed = ($cards.Count -ge 3); domain = 'combat-feel'; cardCount = $cards.Count }
+    }
+    else {
+        # Generic L1-lite from LLM ranked candidates only
+        $cards = New-Object System.Collections.Generic.List[object]
+        $ci = 0
+        foreach ($row in @($RankedLenses)) {
+            $ci++
+            if ($ci -gt 7) { break }
+            $c = $row
+            $nested = $row.PSObject.Properties | Where-Object { $_.Name -ceq 'candidate' } | Select-Object -First 1
+            if ($null -ne $nested -and $null -ne $nested.Value) { $c = $nested.Value }
+            $axisName = Get-ESABCDCandidateFieldText -Item $c -Name 'axis'
+            $axisZh = Get-ESABCDCandidateFieldText -Item $c -Name 'axisZh'
+            if ([string]::IsNullOrWhiteSpace($axisZh)) { $axisZh = $axisName }
+            [void]$cards.Add([pscustomobject]@{
+                    title           = "方案 $ci · $axisZh"
+                    pitch           = Get-ESABCDCandidateFieldText -Item $c -Name 'productPitch'
+                    scenario        = Get-ESABCDCandidateFieldText -Item $c -Name 'concretePlayerScenario'
+                    inputSequence   = Get-ESABCDCandidateFieldText -Item $c -Name 'inputSequence'
+                    visibleFeedback = Get-ESABCDCandidateFieldText -Item $c -Name 'visibleFeedback'
+                    novelMechanism  = Get-ESABCDCandidateFieldText -Item $c -Name 'novelMechanism'
+                    risk            = Get-ESABCDCandidateFieldText -Item $c -Name 'risk'
+                    hardCost        = '设计候选；需项目上下文审阅'
+                    groundedAxis    = $axisName
+                    groundedLensId  = Get-ESABCDCandidateFieldText -Item $c -Name 'directionId'
+                    contentSource   = 'llm-model'
+                })
+        }
+        $hasCards = $cards.Count -ge 3
+        $brief = [pscustomobject]@{
+            domain        = 'generic'
+            language      = 'zh-CN'
+            summary       = if ($hasCards) { '通用题 L1-lite：大模型按轴发散方案卡。' } else { '通用题 L0（模型方向不足）。' }
+            cards         = @($cards.ToArray())
+            lensesUsed    = $lenses
+            requirement   = $Requirement
+            mode          = $Mode
+            contentSource = 'llm-model'
         }
         if ($hasCards) {
             $deliveryKind = 'domain-brief'
             $pipelineLevel = 'L1'
             $deliveryStatus = 'domain-brief-closed'
-            $checklist = [pscustomobject]@{ passed = $true; domain = 'generic'; cardCount = $cards.Count; notes = 'L1-lite axis cards' }
+            $checklist = [pscustomobject]@{ passed = $true; domain = 'generic'; cardCount = $cards.Count }
         }
         else {
             $deliveryKind = 'lens-only'

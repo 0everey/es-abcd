@@ -53,18 +53,34 @@
       "id": "content",
       "tier": "content",
       "module": "ESABCDCommercialContent.psm1",
-      "summary": "Axis-grounded body packs + commercial markdown formatter",
-      "exports": ["Get-ESABCDAxisBodyFields", "Format-ESABCDCommercialMarkdown"],
+      "summary": "Commercial markdown formatter only (packs removed)",
+      "exports": ["Format-ESABCDCommercialMarkdown"],
       "deps": ["home"],
-      "refs": ["axis-packs:creative", "axis-packs:engineering", "axis-packs:stable"]
+      "refs": []
     },
     {
-      "id": "real-divergence",
+      "id": "model-client",
       "tier": "core",
-      "module": "ESABCDRealDivergence.psm1",
-      "summary": "Real axis-branch keep/discard search + Chinese final receipt",
-      "exports": ["New-ESABCDRealDirectionCandidate", "ConvertTo-ESABCDChineseReceipt"],
-      "deps": ["content", "hash"]
+      "module": "ESABCDModelClient.psm1",
+      "summary": "Live LLM HTTP client; fail-closed without API key",
+      "exports": ["Get-ESABCDModelConfig", "Invoke-ESABCDChatCompletion"],
+      "deps": []
+    },
+    {
+      "id": "model-divergence",
+      "tier": "core",
+      "module": "ESABCDModelDivergence.psm1",
+      "summary": "LLM free divergence per axis then ABCD collapse",
+      "exports": ["Invoke-ESABCDModelModeDivergence", "New-ESABCDModelDirectionCandidate"],
+      "deps": ["model-client", "hash", "delivery"]
+    },
+    {
+      "id": "receipt-zh",
+      "tier": "core",
+      "module": "ESABCDReceiptZh.psm1",
+      "summary": "Chinese final receipt",
+      "exports": ["ConvertTo-ESABCDChineseReceipt"],
+      "deps": []
     },
     {
       "id": "divergence",
@@ -126,11 +142,11 @@
   "profiles": {
     "brief": {
       "description": "Commercial human brief (default product path)",
-      "load": ["home", "index", "hash", "delivery", "content", "real-divergence", "divergence"]
+      "load": ["home", "index", "hash", "delivery", "model-client", "model-divergence", "receipt-zh", "content", "divergence"]
     },
     "select": {
       "description": "Divergence + Select object only (no markdown file)",
-      "load": ["home", "index", "hash", "delivery", "content", "real-divergence", "divergence"]
+      "load": ["home", "index", "hash", "delivery", "model-client", "model-divergence", "receipt-zh", "content", "divergence"]
     },
     "smoke": {
       "description": "Install smoke path",
