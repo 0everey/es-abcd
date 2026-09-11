@@ -1,4 +1,4 @@
-Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
+﻿Set-StrictMode -Version Latest;$ErrorActionPreference='Stop'
 $script:ESABCGenerationModeCache = @{}
 function Get-ESABCDDivergenceHash($v){$s=[Security.Cryptography.SHA256]::Create();try{([BitConverter]::ToString($s.ComputeHash([Text.Encoding]::UTF8.GetBytes(($v|ConvertTo-Json -Compress -Depth 20)))).Replace('-','').ToLowerInvariant())}finally{$s.Dispose()}}
 
@@ -42,8 +42,8 @@ function Invoke-ESABCModeDivergence {
  # P0: LLM-only divergence. Card-pack / mutation-catalog engines are removed.
  if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'}
  if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
- Import-Module (Join-Path $PSScriptRoot 'ESABCDModelDivergence.psm1') -Force -Global
- return Invoke-ESABCDModelModeDivergence -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -MinimumDirections $MinimumDirections -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDMultiLayerDivergence.psm1') -Force -Global
+ return Invoke-ESABCDMultiLayerDivergence -Requirement $Requirement -SourceHash $SourceHash -Mode $Mode -MinimumDirections $MinimumDirections -ProjectRoot $ProjectRoot -ModelInvoker $ModelInvoker
 }
 
 function Get-ESABCAmplificationAssessment {
