@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-ENG-02",
+    "title":  "Growth and economy",
+    "mode":  "engineering",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用工程模式。目标：设计角色成长与货币经济（经验、金币、商店、掉落）。要求：所有权、防刷、存档边界、任务奖励统一。交付：结构 + 失败案例 + 未验证项。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:00.9654384Z",
+    "finishedUtc":  "2026-09-11T02:35:01.1511709Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-cdd33ebac2799bc8f03c",
+                           "axis":  "state-machine-integrity"
+                       },
+                       {
+                           "directionId":  "cand-5621f335553137a10166",
+                           "axis":  "ownership-lifecycle"
+                       },
+                       {
+                           "directionId":  "cand-ede4f7b38f3172d6b87c",
+                           "axis":  "determinism"
+                       },
+                       {
+                           "directionId":  "cand-1af05899a6dae11426ae",
+                           "axis":  "performance-peak-budget"
+                       },
+                       {
+                           "directionId":  "cand-0077dd993841de3c3dc9",
+                           "axis":  "failure-recovery"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-cdd33ebac2799bc8f03c",
+    "selectedAxis":  "state-machine-integrity",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "engineering-candidate",
+    "candidateSetHash":  "6d543bf5b342a2793779f52695df6c1a3c2d6bda33131f6a1fc6d4bebe8d0b86",
+    "recommendedDirectionId":  "cand-cdd33ebac2799bc8f03c",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-cdd33ebac2799bc8f03c",
+                       "axis":  "state-machine-integrity",
+                       "score":  88.65
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-5621f335553137a10166",
+                       "axis":  "ownership-lifecycle",
+                       "score":  87.7
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-1af05899a6dae11426ae",
+                       "axis":  "performance-peak-budget",
+                       "score":  86.8
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-0077dd993841de3c3dc9",
+                       "axis":  "failure-recovery",
+                       "score":  86.5
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-ede4f7b38f3172d6b87c",
+                       "axis":  "determinism",
+                       "score":  81.6
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

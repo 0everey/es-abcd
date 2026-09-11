@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-ENG-04",
+    "title":  "Combat settle loop",
+    "mode":  "engineering",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用工程模式。目标：收口攻击到命中到伤害到死亡到复用的唯一闭环。要求：唯一入口、禁旁路扣血、重复命中策略、池化重置。交付：链路 + 缺口 + 运行时未验。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:01.3856386Z",
+    "finishedUtc":  "2026-09-11T02:35:01.6096964Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-42aa84c27198baccce77",
+                           "axis":  "state-machine-integrity"
+                       },
+                       {
+                           "directionId":  "cand-f781dc3c640fa733e185",
+                           "axis":  "ownership-lifecycle"
+                       },
+                       {
+                           "directionId":  "cand-7267fc57f4dead3097c1",
+                           "axis":  "determinism"
+                       },
+                       {
+                           "directionId":  "cand-e2341f95f9d4f1798c3d",
+                           "axis":  "performance-peak-budget"
+                       },
+                       {
+                           "directionId":  "cand-338d4c85731d7235a14b",
+                           "axis":  "failure-recovery"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-338d4c85731d7235a14b",
+    "selectedAxis":  "failure-recovery",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "engineering-candidate",
+    "candidateSetHash":  "b4ee0d9d451dc80e935568c80167a07c25b08ffd7006f0c6753f3e55c142cc9c",
+    "recommendedDirectionId":  "cand-338d4c85731d7235a14b",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-338d4c85731d7235a14b",
+                       "axis":  "failure-recovery",
+                       "score":  89.9
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-7267fc57f4dead3097c1",
+                       "axis":  "determinism",
+                       "score":  89.75
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-42aa84c27198baccce77",
+                       "axis":  "state-machine-integrity",
+                       "score":  83.15
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-e2341f95f9d4f1798c3d",
+                       "axis":  "performance-peak-budget",
+                       "score":  81.75
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-f781dc3c640fa733e185",
+                       "axis":  "ownership-lifecycle",
+                       "score":  78.85
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

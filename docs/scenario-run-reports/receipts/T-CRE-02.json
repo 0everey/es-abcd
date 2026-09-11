@@ -1,0 +1,104 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-CRE-02",
+    "title":  "Daily play loops",
+    "mode":  "creative-divergence",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用创意模式。目标：采集-合成-战备-出击的5种日活循环。要求：硬核/休闲/社交；吸引谁烦谁。交付：5循环。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:01.8864526Z",
+    "finishedUtc":  "2026-09-11T02:35:02.1627974Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  7,
+    "directions":  [
+                       {
+                           "directionId":  "cand-73e89d5e86cb1aae60ce",
+                           "axis":  "moment-to-moment-feel"
+                       },
+                       {
+                           "directionId":  "cand-454c80705b38c47e79de",
+                           "axis":  "flow-continuity"
+                       },
+                       {
+                           "directionId":  "cand-cbb554a94f57efd5140f",
+                           "axis":  "presentation-beat"
+                       },
+                       {
+                           "directionId":  "cand-516b76857460caf0f987",
+                           "axis":  "expressive-input"
+                       },
+                       {
+                           "directionId":  "cand-4ec4a0ef0f7ca0968353",
+                           "axis":  "skill-ceiling"
+                       },
+                       {
+                           "directionId":  "cand-0111602c30f57e3da668",
+                           "axis":  "novelty-delta"
+                       },
+                       {
+                           "directionId":  "cand-8c4760c48622a0afd11a",
+                           "axis":  "counterplay-clarity"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-4ec4a0ef0f7ca0968353",
+    "selectedAxis":  "skill-ceiling",
+    "selectionStatus":  "ranked-recommended",
+    "selectionPolicy":  "rank-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "creative-candidate",
+    "candidateSetHash":  "46ee993c36095dd70875b2ba2c18984251d85b73a3261758d2c7b9215f48f0f4",
+    "recommendedDirectionId":  "cand-4ec4a0ef0f7ca0968353",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-4ec4a0ef0f7ca0968353",
+                       "axis":  "skill-ceiling",
+                       "score":  93.9
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-454c80705b38c47e79de",
+                       "axis":  "flow-continuity",
+                       "score":  89.75
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-73e89d5e86cb1aae60ce",
+                       "axis":  "moment-to-moment-feel",
+                       "score":  89.35
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-516b76857460caf0f987",
+                       "axis":  "expressive-input",
+                       "score":  88.35
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-0111602c30f57e3da668",
+                       "axis":  "novelty-delta",
+                       "score":  88.2
+                   },
+                   {
+                       "rank":  6,
+                       "directionId":  "cand-8c4760c48622a0afd11a",
+                       "axis":  "counterplay-clarity",
+                       "score":  80.5
+                   },
+                   {
+                       "rank":  7,
+                       "directionId":  "cand-cbb554a94f57efd5140f",
+                       "axis":  "presentation-beat",
+                       "score":  78.35
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

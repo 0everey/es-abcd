@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-STA-03",
+    "title":  "Event config switch",
+    "mode":  "stable",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用稳定模式。目标：活动开关配置下发不影响日常关卡。要求：默认关可回退可追日志。交付：开关方案。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:03.0427835Z",
+    "finishedUtc":  "2026-09-11T02:35:03.2059429Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-6cb72c2bfc7a6a62f35e",
+                           "axis":  "contract-completeness"
+                       },
+                       {
+                           "directionId":  "cand-17070a1c467afb7c4ec4",
+                           "axis":  "integration-fit"
+                       },
+                       {
+                           "directionId":  "cand-701f66b2ac7c43ae6d2b",
+                           "axis":  "compatibility"
+                       },
+                       {
+                           "directionId":  "cand-e4a5c7d6ce2e595174d8",
+                           "axis":  "regression-fixture"
+                       },
+                       {
+                           "directionId":  "cand-f556d680cf8d15bd3405",
+                           "axis":  "rollback"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-17070a1c467afb7c4ec4",
+    "selectedAxis":  "integration-fit",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "stable-candidate",
+    "candidateSetHash":  "98baf5c176f312f37b8420dc3a93e6a311455cd901750b201665bd0c4041ac07",
+    "recommendedDirectionId":  "cand-17070a1c467afb7c4ec4",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-17070a1c467afb7c4ec4",
+                       "axis":  "integration-fit",
+                       "score":  90.75
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-e4a5c7d6ce2e595174d8",
+                       "axis":  "regression-fixture",
+                       "score":  89.65
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-701f66b2ac7c43ae6d2b",
+                       "axis":  "compatibility",
+                       "score":  85.75
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-6cb72c2bfc7a6a62f35e",
+                       "axis":  "contract-completeness",
+                       "score":  78.7
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-f556d680cf8d15bd3405",
+                       "axis":  "rollback",
+                       "score":  77.9
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

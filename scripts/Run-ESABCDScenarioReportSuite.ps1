@@ -3,14 +3,15 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 $PackageRoot = 'F:\aaProject\es-abcd'
-$ScratchRoot = 'C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs'
+$ScratchRoot = 'C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs'
 $ReceiptDir = Join-Path $ScratchRoot 'receipts'
 $TranscriptDir = Join-Path $ScratchRoot 'transcripts'
 $MdOut = 'F:\aaProject\es-abcd\docs\scenario-run-reports'
+$RepoReceiptDir = Join-Path $MdOut 'receipts'
 $TrialRoot = Join-Path $env:TEMP 'es-abcd-goal-scenario-suite'
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
-New-Item -ItemType Directory -Force -Path $ReceiptDir, $TranscriptDir, $MdOut | Out-Null
+New-Item -ItemType Directory -Force -Path $ReceiptDir, $TranscriptDir, $MdOut, $RepoReceiptDir | Out-Null
 $logPath = Join-Path $TranscriptDir ('suite-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')
 
 function Log([string]$m) {
@@ -195,6 +196,7 @@ foreach ($sc in $scenarios) {
 
     $jsonPath = Join-Path $ReceiptDir ($id + '.json')
     Write-JsonFile $jsonPath $receipt
+    Write-JsonFile (Join-Path $RepoReceiptDir ($id + '.json')) $receipt
 
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("# $id — $title")

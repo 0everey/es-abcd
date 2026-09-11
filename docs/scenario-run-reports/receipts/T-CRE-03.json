@@ -1,0 +1,104 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-CRE-03",
+    "title":  "Item category matrix",
+    "mode":  "creative-divergence",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用创意模式。目标：5套道具品类矩阵（不改底层背包）。要求：命名、稀有度、经济钩子。交付：5矩阵+样例建议。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:02.1786063Z",
+    "finishedUtc":  "2026-09-11T02:35:02.4235509Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  7,
+    "directions":  [
+                       {
+                           "directionId":  "cand-23f05acd0beb4134fadd",
+                           "axis":  "moment-to-moment-feel"
+                       },
+                       {
+                           "directionId":  "cand-0848c7565cb237906782",
+                           "axis":  "flow-continuity"
+                       },
+                       {
+                           "directionId":  "cand-b44e22f3056743de13bf",
+                           "axis":  "presentation-beat"
+                       },
+                       {
+                           "directionId":  "cand-d77184c1243bd9e183f0",
+                           "axis":  "expressive-input"
+                       },
+                       {
+                           "directionId":  "cand-d8585ec1c42225e01efc",
+                           "axis":  "skill-ceiling"
+                       },
+                       {
+                           "directionId":  "cand-e3603a452f7605188b52",
+                           "axis":  "novelty-delta"
+                       },
+                       {
+                           "directionId":  "cand-870a15645351573089b4",
+                           "axis":  "counterplay-clarity"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-0848c7565cb237906782",
+    "selectedAxis":  "flow-continuity",
+    "selectionStatus":  "ranked-recommended",
+    "selectionPolicy":  "rank-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "creative-candidate",
+    "candidateSetHash":  "3e47918c187e34313efddd2e7b242042d60490bf10bb3b1792768a16bf9c4c5b",
+    "recommendedDirectionId":  "cand-0848c7565cb237906782",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-0848c7565cb237906782",
+                       "axis":  "flow-continuity",
+                       "score":  95.75
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-870a15645351573089b4",
+                       "axis":  "counterplay-clarity",
+                       "score":  86.95
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-d77184c1243bd9e183f0",
+                       "axis":  "expressive-input",
+                       "score":  86.65
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-b44e22f3056743de13bf",
+                       "axis":  "presentation-beat",
+                       "score":  86.55
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-e3603a452f7605188b52",
+                       "axis":  "novelty-delta",
+                       "score":  84.85
+                   },
+                   {
+                       "rank":  6,
+                       "directionId":  "cand-d8585ec1c42225e01efc",
+                       "axis":  "skill-ceiling",
+                       "score":  83.55
+                   },
+                   {
+                       "rank":  7,
+                       "directionId":  "cand-23f05acd0beb4134fadd",
+                       "axis":  "moment-to-moment-feel",
+                       "score":  80.25
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

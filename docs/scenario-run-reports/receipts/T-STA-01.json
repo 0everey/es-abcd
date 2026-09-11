@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-STA-01",
+    "title":  "Extend skill table",
+    "mode":  "stable",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用稳定模式。目标：技能表扩展10个新技能不改老语义。要求：存档兼容、命名、默认字段、回滚。交付：步骤+回归表。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:02.6835293Z",
+    "finishedUtc":  "2026-09-11T02:35:02.8550632Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-f73a2709925661a2e271",
+                           "axis":  "contract-completeness"
+                       },
+                       {
+                           "directionId":  "cand-35d0a3a222a30ec9ae6f",
+                           "axis":  "integration-fit"
+                       },
+                       {
+                           "directionId":  "cand-8c841aa2bdfa692e0588",
+                           "axis":  "compatibility"
+                       },
+                       {
+                           "directionId":  "cand-297d563a88d7e27ea608",
+                           "axis":  "regression-fixture"
+                       },
+                       {
+                           "directionId":  "cand-2efc8c2dc69e419bc888",
+                           "axis":  "rollback"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-2efc8c2dc69e419bc888",
+    "selectedAxis":  "rollback",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "stable-candidate",
+    "candidateSetHash":  "f2d62c2501090f1df70f5e300f89999d9657ef58d888e2fb13d1a55af46f19ec",
+    "recommendedDirectionId":  "cand-2efc8c2dc69e419bc888",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-2efc8c2dc69e419bc888",
+                       "axis":  "rollback",
+                       "score":  85.65
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-f73a2709925661a2e271",
+                       "axis":  "contract-completeness",
+                       "score":  83.2
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-8c841aa2bdfa692e0588",
+                       "axis":  "compatibility",
+                       "score":  82.65
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-35d0a3a222a30ec9ae6f",
+                       "axis":  "integration-fit",
+                       "score":  80.25
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-297d563a88d7e27ea608",
+                       "axis":  "regression-fixture",
+                       "score":  79.55
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

@@ -15,9 +15,9 @@
 | trialRoot | `C:\Users\asus\AppData\Local\Temp\es-abcd-goal-scenario-suite` |
 | contractPath | `C:\Users\asus\AppData\Local\Temp\es-abcd-goal-scenario-suite\ES\Automation\Contracts\es-ai-abc-generation-mode-v1.json` |
 | sourceHash | `329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de` |
-| receiptJson | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-STA-04.json` |
-| startedUtc | 2026-09-10T20:15:29.8947514Z |
-| finishedUtc | 2026-09-10T20:15:30.0228651Z |
+| receiptJson | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-STA-04.json` |
+| startedUtc | 2026-09-11T02:35:03.2195384Z |
+| finishedUtc | 2026-09-11T02:35:03.3818552Z |
 
 ## 需求原文
 

@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-STA-04",
+    "title":  "Old level bugfix",
+    "mode":  "stable",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用稳定模式。目标：修老关卡卡死不毁档。要求：最小改动兼容中途玩家。交付：修复+风险。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:03.2195384Z",
+    "finishedUtc":  "2026-09-11T02:35:03.3818552Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-317760306dec58e93057",
+                           "axis":  "contract-completeness"
+                       },
+                       {
+                           "directionId":  "cand-f352cfa98fc23c15d829",
+                           "axis":  "integration-fit"
+                       },
+                       {
+                           "directionId":  "cand-4bba0192d92567aedf6b",
+                           "axis":  "compatibility"
+                       },
+                       {
+                           "directionId":  "cand-b5b868c9f6b037e93815",
+                           "axis":  "regression-fixture"
+                       },
+                       {
+                           "directionId":  "cand-088b8d04528b746e6be7",
+                           "axis":  "rollback"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-4bba0192d92567aedf6b",
+    "selectedAxis":  "compatibility",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "stable-candidate",
+    "candidateSetHash":  "f477679d8d86e0ca084b722f5563946402cfcc8457b26c80b85ac9b00897ac4b",
+    "recommendedDirectionId":  "cand-4bba0192d92567aedf6b",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-4bba0192d92567aedf6b",
+                       "axis":  "compatibility",
+                       "score":  88.1
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-088b8d04528b746e6be7",
+                       "axis":  "rollback",
+                       "score":  87.75
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-f352cfa98fc23c15d829",
+                       "axis":  "integration-fit",
+                       "score":  85.6
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-b5b868c9f6b037e93815",
+                       "axis":  "regression-fixture",
+                       "score":  78
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-317760306dec58e93057",
+                       "axis":  "contract-completeness",
+                       "score":  77.95
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

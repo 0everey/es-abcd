@@ -1,6 +1,6 @@
 # 三模式场景实测对比（仅来自 numbered 回执）
 
-> generatedUtc: 2026-09-10T20:15:30.0264265Z
+> generatedUtc: 2026-09-11T02:35:03.3893664Z
 >
 > trialRoot: `C:\Users\asus\AppData\Local\Temp\es-abcd-goal-scenario-suite`
 >
@@ -52,18 +52,18 @@
 
 | testId | receipt | md |
 |--------|---------|-----|
-| `T-ENG-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-ENG-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-01.md` |
-| `T-ENG-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-ENG-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-02.md` |
-| `T-ENG-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-ENG-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-03.md` |
-| `T-ENG-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-ENG-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-04.md` |
-| `T-CRE-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-CRE-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-01.md` |
-| `T-CRE-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-CRE-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-02.md` |
-| `T-CRE-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-CRE-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-03.md` |
-| `T-CRE-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-CRE-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-04.md` |
-| `T-STA-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-STA-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-01.md` |
-| `T-STA-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-STA-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-02.md` |
-| `T-STA-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-STA-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-03.md` |
-| `T-STA-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-3e6ad67d1519\implementer\abcd-scenario-runs\receipts\T-STA-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-04.md` |
+| `T-ENG-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-ENG-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-01.md` |
+| `T-ENG-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-ENG-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-02.md` |
+| `T-ENG-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-ENG-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-03.md` |
+| `T-ENG-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-ENG-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-ENG-04.md` |
+| `T-CRE-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-CRE-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-01.md` |
+| `T-CRE-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-CRE-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-02.md` |
+| `T-CRE-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-CRE-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-03.md` |
+| `T-CRE-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-CRE-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-CRE-04.md` |
+| `T-STA-01` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-STA-01.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-01.md` |
+| `T-STA-02` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-STA-02.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-02.md` |
+| `T-STA-03` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-STA-03.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-03.md` |
+| `T-STA-04` | `C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs\receipts\T-STA-04.json` | `F:\aaProject\es-abcd\docs\scenario-run-reports\T-STA-04.md` |
 
 ## 非声明
 

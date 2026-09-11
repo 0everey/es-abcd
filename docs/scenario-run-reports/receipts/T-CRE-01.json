@@ -1,0 +1,104 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-CRE-01",
+    "title":  "Melee skill feel",
+    "mode":  "creative-divergence",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用创意模式。目标：为近战爆发技能给出至少5种不同手感方向。要求：差异大；每方案卖点+硬伤。交付：多方案列表+尝试顺序。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:01.6211598Z",
+    "finishedUtc":  "2026-09-11T02:35:01.8700173Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  7,
+    "directions":  [
+                       {
+                           "directionId":  "cand-a211f25bc06864c805f0",
+                           "axis":  "moment-to-moment-feel"
+                       },
+                       {
+                           "directionId":  "cand-f8e0a3b0df78b3a12e66",
+                           "axis":  "flow-continuity"
+                       },
+                       {
+                           "directionId":  "cand-f28fe0d72897a6ff69be",
+                           "axis":  "presentation-beat"
+                       },
+                       {
+                           "directionId":  "cand-851106fd106bf9538b5b",
+                           "axis":  "expressive-input"
+                       },
+                       {
+                           "directionId":  "cand-23eef324389e695e2431",
+                           "axis":  "skill-ceiling"
+                       },
+                       {
+                           "directionId":  "cand-0750e804561ab101bfeb",
+                           "axis":  "novelty-delta"
+                       },
+                       {
+                           "directionId":  "cand-d55c66e5464302c85bc3",
+                           "axis":  "counterplay-clarity"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-f28fe0d72897a6ff69be",
+    "selectedAxis":  "presentation-beat",
+    "selectionStatus":  "ranked-recommended",
+    "selectionPolicy":  "rank-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "creative-candidate",
+    "candidateSetHash":  "eff3ec1d6173ee0178e8accf5798a7c57c64c1cfe41113af7e08995ee6836b18",
+    "recommendedDirectionId":  "cand-f28fe0d72897a6ff69be",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-f28fe0d72897a6ff69be",
+                       "axis":  "presentation-beat",
+                       "score":  85.5
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-a211f25bc06864c805f0",
+                       "axis":  "moment-to-moment-feel",
+                       "score":  81.9
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-d55c66e5464302c85bc3",
+                       "axis":  "counterplay-clarity",
+                       "score":  81.75
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-0750e804561ab101bfeb",
+                       "axis":  "novelty-delta",
+                       "score":  80.95
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-851106fd106bf9538b5b",
+                       "axis":  "expressive-input",
+                       "score":  80.05
+                   },
+                   {
+                       "rank":  6,
+                       "directionId":  "cand-23eef324389e695e2431",
+                       "axis":  "skill-ceiling",
+                       "score":  75.6
+                   },
+                   {
+                       "rank":  7,
+                       "directionId":  "cand-f8e0a3b0df78b3a12e66",
+                       "axis":  "flow-continuity",
+                       "score":  75.35
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

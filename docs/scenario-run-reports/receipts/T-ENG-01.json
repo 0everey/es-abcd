@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-ENG-01",
+    "title":  "Design skill system",
+    "mode":  "engineering",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用工程模式。目标：设计一套可扩展的技能系统（主动/被动/冷却/消耗/等级）。要求：说清模块边界、数据归谁管、和战斗结算怎么接、禁止两套技能并行。交付：方案要点 + 风险 + 还不能宣称已实装/已平衡。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:00.1819415Z",
+    "finishedUtc":  "2026-09-11T02:35:00.9253705Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-1512670ca9b9c3275ce2",
+                           "axis":  "state-machine-integrity"
+                       },
+                       {
+                           "directionId":  "cand-3e01b3f23b45dbf4da76",
+                           "axis":  "ownership-lifecycle"
+                       },
+                       {
+                           "directionId":  "cand-eec6bd9960ab8d24715d",
+                           "axis":  "determinism"
+                       },
+                       {
+                           "directionId":  "cand-e90300a3d127320a0dd5",
+                           "axis":  "performance-peak-budget"
+                       },
+                       {
+                           "directionId":  "cand-1d6efcdd2a0d1a8fcc2a",
+                           "axis":  "failure-recovery"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-1512670ca9b9c3275ce2",
+    "selectedAxis":  "state-machine-integrity",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "engineering-candidate",
+    "candidateSetHash":  "5dad3f4ca65e162588d1f9bdfe80b17d53dae38f8c44ba94dc7c0903670f04c1",
+    "recommendedDirectionId":  "cand-1512670ca9b9c3275ce2",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-1512670ca9b9c3275ce2",
+                       "axis":  "state-machine-integrity",
+                       "score":  87.5
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-e90300a3d127320a0dd5",
+                       "axis":  "performance-peak-budget",
+                       "score":  86
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-1d6efcdd2a0d1a8fcc2a",
+                       "axis":  "failure-recovery",
+                       "score":  85.1
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-3e01b3f23b45dbf4da76",
+                       "axis":  "ownership-lifecycle",
+                       "score":  84.45
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-eec6bd9960ab8d24715d",
+                       "axis":  "determinism",
+                       "score":  82.3
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}

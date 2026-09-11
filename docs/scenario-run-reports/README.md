@@ -1,46 +1,38 @@
-# 场景实测报告（证据附录）
+# 场景实测证据目录
 
-> **普通用户请先看：** [真实流程与结果解说.md](../真实流程与结果解说.md)  
-> 本目录是 **live 机器回执**，供审计核对 cand-* / 方向数；**不是**产品首页。  
-> 由真实 Divergence+Select 生成，禁止手填。非 PlayMode / 发版验收。
+> **用户请先看仓库首页 [README.md](../../README.md)**（流程 + 人话结果 + 可复制场景）。  
+> 本目录是 **live 证据**，不是产品说明书。
 
-## 对照表
+## 对照
 
-| 文档 | 说明 |
-|------|------|
-| [COMPARISON-modes-live.md](COMPARISON-modes-live.md) | 12 场跨模式对照（证据） |
+- [COMPARISON-modes-live.md](COMPARISON-modes-live.md)
+- 回执 JSON：[receipts/](receipts/)
 
-## 工程模式 `engineering`（4 场）
+## 工程
 
-| 编号 | 场景 | 报告 |
+| 编号 | 报告 | 回执 |
 |------|------|------|
-| T-ENG-01 | 技能系统 | [T-ENG-01.md](T-ENG-01.md) |
-| T-ENG-02 | 成长与经济 | [T-ENG-02.md](T-ENG-02.md) |
-| T-ENG-03 | 批量道具管线 | [T-ENG-03.md](T-ENG-03.md) |
-| T-ENG-04 | 战斗结算闭环 | [T-ENG-04.md](T-ENG-04.md) |
+| T-ENG-01 | [md](T-ENG-01.md) | [json](receipts/T-ENG-01.json) |
+| T-ENG-02 | [md](T-ENG-02.md) | [json](receipts/T-ENG-02.json) |
+| T-ENG-03 | [md](T-ENG-03.md) | [json](receipts/T-ENG-03.json) |
+| T-ENG-04 | [md](T-ENG-04.md) | [json](receipts/T-ENG-04.json) |
 
-## 创意模式 `creative-divergence`（4 场）
+## 创意
 
-| 编号 | 场景 | 报告 |
+| 编号 | 报告 | 回执 |
 |------|------|------|
-| T-CRE-01 | 近战技能手感 | [T-CRE-01.md](T-CRE-01.md) |
-| T-CRE-02 | 日活循环 | [T-CRE-02.md](T-CRE-02.md) |
-| T-CRE-03 | 道具品类矩阵 | [T-CRE-03.md](T-CRE-03.md) |
-| T-CRE-04 | Boss 战法 | [T-CRE-04.md](T-CRE-04.md) |
+| T-CRE-01 | [md](T-CRE-01.md) | [json](receipts/T-CRE-01.json) |
+| T-CRE-02 | [md](T-CRE-02.md) | [json](receipts/T-CRE-02.json) |
+| T-CRE-03 | [md](T-CRE-03.md) | [json](receipts/T-CRE-03.json) |
+| T-CRE-04 | [md](T-CRE-04.md) | [json](receipts/T-CRE-04.json) |
 
-## 稳定模式 `stable`（4 场）
+## 稳定
 
-| 编号 | 场景 | 报告 |
+| 编号 | 报告 | 回执 |
 |------|------|------|
-| T-STA-01 | 技能表扩展 | [T-STA-01.md](T-STA-01.md) |
-| T-STA-02 | 道具批量导入 | [T-STA-02.md](T-STA-02.md) |
-| T-STA-03 | 活动开关 | [T-STA-03.md](T-STA-03.md) |
-| T-STA-04 | 老关卡修复 | [T-STA-04.md](T-STA-04.md) |
+| T-STA-01 | [md](T-STA-01.md) | [json](receipts/T-STA-01.json) |
+| T-STA-02 | [md](T-STA-02.md) | [json](receipts/T-STA-02.json) |
+| T-STA-03 | [md](T-STA-03.md) | [json](receipts/T-STA-03.json) |
+| T-STA-04 | [md](T-STA-04.md) | [json](receipts/T-STA-04.json) |
 
-## 复跑
-
-```powershell
-powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1
-```
-
-返回仓库说明：[README.md](../../README.md) · [开始试用.md](../../开始试用.md)
+复跑：`powershell -File .\scripts\Run-ESABCDScenarioReportSuite.ps1`

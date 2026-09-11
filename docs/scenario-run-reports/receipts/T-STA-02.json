@@ -1,0 +1,84 @@
+{
+    "schemaVersion":  1,
+    "testId":  "T-STA-02",
+    "title":  "Bulk item import",
+    "mode":  "stable",
+    "requirement":  "项目 C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite。用稳定模式。目标：安全导入道具表。要求：校验去重失败隔离部分成功。交付：导入规程。",
+    "packageRoot":  "F:\\aaProject\\es-abcd",
+    "trialRoot":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite",
+    "contractPath":  "C:\\Users\\asus\\AppData\\Local\\Temp\\es-abcd-goal-scenario-suite\\ES\\Automation\\Contracts\\es-ai-abc-generation-mode-v1.json",
+    "sourceHash":  "329a0dc2e8374e15f3270533ed22553da0c83106fcf9709d29c69f5598d659de",
+    "startedUtc":  "2026-09-11T02:35:02.8651206Z",
+    "finishedUtc":  "2026-09-11T02:35:03.0327941Z",
+    "status":  "passed",
+    "error":  null,
+    "entryPoint":  "Invoke-ESABCModeDivergence+Select-ESABCGenerationCandidate",
+    "directionCount":  5,
+    "directions":  [
+                       {
+                           "directionId":  "cand-961acdf1f052ea27df94",
+                           "axis":  "contract-completeness"
+                       },
+                       {
+                           "directionId":  "cand-8e076879fb40d33a1bd9",
+                           "axis":  "integration-fit"
+                       },
+                       {
+                           "directionId":  "cand-27546e53a3232343e143",
+                           "axis":  "compatibility"
+                       },
+                       {
+                           "directionId":  "cand-bba51b6aa656921498a8",
+                           "axis":  "regression-fixture"
+                       },
+                       {
+                           "directionId":  "cand-92b98548daf46acddb45",
+                           "axis":  "rollback"
+                       }
+                   ],
+    "selectedDirectionId":  "cand-92b98548daf46acddb45",
+    "selectedAxis":  "rollback",
+    "selectionStatus":  "deterministic-selected",
+    "selectionPolicy":  "deterministic-ranked-after-visible-tree-search",
+    "claimLevel":  "design-candidate",
+    "divergenceStatus":  "stable-candidate",
+    "candidateSetHash":  "574ea1789eecefb4ac5199b6ebcbc60c675035b8179d2f91d33334f195b7ba04",
+    "recommendedDirectionId":  "cand-92b98548daf46acddb45",
+    "ranked":  [
+                   {
+                       "rank":  1,
+                       "directionId":  "cand-92b98548daf46acddb45",
+                       "axis":  "rollback",
+                       "score":  83.65
+                   },
+                   {
+                       "rank":  2,
+                       "directionId":  "cand-27546e53a3232343e143",
+                       "axis":  "compatibility",
+                       "score":  81.5
+                   },
+                   {
+                       "rank":  3,
+                       "directionId":  "cand-8e076879fb40d33a1bd9",
+                       "axis":  "integration-fit",
+                       "score":  80
+                   },
+                   {
+                       "rank":  4,
+                       "directionId":  "cand-bba51b6aa656921498a8",
+                       "axis":  "regression-fixture",
+                       "score":  79.6
+                   },
+                   {
+                       "rank":  5,
+                       "directionId":  "cand-961acdf1f052ea27df94",
+                       "axis":  "contract-completeness",
+                       "score":  78.35
+                   }
+               ],
+    "rejectedCandidatesCount":  0,
+    "hiddenCandidatesCount":  1,
+    "auditDeferred":  true,
+    "qualityStatus":  "mode-ready",
+    "runtimeStatus":  "runtime-not-run"
+}
