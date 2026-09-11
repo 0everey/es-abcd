@@ -200,6 +200,7 @@ $shimBody = @'
 $ErrorActionPreference = 'Stop'
 $env:ES_ABCD_GOVERNANCE_MODE = 'portable'
 Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global
+Import-Module (Join-Path $PSScriptRoot 'ESABCDDelivery.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot 'ESABCDDivergence.psm1') -Force -Global
 Import-Module (Join-Path $PSScriptRoot 'ESABCInnovationRun.psm1') -Force -Global
 
@@ -219,15 +220,19 @@ function Invoke-ESABCDQuick {
         }
     }
     $contract = Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json' -ProjectRoot $ProjectRoot
-    $hash = (Get-FileHash -LiteralPath $contract -Algorithm SHA256).Hash.ToLowerInvariant()
+    $hash = Get-ESABCDFileSha256 -LiteralPath $contract
     $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $hash -Mode $Mode -ProjectRoot $ProjectRoot
-    $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode
+    $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode -Requirement $Requirement
     [pscustomobject]@{
         mode = $Mode
         directionCount = [int]$div.directionCount
         selectedDirectionId = [string]$sel.selectedDirectionId
         selectionStatus = [string]$sel.selectionStatus
         claimLevel = [string]$sel.claimLevel
+        deliveryKind = [string]$sel.deliveryKind
+        pipelineLevel = [string]$sel.pipelineLevel
+        deliveryStatus = [string]$sel.deliveryStatus
+        domain = [string]$sel.domain
         candidateSetHash = [string]$div.candidateSetHash
         runtimeStatus = 'runtime-not-run'
         projectRoot = $ProjectRoot

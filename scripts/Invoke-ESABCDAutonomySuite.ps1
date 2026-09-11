@@ -35,6 +35,7 @@ function Add-Case([string]$Name, [bool]$Ok, [string]$Detail = '') {
 }
 
 Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDHome.psm1') -Force -Global
+Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDDelivery.psm1') -Force -Global
 Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDPortableAuthority.psm1') -Force -Global
 Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDAuthorityKernel.psm1') -Force -Global
 Import-Module (Join-Path $PackageRoot 'ES\Automation\ABCD\ESABCDDivergence.psm1') -Force -Global
@@ -84,11 +85,13 @@ $ev = [pscustomobject]@{
 $auth = Resolve-ESABCDAuthorityDecision -Mode core-high-risk -Domain ai-collaboration -Evidence $ev
 Add-Case 'authority-decision-runs' ($null -ne $auth) ([string]$auth.status)
 
-$hash = (Get-FileHash -LiteralPath (Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json') -Algorithm SHA256).Hash.ToLowerInvariant()
+$hash = Get-ESABCDFileSha256 -LiteralPath (Resolve-ESABCDContractPath -FileName 'es-ai-abc-generation-mode-v1.json')
 $div = Invoke-ESABCModeDivergence -Requirement 'Autonomy freeze without ESFramework host' -SourceHash $hash -Mode engineering -ProjectRoot $PackageRoot
-$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode engineering
+$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode engineering -Requirement 'Autonomy freeze without ESFramework host'
 Add-Case 'divergence-five-plus' ([int]$div.directionCount -ge 5) ("count=$($div.directionCount)")
 Add-Case 'selection-deterministic' (-not [string]::IsNullOrWhiteSpace([string]$sel.selectedDirectionId)) ([string]$sel.selectedDirectionId)
+Add-Case 'delivery-kind-present' (-not [string]::IsNullOrWhiteSpace([string]$sel.deliveryKind)) ([string]$sel.deliveryKind)
+Add-Case 'pipeline-level-present' (-not [string]::IsNullOrWhiteSpace([string]$sel.pipelineLevel)) ([string]$sel.pipelineLevel)
 
 $score = Invoke-ESABCStableScore -Branch ([pscustomobject]@{
         playerValue = 80; causalClarity = 85; ownershipLifecycle = 88; stateIntegrity = 86; determinism = 84; performance = 78

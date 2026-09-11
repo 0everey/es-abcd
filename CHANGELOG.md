@@ -1,3 +1,12 @@
+﻿## Unreleased
+
+### Added
+- `ESABCDDelivery.psm1`: `deliveryKind` / `pipelineLevel` (L0 lens-only vs L1 domain-brief), template-collision gate, live-ops domain brief checklist, built-in SHA256.
+- `scripts/Test-ESABCDDeliveryGates.ps1` gating suite for delivery honesty and portable hash/path params.
+
+### Changed
+- Select/smoke/trial/get shim emit delivery fields; README + vs-prompt dual-bar honesty (process vs content; no sole wipeout claim).
+- Install/runners use built-in SHA256 instead of hard `Get-FileHash`-only on portable success path.
 # 更新日志
 
 ## 1.0.0 — 2026-09-11

@@ -10,11 +10,12 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = (Resolve-Path -LiteralPath $ProjectRoot).Path
 
+Import-Module "$ProjectRoot\ES\Automation\ABCD\ESABCDDelivery.psm1" -Force
 Import-Module "$ProjectRoot\ES\Automation\ABCD\ESABCDDivergence.psm1" -Force
 Import-Module "$ProjectRoot\ES\Automation\ABCD\ESABCInnovationRun.psm1" -Force
 
 $contract = "$ProjectRoot\ES\Automation\Contracts\es-ai-abc-generation-mode-v1.json"
-$hash = (Get-FileHash -LiteralPath $contract -Algorithm SHA256).Hash.ToLowerInvariant()
+$hash = Get-ESABCDFileSha256 -LiteralPath $contract
 
 $requirement = @'
 冻结产品三层架构：
@@ -28,9 +29,10 @@ $div = Invoke-ESABCModeDivergence `
     -Mode engineering `
     -ProjectRoot $ProjectRoot
 
-$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode engineering
+$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode engineering -Requirement $requirement
 
 Write-Host "方向数=$($div.directionCount) 选中=$($sel.selectedDirectionId)"
 Write-Host "claimLevel=$($sel.claimLevel) selectionStatus=$($sel.selectionStatus)"
+Write-Host "deliveryKind=$($sel.deliveryKind) pipelineLevel=$($sel.pipelineLevel) domain=$($sel.domain)"
 Write-Host "candidateSetHash=$($div.candidateSetHash)"
 Write-Host "runtimeStatus=runtime-not-run（本示例预期如此）" 

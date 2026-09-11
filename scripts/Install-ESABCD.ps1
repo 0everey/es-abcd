@@ -52,6 +52,16 @@ $copied = New-Object System.Collections.Generic.List[string]
 $skipped = New-Object System.Collections.Generic.List[string]
 $replaced = New-Object System.Collections.Generic.List[string]
 
+function Get-InstallFileSha256([string]$LiteralPath) {
+    # Built-in SHA256 so install works when Get-FileHash is unavailable/shadowed.
+    $bytes = [IO.File]::ReadAllBytes($LiteralPath)
+    $sha = [Security.Cryptography.SHA256]::Create()
+    try {
+        return ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace('-', '').ToLowerInvariant()
+    }
+    finally { $sha.Dispose() }
+}
+
 function Copy-Rel([string]$Rel) {
     $src = Join-Path $PackageRoot $Rel
     if (-not (Test-Path -LiteralPath $src)) {
@@ -76,8 +86,8 @@ function Copy-Rel([string]$Rel) {
             }
             continue
         }
-        $srcHash = (Get-FileHash -LiteralPath $f.FullName -Algorithm SHA256).Hash
-        $dstHash = (Get-FileHash -LiteralPath $dst -Algorithm SHA256).Hash
+        $srcHash = Get-InstallFileSha256 $f.FullName
+        $dstHash = Get-InstallFileSha256 $dst
         if ($srcHash -eq $dstHash) {
             [void]$skipped.Add($rel)
             continue

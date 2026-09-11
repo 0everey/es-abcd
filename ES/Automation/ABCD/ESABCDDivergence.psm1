@@ -16,7 +16,9 @@ function Get-ESABCGenerationMode {
  if($null -eq $modeConfig){throw "ABC_GENERATION_MODE_UNKNOWN:$Mode"}
  if($null -eq $modeConfig.minimumFocusSpread -or [int]$modeConfig.minimumFocusSpread -lt 1){throw "ABC_GENERATION_MODE_FOCUS_SPREAD_INVALID:$Mode"}
  $pipelineProfile=if($null -ne $modeConfig.PSObject.Properties['pipelineProfile']){$modeConfig.pipelineProfile}else{$null}
- [pscustomobject][ordered]@{modeId=$Mode;objective=[string]$modeConfig.objective;focus=@($modeConfig.focus|ForEach-Object{[string]$_});amplificationLoop=[string]$modeConfig.amplificationLoop;selfCritiqueLoop=[string]$modeConfig.selfCritiqueLoop;rankingPriority=@($modeConfig.rankingPriority|ForEach-Object{[string]$_});minimumFocusScore=[int]$modeConfig.minimumFocusScore;minimumFocusSpread=[int]$modeConfig.minimumFocusSpread;minimumDirections=[int]$modeConfig.minimumDirections;maximumDirections=[int]$modeConfig.maximumDirections;pruningPolicy=[string]$modeConfig.pruningPolicy;requiredAxes=@($modeConfig.requiredAxes|ForEach-Object{[string]$_});acceptanceProfile=[string]$modeConfig.acceptanceProfile;outputStatus=[string]$modeConfig.outputStatus;requiresRejectedReasons=[bool]$modeConfig.requiresRejectedReasons;sharedGenerationPipeline=$contract.sharedGenerationPipeline;pipelineProfile=$pipelineProfile;contractPath=$path;contractHash=(Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()}
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDDelivery.psm1') -Force -Global
+ $contractHash = Get-ESABCDFileSha256 -LiteralPath $path
+ [pscustomobject][ordered]@{modeId=$Mode;objective=[string]$modeConfig.objective;focus=@($modeConfig.focus|ForEach-Object{[string]$_});amplificationLoop=[string]$modeConfig.amplificationLoop;selfCritiqueLoop=[string]$modeConfig.selfCritiqueLoop;rankingPriority=@($modeConfig.rankingPriority|ForEach-Object{[string]$_});minimumFocusScore=[int]$modeConfig.minimumFocusScore;minimumFocusSpread=[int]$modeConfig.minimumFocusSpread;minimumDirections=[int]$modeConfig.minimumDirections;maximumDirections=[int]$modeConfig.maximumDirections;pruningPolicy=[string]$modeConfig.pruningPolicy;requiredAxes=@($modeConfig.requiredAxes|ForEach-Object{[string]$_});acceptanceProfile=[string]$modeConfig.acceptanceProfile;outputStatus=[string]$modeConfig.outputStatus;requiresRejectedReasons=[bool]$modeConfig.requiresRejectedReasons;sharedGenerationPipeline=$contract.sharedGenerationPipeline;pipelineProfile=$pipelineProfile;contractPath=$path;contractHash=$contractHash}
 }
 
 function Resolve-ESABCGenerationSelection {
@@ -29,7 +31,8 @@ function Resolve-ESABCGenerationSelection {
 }
 
 function Invoke-ESABCModeDivergence {
- [CmdletBinding()]param([Parameter(Mandatory)][string]$Requirement,[Parameter(Mandatory)][string]$SourceHash,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[int]$MinimumDirections=0,[string]$ProjectRoot=(Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path)
+ [CmdletBinding()]param([Parameter(Mandatory)][string]$Requirement,[Parameter(Mandatory)][string]$SourceHash,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[int]$MinimumDirections=0,[string]$ProjectRoot='')
+ if([string]::IsNullOrWhiteSpace($ProjectRoot)){ Import-Module (Join-Path $PSScriptRoot 'ESABCDHome.psm1') -Force -Global; $ProjectRoot = Get-ESABCDPackageRoot }
  if([string]::IsNullOrWhiteSpace($Requirement)){throw 'ABC_GENERATION_REQUIREMENT_REQUIRED'};if($SourceHash -notmatch '^[a-f0-9]{64}$'){throw 'ABC_GENERATION_SOURCE_HASH_INVALID'}
  $profile=Get-ESABCGenerationMode -Mode $Mode -ProjectRoot $ProjectRoot;$count=if($MinimumDirections -gt 0){$MinimumDirections}else{$profile.minimumDirections};if($count -lt $profile.minimumDirections -or $count -gt $profile.maximumDirections){throw 'ABC_GENERATION_DIRECTION_BUDGET_INVALID'}
  $axes=@($profile.requiredAxes);$directions=[Collections.Generic.List[object]]::new();$allRounds=[Collections.Generic.List[object]]::new()
@@ -41,7 +44,18 @@ function Invoke-ESABCModeDivergence {
    $beam=@($candidate);$trace=[Collections.Generic.List[object]]::new();for($round=1;$round -le 12;$round++){ $parent=$beam[0];$branches=@();for($branch=1;$branch -le 2;$branch++){ $accept=[math]::Min(100,60+(($i+$round+$branch)%31));$b=[pscustomobject][ordered]@{roundId=$round;parentCandidateId=[string]$parent.directionId;branchId="$id-r$round-b$branch";branchReason="round $round tests one concrete alternative to $axis";concreteChange='alter exactly one decision or timing variable while preserving identity, role and form factor';playerAcceptability=$accept;keepOrDiscardReason=if($branch -eq 1){'keep: higher immediate readability and payoff'}else{'discard: retain as counterfactual, lower acceptance'};decision=if($branch -eq 1){'keep'}else{'discard'}};$branches+=,$b;[void]$trace.Add($b)};$beam=@($parent)}
    $candidate.iterationTrace=@($trace);$candidate.lineageDepth=12;[void]$allRounds.AddRange(@($trace));[void]$directions.Add($candidate)
  }
- $canonical=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;directions=@($directions);rounds=@($allRounds)};[pscustomobject][ordered]@{schemaVersion=1;contractId='es://automation/contracts/ai-abc/generation-modes/v1';mode=$Mode;profile=$profile;requirement=$Requirement;sourceHash=$SourceHash;directionCount=$directions.Count;directions=@($directions);iterationPolicy=[ordered]@{minimumRounds=12;branchingPerRound=@(2,4);selection='player-acceptability-before-deepening';lineageRequired=$true};roundCount=12;branchCount=$allRounds.Count;hiddenDirectionCount=0;selectionPolicy=if($Mode -eq 'creative-divergence'){'rank-after-visible-tree-search'}else{'deterministic-ranked-after-visible-tree-search'};status=$profile.outputStatus;claimLevel='candidate';auditDeferred=$true;candidateSetHash=(Get-ESABCDDivergenceHash $canonical);graphAuthority='candidate-only'}
+ $canonical=[ordered]@{requirement=$Requirement;sourceHash=$SourceHash;mode=$Mode;directions=@($directions);rounds=@($allRounds)}
+ [pscustomobject][ordered]@{
+   schemaVersion=1;contractId='es://automation/contracts/ai-abc/generation-modes/v1';mode=$Mode;profile=$profile
+   requirement=$Requirement;sourceHash=$SourceHash;directionCount=$directions.Count;directions=@($directions)
+   iterationPolicy=[ordered]@{minimumRounds=12;branchingPerRound=@(2,4);selection='player-acceptability-before-deepening';lineageRequired=$true}
+   roundCount=12;branchCount=$allRounds.Count;hiddenDirectionCount=0
+   selectionPolicy=if($Mode -eq 'creative-divergence'){'rank-after-visible-tree-search'}else{'deterministic-ranked-after-visible-tree-search'}
+   status=$profile.outputStatus;claimLevel='candidate';auditDeferred=$true
+   candidateSetHash=(Get-ESABCDDivergenceHash $canonical);graphAuthority='candidate-only'
+   deliveryKind='lens-pending';pipelineLevel='L0';runtimeStatus='runtime-not-run'
+   iterationTraceKind='synthetic-trace'
+ }
 }
 
 function Get-ESABCAmplificationAssessment {
@@ -67,7 +81,14 @@ function Get-ESABCModeQualityAssessment {
 }
 
 function Select-ESABCGenerationCandidate {
- [CmdletBinding()]param([Parameter(Mandatory)]$Candidates,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[string]$CollaboratorChoice='')
+ [CmdletBinding()]param(
+   [Parameter(Mandatory)]$Candidates,
+   [ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',
+   [string]$CollaboratorChoice='',
+   [string]$Requirement='',
+   [switch]$FailOnTemplateCollision
+ )
+ Import-Module (Join-Path $PSScriptRoot 'ESABCDDelivery.psm1') -Force -Global
  $items=@($Candidates)
  if($items.Count -lt 1 -or $items.Count -gt 64){throw 'ABC_GENERATION_CANDIDATE_SET_INVALID'}
  $ids=@($items|ForEach-Object{[string]$_.directionId})
@@ -102,7 +123,13 @@ function Select-ESABCGenerationCandidate {
    if($null -eq $selected){throw 'ABC_GENERATION_COLLABORATOR_CHOICE_NOT_FOUND'}
    $selectionStatus='collaborator-selected'
  } elseif($Mode -ne 'creative-divergence') { $selected=$ranked[0].candidate;$selectionStatus='deterministic-selected' } else { $selected=$ranked[0].candidate }
- [pscustomobject][ordered]@{schemaVersion=1;mode=$Mode;candidateCount=$items.Count;ranked=@($ranked);recommendedDirectionId=[string]$ranked[0].candidate.directionId;selectedDirectionId=if($null -eq $selected){$null}else{[string]$selected.directionId};selectionStatus=$selectionStatus;rejectedCandidates=@();rejectionReasons=@();hiddenCandidates=0;qualityStatus=[string]$ranked[0].quality.qualityStatus;claimLevel=if($null -eq $selected){'candidate'}else{'design-candidate'};auditDeferred=$true}
+ $base=[pscustomobject][ordered]@{schemaVersion=1;mode=$Mode;candidateCount=$items.Count;ranked=@($ranked);recommendedDirectionId=[string]$ranked[0].candidate.directionId;selectedDirectionId=if($null -eq $selected){$null}else{[string]$selected.directionId};selectionStatus=$selectionStatus;rejectedCandidates=@();rejectionReasons=@();hiddenCandidates=0;qualityStatus=[string]$ranked[0].quality.qualityStatus;claimLevel=if($null -eq $selected){'candidate'}else{'design-candidate'};auditDeferred=$true}
+ $req = $Requirement
+ if ([string]::IsNullOrWhiteSpace($req) -and $null -ne $selected -and $null -ne $selected.PSObject.Properties['seedDraft']) {
+   $req = [string]$Requirement
+ }
+ if ([string]::IsNullOrWhiteSpace($req)) { $req = 'generic-design-request' }
+ return Complete-ESABCDSelectionDelivery -SelectionResult $base -Candidates $items -Requirement $req -Mode $Mode -FailOnTemplateCollision:$FailOnTemplateCollision
 }
 
 function Get-ESABCCreativeNoveltyAssessment {
@@ -157,9 +184,9 @@ function Invoke-ESABCIterativeDivergence {
 }
 
 function Invoke-ESABCGenerationPipeline {
- [CmdletBinding()]param([Parameter(Mandatory)]$Candidates,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[bool]$AuditApproved=$false,[bool]$PlayabilityAccepted=$false,[string]$CollaboratorChoice='')
+ [CmdletBinding()]param([Parameter(Mandatory)]$Candidates,[ValidateSet('creative-divergence','engineering','stable')][string]$Mode='creative-divergence',[bool]$AuditApproved=$false,[bool]$PlayabilityAccepted=$false,[string]$CollaboratorChoice='',[string]$Requirement='generic-design-request')
  $profile=Get-ESABCGenerationMode -Mode $Mode
- $selection=Select-ESABCGenerationCandidate -Candidates $Candidates -Mode $Mode -CollaboratorChoice $CollaboratorChoice
+ $selection=Select-ESABCGenerationCandidate -Candidates $Candidates -Mode $Mode -CollaboratorChoice $CollaboratorChoice -Requirement $Requirement
  $evidenceNames=@('seedDraft','expansionSet','auditFindings','playabilityBackpressure','finalDecision')
  $missing=@($Candidates|ForEach-Object{foreach($name in $evidenceNames){$p=$_.PSObject.Properties[$name];if($null -eq $p -or [string]::IsNullOrWhiteSpace([string]$p.Value)){"$([string]$_.directionId):$name"}}})
  if($missing.Count -gt 0){throw "ABC_PIPELINE_STAGE_EVIDENCE_MISSING:$($missing -join ',')"}

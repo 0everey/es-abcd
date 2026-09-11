@@ -2,13 +2,27 @@
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-$PackageRoot = 'F:\aaProject\es-abcd'
-$ScratchRoot = 'C:\Users\asus\AppData\Local\Temp\grok-goal-fcc12249cbbc\implementer\abcd-scenario-runs'
+param(
+    [string]$PackageRoot = '',
+    [string]$ScratchRoot = '',
+    [string]$TrialRoot = '',
+    [string]$MdOut = ''
+)
+if ([string]::IsNullOrWhiteSpace($PackageRoot)) {
+    $PackageRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+}
+if ([string]::IsNullOrWhiteSpace($ScratchRoot)) {
+    $ScratchRoot = Join-Path $env:TEMP ('es-abcd-scenario-runs-' + [DateTime]::UtcNow.ToString('yyyyMMddHHmmss'))
+}
+if ([string]::IsNullOrWhiteSpace($TrialRoot)) {
+    $TrialRoot = Join-Path $env:TEMP 'es-abcd-goal-scenario-suite'
+}
+if ([string]::IsNullOrWhiteSpace($MdOut)) {
+    $MdOut = Join-Path $PackageRoot 'docs\scenario-run-reports'
+}
 $ReceiptDir = Join-Path $ScratchRoot 'receipts'
 $TranscriptDir = Join-Path $ScratchRoot 'transcripts'
-$MdOut = 'F:\aaProject\es-abcd\docs\scenario-run-reports'
 $RepoReceiptDir = Join-Path $MdOut 'receipts'
-$TrialRoot = Join-Path $env:TEMP 'es-abcd-goal-scenario-suite'
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
 New-Item -ItemType Directory -Force -Path $ReceiptDir, $TranscriptDir, $MdOut, $RepoReceiptDir | Out-Null
@@ -48,11 +62,13 @@ $homeMod = Join-Path $TrialRoot 'ES\Automation\ABCD\ESABCDHome.psm1'
 $divMod = Join-Path $TrialRoot 'ES\Automation\ABCD\ESABCDDivergence.psm1'
 $runMod = Join-Path $TrialRoot 'ES\Automation\ABCD\ESABCInnovationRun.psm1'
 $contract = Join-Path $TrialRoot 'ES\Automation\Contracts\es-ai-abc-generation-mode-v1.json'
+$delMod = Join-Path $TrialRoot 'ES\Automation\ABCD\ESABCDDelivery.psm1'
 Import-Module $homeMod -Force -Global
+Import-Module $delMod -Force -Global
 Import-Module $divMod -Force -Global
 Import-Module $runMod -Force -Global
 $env:ES_ABCD_GOVERNANCE_MODE = 'portable'
-$sourceHash = (Get-FileHash -LiteralPath $contract -Algorithm SHA256).Hash.ToLowerInvariant()
+$sourceHash = Get-ESABCDFileSha256 -LiteralPath $contract
 Log "sourceHash=$sourceHash"
 
 $P = $TrialRoot
@@ -101,7 +117,7 @@ foreach ($sc in $scenarios) {
 
     try {
         $div = Invoke-ESABCModeDivergence -Requirement $req -SourceHash $sourceHash -Mode $mode -ProjectRoot $TrialRoot
-        $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $mode
+        $sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $mode -Requirement $req
 
         $directionCount = [int]$div.directionCount
         $selectedDirectionId = [string]$sel.selectedDirectionId

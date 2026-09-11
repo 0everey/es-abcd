@@ -47,17 +47,23 @@ $contract = Join-Path $ProjectRoot 'ES\Automation\Contracts\es-ai-abc-generation
 if (-not (Test-Path -LiteralPath $contract)) {
     throw "Missing contract: $contract"
 }
-$sourceHash = (Get-FileHash -LiteralPath $contract -Algorithm SHA256).Hash.ToLowerInvariant()
-
 Import-Module $authModule -Force
 Import-Module $divModule -Force
 Import-Module $runModule -Force
+Import-Module (Join-Path $abcd 'ESABCDDelivery.psm1') -Force -Global
+$sourceHash = Get-ESABCDFileSha256 -LiteralPath $contract
 
 $caps = @(Get-ESABCDCoreCapabilities)
 if ($caps.Count -lt 6) { throw 'ABCD_CORE_CAPABILITIES_INCOMPLETE' }
 
 $div = Invoke-ESABCModeDivergence -Requirement $Requirement -SourceHash $sourceHash -Mode $Mode -ProjectRoot $ProjectRoot
-$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode
+$sel = Select-ESABCGenerationCandidate -Candidates $div.directions -Mode $Mode -Requirement $Requirement
+if ($null -eq $sel.PSObject.Properties['deliveryKind'] -or [string]::IsNullOrWhiteSpace([string]$sel.deliveryKind)) {
+    throw 'ABCD_DELIVERY_KIND_MISSING'
+}
+if ($null -eq $sel.PSObject.Properties['pipelineLevel'] -or [string]::IsNullOrWhiteSpace([string]$sel.pipelineLevel)) {
+    throw 'ABCD_PIPELINE_LEVEL_MISSING'
+}
 
 $branch = [pscustomobject]@{
     playerValue = 80
@@ -162,11 +168,16 @@ $receipt = [ordered]@{
     capabilityCount = $caps.Count
     capabilities = @($caps)
     divergenceStatus = [string]$div.status
-    claimLevel = [string]$div.claimLevel
+    claimLevel = [string]$sel.claimLevel
     directionCount = [int]$div.directionCount
     candidateSetHash = [string]$div.candidateSetHash
     selectedDirectionId = [string]$sel.selectedDirectionId
     selectionStatus = [string]$sel.selectionStatus
+    deliveryKind = [string]$sel.deliveryKind
+    pipelineLevel = [string]$sel.pipelineLevel
+    deliveryStatus = [string]$sel.deliveryStatus
+    domain = [string]$sel.domain
+    templateCollision = $(if ($null -ne $sel.templateCollision) { [bool]$sel.templateCollision.hasCollision } else { $false })
     stableScoreStatus = [string]$score.status
     stableTotalScore = [double]$score.totalScore
     monoSemantic = [ordered]@{
@@ -181,7 +192,7 @@ $receipt = [ordered]@{
         notArchitectureIdentities = @('ABCD.Dynamic', 'ABCC.Core', 'ABCP.Part')
     }
     runtimeStatus = 'runtime-not-run'
-    nonClaims = @('Unity','PlayMode','Profiler','Player','Release','provider-completed-final-decision')
+    nonClaims = @('Unity','PlayMode','Profiler','Player','Release','provider-completed-final-decision','not-universal-ai-wipeout')
     capturedUtc = [DateTime]::UtcNow.ToString('o')
 }
 
@@ -192,5 +203,6 @@ $outPath = Join-Path $outDir ("smoke-" + [DateTime]::UtcNow.ToString('yyyyMMdd-H
 
 Write-Host "ABCD smoke PASSED"
 Write-Host "  mode=$Mode selected=$($sel.selectedDirectionId) score=$($score.totalScore)"
+Write-Host "  deliveryKind=$($sel.deliveryKind) pipelineLevel=$($sel.pipelineLevel) domain=$($sel.domain)"
 Write-Host "  receipt=$outPath"
 $receipt | ConvertTo-Json -Depth 6 
